@@ -1,5 +1,5 @@
-import Hero, { type HeroContent } from "@/component/Hero";
-import Navbar from "@/component/Navbar";
+import Hero, { type HeroContent } from "@/components/Hero";
+import Navbar from "@/components/Navbar";
 
 const heroContent: HeroContent = {
   eyebrow: "Home renovation & custom carpentry",
