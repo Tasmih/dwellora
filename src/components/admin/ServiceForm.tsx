@@ -4,11 +4,17 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import type { FormEvent } from "react";
 
+import SeoFields, {
+  emptySeo,
+  type SeoValues,
+} from "@/components/admin/SeoFields";
+
 export type ServiceFormValues = {
   title: string;
   slug: string;
   description: string;
   image: string;
+  seo?: SeoValues;
 };
 
 type ServiceFormProps = {
@@ -33,20 +39,38 @@ function createSlug(value: string) {
     .replace(/^-+|-+$/g, "");
 }
 
+function isHttpUrl(value: string) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
 export default function ServiceForm({
   initialValues = emptyValues,
   onSubmit,
   submitLabel = "Create Service",
   loadingLabel = "Creating...",
 }: ServiceFormProps) {
-  const [values, setValues] = useState<ServiceFormValues>(initialValues);
+  const [values, setValues] = useState(initialValues);
+
+  const [seo, setSeo] = useState<SeoValues>({
+    ...emptySeo,
+    ...initialValues.seo,
+  });
+
   const [slugEdited, setSlugEdited] = useState(Boolean(initialValues.slug));
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
   const submittingRef = useRef(false);
 
-  function updateField(field: keyof ServiceFormValues, value: string) {
+  function updateField(
+    field: "title" | "slug" | "description" | "image",
+    value: string
+  ) {
     setValues((current) => ({
       ...current,
       [field]: value,
@@ -64,17 +88,26 @@ export default function ServiceForm({
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (submittingRef.current) {
-      return;
-    }
+    if (submittingRef.current) return;
 
     setError("");
+
+    const cleanSeo: SeoValues = {
+      metaTitle: seo.metaTitle.trim(),
+      metaDescription: seo.metaDescription.trim(),
+      keywords: seo.keywords.trim(),
+      ogTitle: seo.ogTitle.trim(),
+      ogDescription: seo.ogDescription.trim(),
+      ogImage: seo.ogImage.trim(),
+      canonicalUrl: seo.canonicalUrl.trim(),
+    };
 
     const service: ServiceFormValues = {
       title: values.title.trim(),
       slug: values.slug.trim(),
       description: values.description.trim(),
       image: values.image.trim(),
+      seo: cleanSeo,
     };
 
     if (
@@ -83,7 +116,7 @@ export default function ServiceForm({
       !service.description ||
       !service.image
     ) {
-      setError("Please complete all fields.");
+      setError("Please complete all required service fields.");
       return;
     }
 
@@ -94,18 +127,18 @@ export default function ServiceForm({
       return;
     }
 
-    try {
-      const imageUrl = new URL(service.image);
+    if (!isHttpUrl(service.image)) {
+      setError("Please enter a valid HTTP or HTTPS service image URL.");
+      return;
+    }
 
-      if (
-        imageUrl.protocol !== "http:" &&
-        imageUrl.protocol !== "https:"
-      ) {
-        setError("Please enter an image URL starting with http:// or https://.");
-        return;
-      }
-    } catch {
-      setError("Please enter a valid image URL.");
+    if (cleanSeo.ogImage && !isHttpUrl(cleanSeo.ogImage)) {
+      setError("Please enter a valid HTTP or HTTPS Open Graph image URL.");
+      return;
+    }
+
+    if (cleanSeo.canonicalUrl && !isHttpUrl(cleanSeo.canonicalUrl)) {
+      setError("Please enter a valid HTTP or HTTPS canonical URL.");
       return;
     }
 
@@ -153,7 +186,7 @@ export default function ServiceForm({
 
           <div className="space-y-2">
             <label htmlFor="service-slug" className="form-label">
-              Slug
+              SEO-friendly Slug
             </label>
 
             <input
@@ -173,9 +206,9 @@ export default function ServiceForm({
 
             <p
               id="service-slug-help"
-              className="text-sm leading-6 text-muted"
+              className="break-all text-sm leading-6 text-muted"
             >
-              Generated from the title. You can also edit it.
+              Page path: /services/{values.slug || "your-service-slug"}
             </p>
           </div>
         </div>
@@ -211,18 +244,18 @@ export default function ServiceForm({
             value={values.image}
             onChange={(event) => updateField("image", event.target.value)}
             placeholder="https://example.com/kitchen.jpg"
-            aria-describedby="service-image-help"
             className="form-input w-full"
             required
           />
-
-          <p
-            id="service-image-help"
-            className="text-sm leading-6 text-muted"
-          >
-            Enter a publicly accessible image link.
-          </p>
         </div>
+
+        <SeoFields
+          value={seo}
+          onChange={setSeo}
+          fallbackTitle={values.title}
+          fallbackDescription={values.description}
+          fallbackImage={values.image}
+        />
       </fieldset>
 
       {error && (
