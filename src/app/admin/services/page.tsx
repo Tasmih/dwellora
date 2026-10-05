@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { apiFetch } from "@/lib/api";
 import ServiceCard from "@/components/admin/ServiceCard";
+import ServiceHeader from "@/components/admin/ServiceHeader";
 
 
 type Service = {
@@ -20,82 +22,47 @@ export default function AdminServicesPage() {
   const [loading, setLoading] = useState(true);
 
 
-  async function loadServices() {
-    try {
-      const data = await apiFetch("/api/services");
-
-      setServices(data.services || []);
-
-    } catch (error) {
-      console.error("Failed to load services", error);
-
-    } finally {
-      setLoading(false);
-    }
-  }
+  useEffect(() => {
+    let isMounted = true;
 
 
-useEffect(() => {
-  let active = true;
+    async function fetchServices() {
+      try {
+        const data = await apiFetch("/api/services");
 
-  async function fetchServices() {
-    try {
-      const data = await apiFetch("/api/services");
+        if (isMounted) {
+          setServices(data.services || []);
+        }
 
-      if (active) {
-        setServices(data.services || []);
-      }
+      } catch (error) {
+        console.error("Failed to load services", error);
 
-    } catch (error) {
-      console.error("Failed to load services", error);
-
-    } finally {
-      if (active) {
-        setLoading(false);
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     }
-  }
 
-  fetchServices();
 
-  return () => {
-    active = false;
-  };
+    fetchServices();
 
-}, []);
 
+    return () => {
+      isMounted = false;
+    };
+
+  }, []);
 
 
   return (
     <main>
       <div className="site-container py-10 lg:py-12">
 
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
-              Dwellora Administration
-            </p>
-
-            <h1 className="mt-3 text-3xl font-semibold text-brand">
-              Services
-            </h1>
-
-            <p className="mt-2 text-muted">
-              Manage renovation services from here.
-            </p>
-          </div>
+        <ServiceHeader />
 
 
-          <button className="btn btn-primary">
-            Add Service
-          </button>
-
-        </div>
-
-
-
-        <section className="overflow-hidden rounded-2xl border border-border bg-surface">
+        <section className="mt-8 overflow-hidden rounded-2xl border border-border bg-surface">
 
           {loading ? (
 
