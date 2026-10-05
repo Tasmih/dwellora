@@ -1,58 +1,63 @@
 export default function AdminDashboardPage() {
-  return (
-    <main className="min-h-screen bg-background">
-      <div className="site-container py-12">
+  const dashboardCards = [
+    {
+      title: "Services",
+      description: "Create and manage services",
+      href: "/admin/services",
+    },
+    {
+      title: "Projects",
+      description: "Manage renovation projects",
+      href: "/admin/projects",
+    },
+    {
+      title: "Blogs",
+      description: "Manage blogs and vlogs",
+      href: "/admin/blogs",
+    },
+  ];
 
-        <div className="rounded-2xl border border-border bg-surface p-8">
+  return (
+    <main>
+      <div className="site-container py-10 lg:py-12">
+        <section className="rounded-2xl border border-border bg-surface p-6 sm:p-8">
 
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
             Dwellora Administration
           </p>
 
-          <h1 className="mt-3 text-3xl font-semibold text-brand">
+          <h1 className="mt-3 text-3xl font-semibold tracking-tight text-brand sm:text-4xl">
             Dashboard
           </h1>
 
-          <p className="mt-3 text-muted">
+          <p className="mt-3 max-w-xl text-base text-muted">
             Manage your services, projects and blogs from here.
           </p>
 
 
-          <div className="mt-8 grid gap-5 sm:grid-cols-3">
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 
-            <div className="rounded-xl border border-border p-5">
-              <h2 className="font-semibold text-brand">
-                Services
+            {dashboardCards.map((card) => (
+             <a
+             key={card.href}
+             href={card.href}
+             className="rounded-2xl border border-border bg-surface p-5 transition-all duration-200 hover:-translate-y-1 hover:border-accent hover:bg-accent/5"
+>
+
+              <h2 className="text-lg font-semibold text-brand">
+                 {card.title}
               </h2>
-              <p className="mt-2 text-sm text-muted">
-                Create and manage services
-              </p>
-            </div>
 
+                <p className="mt-2 text-sm text-muted">
+                  {card.description}
+                </p>
 
-            <div className="rounded-xl border border-border p-5">
-              <h2 className="font-semibold text-brand">
-                Projects
-              </h2>
-              <p className="mt-2 text-sm text-muted">
-                Manage renovation projects
-              </p>
-            </div>
-
-
-            <div className="rounded-xl border border-border p-5">
-              <h2 className="font-semibold text-brand">
-                Blogs
-              </h2>
-              <p className="mt-2 text-sm text-muted">
-                Manage blogs and vlogs
-              </p>
-            </div>
+              </a>
+            ))}
 
           </div>
 
-        </div>
-
+        </section>
       </div>
     </main>
   );
