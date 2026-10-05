@@ -1,5 +1,10 @@
 import Hero, { type HeroContent } from "@/components/Hero";
 import Navbar from "@/components/Navbar";
+import ServicesSection from "@/components/Services";
+import type { PublicService } from "@/components/PublicServiceCard";
+
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 const heroContent: HeroContent = {
   eyebrow: "Home renovation & custom carpentry",
@@ -16,13 +21,33 @@ const heroContent: HeroContent = {
   secondaryHref: "/projects",
 };
 
-export default function Home() {
+async function getFeaturedServices(): Promise<PublicService[]> {
+  try {
+    const response = await fetch(`${API_URL}/api/services`, {
+      cache: "no-store",
+    });
+
+    if (!response.ok) return [];
+
+    const data = await response.json();
+    return (data.services || []).filter(
+      (s: { status: string }) => s.status === "published"
+    );
+  } catch {
+    return [];
+  }
+}
+
+export default async function Home() {
+  const services = await getFeaturedServices();
+
   return (
     <>
       <Navbar />
 
       <main id="main-content">
         <Hero content={heroContent} />
+        <ServicesSection services={services} />
       </main>
     </>
   );

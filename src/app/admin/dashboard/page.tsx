@@ -6,6 +6,11 @@ export default function AdminDashboardPage() {
       href: "/admin/services",
     },
     {
+      title: "Service Categories",
+      description: "Organize services into categories",
+      href: "/admin/categories",
+    },
+    {
       title: "Projects",
       description: "Manage renovation projects",
       href: "/admin/projects",

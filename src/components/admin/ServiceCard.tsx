@@ -14,9 +14,16 @@ type ServiceCardProps = {
   service: {
     _id: string;
     title: string;
+    shortDescription?: string;
     description: string;
     image: string;
     status: Status;
+    category?: {
+      _id: string;
+      name: string;
+      slug: string;
+      status?: string;
+    };
   };
   onDeleted: (id: string) => void;
   onStatusChange: (id: string, status: Status) => void;
@@ -76,7 +83,23 @@ export default function ServiceCard({ service, onDeleted, onStatusChange }: Serv
         </div>
 
         <div className="max-w-2xl">
-          <h3 className="text-lg font-semibold text-brand">{service.title}</h3>
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="text-lg font-semibold text-brand">{service.title}</h3>
+            {service.category && (
+              <span
+                className={`rounded-md px-2 py-0.5 text-xs font-medium border ${
+                  service.category.status === "unpublished"
+                    ? "border-amber-300 bg-amber-50 text-amber-800"
+                    : "border-border bg-background text-muted"
+                }`}
+              >
+                {service.category.name}
+                {service.category.status === "unpublished"
+                  ? " (Category Unpublished)"
+                  : ""}
+              </span>
+            )}
+          </div>
           <p className="mt-2 line-clamp-3 text-sm leading-6 text-muted">{service.description}</p>
         </div>
       </div>

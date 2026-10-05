@@ -13,6 +13,10 @@ const menuItems = [
     href: "/admin/services",
   },
   {
+    name: "Service Categories",
+    href: "/admin/categories",
+  },
+  {
     name: "Projects",
     href: "/admin/projects",
   },

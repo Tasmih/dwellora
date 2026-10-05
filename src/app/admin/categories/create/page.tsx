@@ -2,22 +2,22 @@
 
 import { useRouter } from "next/navigation";
 
-import ServiceForm from "@/components/admin/ServiceForm";
-import type { ServiceFormValues } from "@/components/admin/ServiceForm";
+import CategoryForm from "@/components/admin/CategoryForm";
+import type { CategoryFormValues } from "@/components/admin/CategoryForm";
 import { apiFetch } from "@/lib/api";
 import { showSuccess } from "@/lib/alert";
 
-export default function CreateServicePage() {
+export default function CreateCategoryPage() {
   const router = useRouter();
 
-  async function handleCreateService(values: ServiceFormValues) {
-    await apiFetch("/api/services", {
+  async function handleCreateCategory(values: CategoryFormValues) {
+    await apiFetch("/api/categories", {
       method: "POST",
       body: JSON.stringify(values),
     });
 
-    showSuccess("Service created successfully.");
-    router.replace("/admin/services");
+    showSuccess("Category created successfully.");
+    router.replace("/admin/categories");
   }
 
   return (
@@ -28,15 +28,15 @@ export default function CreateServicePage() {
         </p>
 
         <h1 className="mt-3 text-3xl font-semibold tracking-tight text-brand sm:text-4xl">
-          Add Service
+          Add Category
         </h1>
 
         <p className="mt-3 text-base leading-7 text-muted">
-          Add a renovation service. It will be published after saving.
+          Create a renovation category to organize your services (e.g. Kitchen Services, Bathroom Services).
         </p>
       </div>
 
-      <ServiceForm onSubmit={handleCreateService} />
+      <CategoryForm onSubmit={handleCreateCategory} />
     </div>
   );
 }

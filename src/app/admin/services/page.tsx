@@ -6,7 +6,6 @@ import { apiFetch } from "@/lib/api";
 import ServiceCard from "@/components/admin/ServiceCard";
 import ServiceHeader from "@/components/admin/ServiceHeader";
 
-
 type Service = {
   _id: string;
   title: string;
@@ -16,27 +15,22 @@ type Service = {
   status: "published" | "unpublished";
 };
 
-
 export default function AdminServicesPage() {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     let isMounted = true;
 
-
     async function fetchServices() {
       try {
-        const data = await apiFetch("/api/services");
+        const data = await apiFetch("/api/services/admin");
 
         if (isMounted) {
           setServices(data.services || []);
         }
-
       } catch (error) {
         console.error("Failed to load services", error);
-
       } finally {
         if (isMounted) {
           setLoading(false);
@@ -44,55 +38,46 @@ export default function AdminServicesPage() {
       }
     }
 
-
     fetchServices();
-
 
     return () => {
       isMounted = false;
     };
-
   }, []);
 
+  function handleDeleted(id: string) {
+    setServices((current) => current.filter((item) => item._id !== id));
+  }
+
+  function handleStatusChange(id: string, status: "published" | "unpublished") {
+    setServices((current) =>
+      current.map((item) => (item._id === id ? { ...item, status } : item))
+    );
+  }
 
   return (
     <main>
       <div className="site-container py-10 lg:py-12">
-
         <ServiceHeader />
 
-
         <section className="mt-8 overflow-hidden rounded-2xl border border-border bg-surface">
-
           {loading ? (
-
-            <div className="p-6 text-muted">
-              Loading services...
-            </div>
-
+            <div className="p-6 text-muted">Loading services...</div>
           ) : services.length === 0 ? (
-
-            <div className="p-6 text-muted">
-              No services found.
-            </div>
-
+            <div className="p-6 text-muted">No services found.</div>
           ) : (
-
             <div className="divide-y divide-border">
-
               {services.map((service) => (
                 <ServiceCard
                   key={service._id}
                   service={service}
+                  onDeleted={handleDeleted}
+                  onStatusChange={handleStatusChange}
                 />
               ))}
-
             </div>
-
           )}
-
         </section>
-
       </div>
     </main>
   );

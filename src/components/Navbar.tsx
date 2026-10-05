@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import ServicesDropdown from "@/components/ServicesDropdown";
 
 const navItems = [
   { name: "Home", href: "/" },
@@ -78,6 +79,15 @@ export default function Navbar() {
         >
           {navItems.map((item) => {
             const active = isActive(item.href);
+
+            if (item.name === "Services") {
+              return (
+                <ServicesDropdown
+                  key={item.href}
+                  active={active}
+                />
+              );
+            }
 
             return (
               <Link
@@ -164,6 +174,17 @@ export default function Navbar() {
         >
           {navItems.map((item) => {
             const active = isActive(item.href);
+
+            if (item.name === "Services") {
+              return (
+                <ServicesDropdown
+                  key={item.href}
+                  isMobile
+                  active={active}
+                  onNavigate={closeMenu}
+                />
+              );
+            }
 
             return (
               <Link
