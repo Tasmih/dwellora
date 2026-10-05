@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
+import ServiceCard from "@/components/admin/ServiceCard";
+
 
 type Service = {
   _id: string;
@@ -12,51 +14,77 @@ type Service = {
   status: "published" | "unpublished";
 };
 
+
 export default function AdminServicesPage() {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
+
 
   async function loadServices() {
     try {
       const data = await apiFetch("/api/services");
 
       setServices(data.services || []);
+
     } catch (error) {
-      console.error(error);
+      console.error("Failed to load services", error);
+
     } finally {
       setLoading(false);
     }
   }
 
-  useEffect(() => {
-    loadServices();
-  }, []);
+
+useEffect(() => {
+  let active = true;
+
+  async function fetchServices() {
+    try {
+      const data = await apiFetch("/api/services");
+
+      if (active) {
+        setServices(data.services || []);
+      }
+
+    } catch (error) {
+      console.error("Failed to load services", error);
+
+    } finally {
+      if (active) {
+        setLoading(false);
+      }
+    }
+  }
+
+  fetchServices();
+
+  return () => {
+    active = false;
+  };
+
+}, []);
+
+
 
   return (
-    <main className="min-h-screen bg-background p-6 lg:p-10">
+    <main>
+      <div className="site-container py-10 lg:py-12">
 
-      <div className="mb-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
-          Dwellora Administration
-        </p>
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 
-        <h1 className="mt-3 text-3xl font-semibold text-brand">
-          Services
-        </h1>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
+              Dwellora Administration
+            </p>
 
-        <p className="mt-2 text-muted">
-          Manage your renovation services.
-        </p>
-      </div>
+            <h1 className="mt-3 text-3xl font-semibold text-brand">
+              Services
+            </h1>
 
-
-      <div className="rounded-2xl border border-border bg-surface">
-
-        <div className="flex items-center justify-between border-b border-border p-6">
-
-          <h2 className="text-xl font-semibold text-brand">
-            All Services
-          </h2>
+            <p className="mt-2 text-muted">
+              Manage renovation services from here.
+            </p>
+          </div>
 
 
           <button className="btn btn-primary">
@@ -66,78 +94,39 @@ export default function AdminServicesPage() {
         </div>
 
 
-        {loading ? (
 
-          <div className="p-6 text-muted">
-            Loading services...
-          </div>
+        <section className="overflow-hidden rounded-2xl border border-border bg-surface">
 
-        ) : services.length === 0 ? (
+          {loading ? (
 
-          <div className="p-6 text-muted">
-            No services found.
-          </div>
+            <div className="p-6 text-muted">
+              Loading services...
+            </div>
 
-        ) : (
+          ) : services.length === 0 ? (
 
-          <div className="divide-y divide-border">
+            <div className="p-6 text-muted">
+              No services found.
+            </div>
 
-            {services.map((service) => (
+          ) : (
 
-              <div
-                key={service._id}
-                className="flex flex-col gap-4 p-6 lg:flex-row lg:items-center lg:justify-between"
-              >
+            <div className="divide-y divide-border">
 
-                <div>
+              {services.map((service) => (
+                <ServiceCard
+                  key={service._id}
+                  service={service}
+                />
+              ))}
 
-                  <h3 className="text-lg font-semibold text-brand">
-                    {service.title}
-                  </h3>
+            </div>
 
+          )}
 
-                  <p className="mt-1 text-sm text-muted">
-                    {service.description}
-                  </p>
-
-                </div>
-
-
-                <div className="flex items-center gap-3">
-
-                  <span
-                    className={
-                      service.status === "published"
-                        ? "rounded-full bg-brand px-4 py-1 text-xs text-white"
-                        : "rounded-full bg-border px-4 py-1 text-xs text-muted"
-                    }
-                  >
-                    {service.status}
-                  </span>
-
-
-                  <button className="btn btn-secondary">
-                    Edit
-                  </button>
-
-
-                  <button className="btn btn-secondary">
-                    Delete
-                  </button>
-
-                </div>
-
-
-              </div>
-
-            ))}
-
-          </div>
-
-        )}
+        </section>
 
       </div>
-
     </main>
   );
 }
