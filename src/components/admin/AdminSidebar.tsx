@@ -1,7 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { apiFetch } from "@/lib/api";
+import { showSuccess, showError } from "@/lib/alert";
 
 const menuItems = [
   {
@@ -32,10 +35,27 @@ const menuItems = [
 
 export default function AdminSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const [loggingOut, setLoggingOut] = useState(false);
+
+  async function handleLogout() {
+    try {
+      setLoggingOut(true);
+      await apiFetch("/api/auth/logout", {
+        method: "POST",
+      });
+      showSuccess("Logged out successfully");
+      router.push("/admin/login");
+      router.refresh();
+    } catch {
+      showError("Failed to log out. Please try again.");
+    } finally {
+      setLoggingOut(false);
+    }
+  }
 
   return (
     <aside className="w-full border-b border-border bg-surface p-6 lg:min-h-screen lg:w-72 lg:border-b-0 lg:border-r">
-
       <div>
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
           Dwellora
@@ -50,9 +70,7 @@ export default function AdminSidebar() {
         </p>
       </div>
 
-
       <nav className="mt-8 space-y-2">
-
         {menuItems.map((item) => {
           const isActive = pathname === item.href;
 
@@ -70,14 +88,16 @@ export default function AdminSidebar() {
             </Link>
           );
         })}
-
       </nav>
 
-
-      <button className="btn btn-primary mt-10 w-full">
-        Logout
+      <button
+        type="button"
+        onClick={handleLogout}
+        disabled={loggingOut}
+        className="btn btn-primary mt-10 w-full"
+      >
+        {loggingOut ? "Logging out..." : "Logout"}
       </button>
-
     </aside>
   );
 }
