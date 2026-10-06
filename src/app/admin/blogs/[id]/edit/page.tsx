@@ -4,19 +4,19 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import ProjectForm, {
-  type ProjectFormValues,
-} from "@/components/admin/ProjectForm";
+import BlogForm, {
+  type BlogFormValues,
+} from "@/components/admin/BlogForm";
 import Loading from "@/components/common/Loading";
 import { apiFetch } from "@/lib/api";
 import { showSuccess } from "@/lib/alert";
 
-export default function EditProjectPage() {
+export default function EditBlogPage() {
   const params = useParams();
   const router = useRouter();
   const id = typeof params.id === "string" ? params.id : "";
 
-  const [initialValues, setInitialValues] = useState<ProjectFormValues | null>(
+  const [initialValues, setInitialValues] = useState<BlogFormValues | null>(
     null
   );
   const [loading, setLoading] = useState(true);
@@ -25,37 +25,36 @@ export default function EditProjectPage() {
   useEffect(() => {
     let isMounted = true;
 
-    async function loadProject() {
+    async function loadBlog() {
       if (!id) return;
 
       try {
         setLoading(true);
         setLoadError("");
-        const data = await apiFetch(`/api/projects/${id}`);
+        const data = await apiFetch(`/api/blogs/${id}`);
         if (isMounted) {
-          if (data.project) {
+          if (data.blog) {
             setInitialValues({
-              title: data.project.title || "",
-              slug: data.project.slug || "",
-              shortDescription: data.project.shortDescription || "",
-              description: data.project.description || "",
-              coverImage: data.project.coverImage || "",
-              gallery: data.project.gallery || [],
-              categoryId: data.project.categoryId || null,
-              client: data.project.client || "",
-              location: data.project.location || "",
-              year: data.project.year || "",
-              features: data.project.features || [],
-              seo: data.project.seo || undefined,
+              title: data.blog.title || "",
+              slug: data.blog.slug || "",
+              shortDescription: data.blog.shortDescription || "",
+              content: data.blog.content || "",
+              coverImage: data.blog.coverImage || "",
+              type: data.blog.type || "blog",
+              videoUrl: data.blog.videoUrl || "",
+              author: data.blog.author || "Dwellora Editorial Team",
+              readTime: data.blog.readTime || "",
+              status: data.blog.status || "published",
+              seo: data.blog.seo || undefined,
             });
           } else {
-            setLoadError("Project not found.");
+            setLoadError("Blog post not found.");
           }
         }
       } catch (err) {
         if (isMounted) {
           setLoadError(
-            err instanceof Error ? err.message : "Failed to load project."
+            err instanceof Error ? err.message : "Failed to load blog post."
           );
         }
       } finally {
@@ -65,38 +64,38 @@ export default function EditProjectPage() {
       }
     }
 
-    loadProject();
+    loadBlog();
 
     return () => {
       isMounted = false;
     };
   }, [id]);
 
-  async function handleUpdateProject(values: ProjectFormValues) {
+  async function handleUpdateBlog(values: BlogFormValues) {
     if (!id) return;
 
-    await apiFetch(`/api/projects/${id}`, {
+    await apiFetch(`/api/blogs/${id}`, {
       method: "PUT",
       body: JSON.stringify(values),
     });
 
-    showSuccess("Project updated successfully.");
-    router.replace("/admin/projects");
+    showSuccess("Article updated successfully.");
+    router.replace("/admin/blogs");
   }
 
   if (loading) {
-    return <Loading text="Loading project details..." className="py-16" />;
+    return <Loading text="Loading article details..." className="py-16" />;
   }
 
   if (loadError || !initialValues) {
     return (
       <div className="rounded-2xl border border-border bg-surface p-8 text-center">
-        <h2 className="text-xl font-semibold text-brand">Project Not Found</h2>
+        <h2 className="text-xl font-semibold text-brand">Article Not Found</h2>
         <p className="mt-2 text-sm text-muted">
-          {loadError || "The requested project could not be loaded."}
+          {loadError || "The requested article could not be loaded."}
         </p>
-        <Link href="/admin/projects" className="btn btn-secondary mt-6">
-          Back to Projects
+        <Link href="/admin/blogs" className="btn btn-secondary mt-6">
+          Back to Blogs
         </Link>
       </div>
     );
@@ -110,17 +109,17 @@ export default function EditProjectPage() {
         </p>
 
         <h1 className="mt-3 text-3xl font-semibold tracking-tight text-brand sm:text-4xl">
-          Edit Project
+          Edit Blog / Vlog
         </h1>
 
         <p className="mt-3 text-base leading-7 text-muted">
-          Update project information, gallery showcase, scope details, and SEO metadata.
+          Update article content, video details, publication status, and SEO metadata.
         </p>
       </div>
 
-      <ProjectForm
+      <BlogForm
         initialValues={initialValues}
-        onSubmit={handleUpdateProject}
+        onSubmit={handleUpdateBlog}
         submitLabel="Save Changes"
         loadingLabel="Saving..."
       />

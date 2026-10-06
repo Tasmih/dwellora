@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
+import Loading from "@/components/common/Loading";
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
@@ -122,16 +123,24 @@ export default function ServicesDropdown({
             id="mobile-services-menu"
             className="my-1 ml-4 flex flex-col space-y-1 border-l-2 border-border/80 pl-3"
           >
-            {categories.map((cat) => (
-              <Link
-                key={cat.slug}
-                href={`/services/category/${encodeURIComponent(cat.slug)}`}
-                onClick={handleSelect}
-                className="rounded-md px-3 py-2 text-sm text-foreground transition-colors hover:bg-brand/5 hover:text-brand"
-              >
-                {cat.name}
-              </Link>
-            ))}
+            {!loaded ? (
+              <div className="py-2 pl-2">
+                <Loading variant="inline" size="sm" text="Loading categories..." />
+              </div>
+            ) : categories.length === 0 ? (
+              <p className="px-3 py-2 text-xs text-muted">No categories available</p>
+            ) : (
+              categories.map((cat) => (
+                <Link
+                  key={cat.slug}
+                  href={`/services/category/${encodeURIComponent(cat.slug)}`}
+                  onClick={handleSelect}
+                  className="rounded-md px-3 py-2 text-sm text-foreground transition-colors hover:bg-brand/5 hover:text-brand"
+                >
+                  {cat.name}
+                </Link>
+              ))
+            )}
 
             <Link
               href="/services"
@@ -231,12 +240,14 @@ export default function ServicesDropdown({
             </span>
           </div>
 
-          {categories.length === 0 ? (
+          {!loaded ? (
+            <div className="py-6 flex justify-center">
+              <Loading variant="inline" size="sm" text="Loading categories..." />
+            </div>
+          ) : categories.length === 0 ? (
             <div className="py-4 text-center">
               <p className="text-xs text-muted">
-                {loaded
-                  ? "Explore all our bespoke renovation and carpentry services."
-                  : "Loading categories..."}
+                Explore all our bespoke renovation and carpentry services.
               </p>
             </div>
           ) : hasTwoColumns ? (

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
 import ServiceCard from "@/components/admin/ServiceCard";
 import ServiceHeader from "@/components/admin/ServiceHeader";
+import Loading from "@/components/common/Loading";
 
 type Service = {
   _id: string;
@@ -18,19 +19,27 @@ type Service = {
 export default function AdminServicesPage() {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     let isMounted = true;
 
     async function fetchServices() {
       try {
+        setLoading(true);
+        setError("");
         const data = await apiFetch("/api/services/admin");
 
         if (isMounted) {
           setServices(data.services || []);
         }
-      } catch (error) {
-        console.error("Failed to load services", error);
+      } catch (err) {
+        if (isMounted) {
+          setError(
+            err instanceof Error ? err.message : "Failed to load services."
+          );
+        }
+        console.error("Failed to load services", err);
       } finally {
         if (isMounted) {
           setLoading(false);
@@ -62,9 +71,13 @@ export default function AdminServicesPage() {
 
         <section className="mt-8 overflow-hidden rounded-2xl border border-border bg-surface">
           {loading ? (
-            <div className="p-6 text-muted">Loading services...</div>
+            <Loading text="Loading services..." className="border-0 bg-transparent py-16" />
+          ) : error ? (
+            <div className="p-8 text-center">
+              <p className="text-sm text-red-600">{error}</p>
+            </div>
           ) : services.length === 0 ? (
-            <div className="p-6 text-muted">No services found.</div>
+            <div className="p-8 text-center text-muted">No services found. Click &quot;Add Service&quot; to create one.</div>
           ) : (
             <div className="divide-y divide-border">
               {services.map((service) => (

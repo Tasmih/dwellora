@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import ServiceForm, {
   type ServiceFormValues,
 } from "@/components/admin/ServiceForm";
+import Loading from "@/components/common/Loading";
 import { apiFetch } from "@/lib/api";
 import { showSuccess } from "@/lib/alert";
 
@@ -28,6 +29,8 @@ export default function EditServicePage() {
       if (!id) return;
 
       try {
+        setLoading(true);
+        setLoadError("");
         const data = await apiFetch(`/api/services/${id}`);
         if (isMounted) {
           if (data.service) {
@@ -78,11 +81,7 @@ export default function EditServicePage() {
   }
 
   if (loading) {
-    return (
-      <div className="rounded-2xl border border-border bg-surface p-8 text-center text-muted">
-        Loading service details...
-      </div>
-    );
+    return <Loading text="Loading service details..." className="py-16" />;
   }
 
   if (loadError || !initialValues) {

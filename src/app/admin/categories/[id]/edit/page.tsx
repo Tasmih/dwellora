@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import CategoryForm, {
   type CategoryFormValues,
 } from "@/components/admin/CategoryForm";
+import Loading from "@/components/common/Loading";
 import { apiFetch } from "@/lib/api";
 import { showSuccess } from "@/lib/alert";
 
@@ -27,6 +28,8 @@ export default function EditCategoryPage() {
       if (!id) return;
 
       try {
+        setLoading(true);
+        setLoadError("");
         const data = await apiFetch(`/api/categories/${id}`);
         if (isMounted) {
           if (data.category) {
@@ -77,11 +80,7 @@ export default function EditCategoryPage() {
   }
 
   if (loading) {
-    return (
-      <div className="rounded-2xl border border-border bg-surface p-8 text-center text-muted">
-        Loading category details...
-      </div>
-    );
+    return <Loading text="Loading category details..." className="py-16" />;
   }
 
   if (loadError || !initialValues) {

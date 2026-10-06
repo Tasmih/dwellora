@@ -10,6 +10,7 @@ import SeoFields, {
   type SeoValues,
 } from "@/components/admin/SeoFields";
 import { apiFetch } from "@/lib/api";
+import Loading from "@/components/common/Loading";
 import { sanitizeHttpsUrl } from "@/lib/url";
 
 export type ProjectFeature = {
@@ -395,17 +396,18 @@ export default function ProjectForm({
 
           {/* Category Dropdown */}
           <div>
-            <label
-              htmlFor="categoryId"
-              className="block text-sm font-medium text-brand"
-            >
-              Service Category
-            </label>
-            {loadingCategories ? (
-              <div className="mt-2 text-sm text-muted">
-                Loading categories...
-              </div>
-            ) : categoryLoadError ? (
+            <div className="flex items-center justify-between">
+              <label
+                htmlFor="categoryId"
+                className="block text-sm font-medium text-brand"
+              >
+                Service Category
+              </label>
+              {loadingCategories && (
+                <Loading variant="inline" size="sm" text="Loading categories..." />
+              )}
+            </div>
+            {categoryLoadError ? (
               <div className="mt-2 text-sm text-red-600">
                 {categoryLoadError}
               </div>

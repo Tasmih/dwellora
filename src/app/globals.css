@@ -138,12 +138,52 @@
   }
 }
 
+@layer utilities {
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-up {
+    animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes continuousScroll {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    100% {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  .animate-continuous-scroll {
+    display: flex;
+    width: max-content;
+    animation: continuousScroll 24s linear infinite;
+    will-change: transform;
+  }
+
+  .pause-on-hover:hover .animate-continuous-scroll {
+    animation-play-state: paused;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
 
-  .btn {
+  .btn,
+  .animate-fade-up,
+  .animate-continuous-scroll {
+    animation: none;
     transition: none;
   }
 }

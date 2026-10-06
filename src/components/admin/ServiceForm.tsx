@@ -10,6 +10,7 @@ import SeoFields, {
   type SeoValues,
 } from "@/components/admin/SeoFields";
 import { apiFetch } from "@/lib/api";
+import Loading from "@/components/common/Loading";
 
 export type IncludedItem = {
   title: string;
@@ -343,9 +344,14 @@ export default function ServiceForm({
 
         {/* Category Selection */}
         <div className="space-y-2">
-          <label htmlFor="service-category" className="form-label">
-            Service Category
-          </label>
+          <div className="flex items-center justify-between">
+            <label htmlFor="service-category" className="form-label mb-0">
+              Service Category
+            </label>
+            {loadingCategories && (
+              <Loading variant="inline" size="sm" text="Loading categories..." />
+            )}
+          </div>
 
           <select
             id="service-category"
