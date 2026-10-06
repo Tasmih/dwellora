@@ -3,8 +3,10 @@
 import Image, { type ImageProps } from "next/image";
 import { useState } from "react";
 import { FiHome } from "react-icons/fi";
+import { getSafeImageSrc } from "@/lib/url";
 
-type SafeImageProps = Omit<ImageProps, "onError"> & {
+type SafeImageProps = Omit<ImageProps, "onError" | "src"> & {
+  src?: string | null;
   fallbackTitle?: string;
 };
 
@@ -17,8 +19,11 @@ export default function SafeImage({
 }: SafeImageProps) {
   const [error, setError] = useState(false);
 
-  // If source is missing or an error occurred during loading/optimization
-  if (error || !src) {
+  // Validate and sanitize the image source before passing to next/image
+  const safeSrc = getSafeImageSrc(src);
+
+  // If source is missing, invalid, or an error occurred during loading/optimization
+  if (error || !safeSrc) {
     return (
       <div
         className={`flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-brand/90 to-brand p-6 text-center text-background ${className}`}
@@ -42,7 +47,7 @@ export default function SafeImage({
 
   return (
     <Image
-      src={src}
+      src={safeSrc}
       alt={alt}
       className={className}
       onError={() => setError(true)}

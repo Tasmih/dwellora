@@ -128,10 +128,10 @@ export default async function CategoryPage({ params }: PageProps) {
     <>
       <Navbar />
 
-      <main className="site-container py-8 sm:py-12 lg:py-16">
+      <main className="site-container pt-2 pb-12 sm:pt-3 sm:pb-16 lg:pt-3 lg:pb-20">
         {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="mb-8">
-          <ol className="flex flex-wrap items-center gap-2 text-xs text-muted">
+        <nav aria-label="Breadcrumb" className="mb-3 sm:mb-4 lg:mb-5">
+          <ol className="flex flex-wrap items-center gap-2 text-sm font-normal text-muted">
             <li>
               <Link href="/" className="transition-colors hover:text-brand">
                 Home
@@ -151,48 +151,59 @@ export default async function CategoryPage({ params }: PageProps) {
             <li aria-hidden="true" className="text-border">
               /
             </li>
-            <li aria-current="page" className="font-medium text-brand">
+            <li aria-current="page" className="font-medium text-brand truncate max-w-xs sm:max-w-md">
               {category.name}
             </li>
           </ol>
         </nav>
 
-        {/* Category Header */}
+        {/* Category Hero */}
         <div
-          className={`grid gap-8 items-center ${
-            category.image ? "lg:grid-cols-12" : ""
+          className={`grid items-center gap-8 lg:gap-12 ${
+            category.image ? "lg:grid-cols-2" : "max-w-3xl"
           }`}
         >
-          <div className={category.image ? "lg:col-span-7" : "max-w-3xl"}>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
+          {/* Left Content */}
+          <div
+            className={
+              category.image
+                ? "min-w-0 flex flex-col justify-center"
+                : "max-w-3xl"
+            }
+          >
+            <p className="text-xs lg:text-sm font-medium uppercase tracking-[0.25em] text-accent">
               Service Category
             </p>
 
-            <h1 className="mt-3 text-3xl font-semibold tracking-tight text-brand sm:text-4xl lg:text-5xl">
+            <h1 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.1] text-brand max-w-2xl">
               {category.name}
             </h1>
 
-            <p className="mt-4 text-base leading-7 text-muted sm:text-lg">
+            <p className="mt-4 text-base leading-7 text-muted sm:text-lg sm:leading-8 max-w-xl">
               {category.description}
             </p>
 
-            <div className="mt-6 flex items-center gap-3">
-              <Link href="/services" className="btn btn-secondary text-xs">
+            <div className="mt-6">
+              <Link
+                href="/services"
+                className="btn btn-secondary text-xs sm:text-sm"
+              >
                 &larr; View All Services
               </Link>
             </div>
           </div>
 
+          {/* Right Image */}
           {category.image && (
-            <div className="lg:col-span-5">
-              <div className="relative aspect-[16/10] overflow-hidden rounded-3xl border border-border bg-background shadow-md">
+            <div className="min-w-0 w-full">
+              <div className="relative h-[300px] sm:h-[360px] lg:h-[420px] w-full overflow-hidden bg-surface">
                 <SafeImage
                   src={category.image}
                   alt={category.name}
                   fallbackTitle={category.name}
                   fill
                   priority
-                  sizes="(min-width: 1024px) 42vw, 100vw"
+                  sizes="(min-width: 1024px) 50vw, 100vw"
                   className="object-cover object-center"
                 />
               </div>
@@ -203,7 +214,7 @@ export default async function CategoryPage({ params }: PageProps) {
         {/* Services in this category */}
         <section
           aria-labelledby="category-services-heading"
-          className="mt-14 border-t border-border pt-12"
+          className="mt-10 sm:mt-12 border-t border-border pt-8 sm:pt-10"
         >
           <div className="flex items-center justify-between pb-6">
             <h2
@@ -250,16 +261,16 @@ export default async function CategoryPage({ params }: PageProps) {
         {/* Consultation Section */}
         <section
           aria-labelledby="category-consultation-heading"
-          className="mt-20 overflow-hidden rounded-3xl bg-brand p-8 text-background sm:p-12 lg:mt-28 lg:p-16"
+          className="mt-20 rounded-3xl bg-brand p-8 text-background sm:p-12 lg:mt-28 lg:p-16"
         >
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
+          <div className="mx-auto max-w-full text-center">
+            <p className="text-sm md:text-base lg:text-lg font-semibold uppercase tracking-[0.2em] text-accent">
               {category.name}
             </p>
 
             <h2
               id="category-consultation-heading"
-              className="mt-3 text-2xl font-semibold tracking-tight text-background sm:text-3xl lg:text-4xl"
+              className="mt-3 text-2xl font-semibold tracking-tight text-background sm:text-3xl xl:text-4xl text-balance xl:whitespace-nowrap"
             >
               Ready to start your {category.name.toLowerCase()} project?
             </h2>

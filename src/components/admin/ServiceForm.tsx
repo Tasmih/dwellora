@@ -59,14 +59,7 @@ function createSlug(value: string) {
     .replace(/^-+|-+$/g, "");
 }
 
-function isHttpUrl(value: string) {
-  try {
-    const url = new URL(value);
-    return url.protocol === "http:" || url.protocol === "https:";
-  } catch {
-    return false;
-  }
-}
+import { sanitizeHttpsUrl } from "@/lib/url";
 
 export default function ServiceForm({
   initialValues = emptyValues,
@@ -205,10 +198,14 @@ export default function ServiceForm({
       return;
     }
 
-    if (!isHttpUrl(image)) {
-      setError("Please enter a valid HTTP or HTTPS service image URL.");
+    const sanitizedImage = sanitizeHttpsUrl(image);
+    if (sanitizedImage.error || !sanitizedImage.url) {
+      setError(
+        sanitizedImage.error || "Please enter a valid HTTPS service image URL."
+      );
       return;
     }
+    const cleanImage = sanitizedImage.url;
 
     // Validate included items
     for (let i = 0; i < includedItems.length; i++) {
@@ -226,32 +223,48 @@ export default function ServiceForm({
       description: item.description.trim(),
     }));
 
+    let cleanOgImage = "";
+    if (seo.ogImage && seo.ogImage.trim()) {
+      const sanitizedOg = sanitizeHttpsUrl(seo.ogImage);
+      if (sanitizedOg.error || !sanitizedOg.url) {
+        setError(
+          sanitizedOg.error ||
+            "Please enter a valid HTTPS Open Graph image URL."
+        );
+        return;
+      }
+      cleanOgImage = sanitizedOg.url;
+    }
+
+    let cleanCanonicalUrl = "";
+    if (seo.canonicalUrl && seo.canonicalUrl.trim()) {
+      const sanitizedCanonical = sanitizeHttpsUrl(seo.canonicalUrl);
+      if (sanitizedCanonical.error || !sanitizedCanonical.url) {
+        setError(
+          sanitizedCanonical.error ||
+            "Please enter a valid HTTPS canonical URL."
+        );
+        return;
+      }
+      cleanCanonicalUrl = sanitizedCanonical.url;
+    }
+
     const cleanSeo: SeoValues = {
       metaTitle: seo.metaTitle.trim(),
       metaDescription: seo.metaDescription.trim(),
       keywords: seo.keywords.trim(),
       ogTitle: seo.ogTitle.trim(),
       ogDescription: seo.ogDescription.trim(),
-      ogImage: seo.ogImage.trim(),
-      canonicalUrl: seo.canonicalUrl.trim(),
+      ogImage: cleanOgImage,
+      canonicalUrl: cleanCanonicalUrl,
     };
-
-    if (cleanSeo.ogImage && !isHttpUrl(cleanSeo.ogImage)) {
-      setError("Please enter a valid HTTP or HTTPS Open Graph image URL.");
-      return;
-    }
-
-    if (cleanSeo.canonicalUrl && !isHttpUrl(cleanSeo.canonicalUrl)) {
-      setError("Please enter a valid HTTP or HTTPS canonical URL.");
-      return;
-    }
 
     const payload: ServiceFormValues = {
       title,
       slug,
       shortDescription,
       description,
-      image,
+      image: cleanImage,
       categoryId: values.categoryId ? values.categoryId : null,
       includedItems: cleanIncludedItems,
       seo: cleanSeo,

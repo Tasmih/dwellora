@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { FiEdit2, FiEye, FiEyeOff, FiTrash2 } from "react-icons/fi";
+import SafeImage from "@/components/SafeImage";
 
 import { apiFetch } from "@/lib/api";
 import { confirmDelete, showError, showSuccess } from "@/lib/alert";
@@ -76,7 +76,14 @@ export default function ServiceCard({ service, onDeleted, onStatusChange }: Serv
       <div className="flex items-start gap-4">
         <div className="relative h-20 w-28 shrink-0 overflow-hidden rounded-xl bg-background">
           {service.image ? (
-            <Image src={service.image} alt={service.title} fill sizes="112px" className="object-cover" />
+            <SafeImage
+              src={service.image}
+              alt={service.title}
+              fallbackTitle={service.title}
+              fill
+              sizes="112px"
+              className="object-cover"
+            />
           ) : (
             <div className="flex h-full w-full items-center justify-center text-xs text-muted">No image</div>
           )}

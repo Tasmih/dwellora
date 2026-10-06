@@ -221,10 +221,10 @@ export default async function ServiceDetailsPage({ params }: PageProps) {
     <>
       <Navbar />
 
-      <main className="site-container py-8 sm:py-12 lg:py-16">
+      <main className="site-container pt-3 pb-16 sm:pt-4 sm:pb-20 lg:pt-4 lg:pb-24">
         {/* 1. Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="mb-8">
-          <ol className="flex flex-wrap items-center gap-2 text-xs text-muted">
+        <nav aria-label="Breadcrumb" className="mb-5 sm:mb-6 lg:mb-8">
+          <ol className="flex flex-wrap items-center gap-2 text-sm font-normal text-muted">
             <li>
               <Link
                 href="/"
@@ -278,28 +278,28 @@ export default async function ServiceDetailsPage({ params }: PageProps) {
         {/* 2. Split Hero */}
         <section
           aria-labelledby="service-title-heading"
-          className="grid gap-10 lg:grid-cols-12 lg:items-center"
+          className="grid gap-8 lg:grid-cols-12 lg:gap-12 items-center"
         >
           {/* Left: Title, Intro & CTA */}
           <div className="lg:col-span-7">
             {service.category && (
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
+              <p className="text-xs lg:text-sm font-medium uppercase tracking-[0.25em] text-accent">
                 {service.category.name}
               </p>
             )}
 
             <h1
               id="service-title-heading"
-              className="mt-3 text-3xl font-semibold tracking-tight text-brand sm:text-4xl lg:text-5xl"
+              className="mt-3 text-3xl font-bold tracking-tight text-brand sm:text-4xl lg:text-[56px] lg:leading-[1.1] max-w-2xl"
             >
               {service.title}
             </h1>
 
-            <p className="mt-5 text-base leading-8 text-muted sm:text-lg">
+            <p className="mt-4 sm:mt-5 max-w-xl text-base leading-7 text-muted sm:text-lg sm:leading-8">
               {heroIntro}
             </p>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="mt-6 sm:mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
               <a href="#consultation" className="btn btn-primary">
                 Book Consultation
               </a>
@@ -311,8 +311,8 @@ export default async function ServiceDetailsPage({ params }: PageProps) {
           </div>
 
           {/* Right: Service Image */}
-          <div className="lg:col-span-5">
-            <div className="relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] overflow-hidden rounded-3xl border border-border bg-background shadow-md">
+          <div className="w-full lg:col-span-5">
+            <div className="relative h-[320px] sm:h-[380px] lg:h-[440px] w-full overflow-hidden bg-surface">
               <SafeImage
                 src={service.image}
                 alt={service.title}

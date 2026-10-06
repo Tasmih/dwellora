@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Image from "next/image";
+import SafeImage from "@/components/SafeImage";
 import Link from "next/link";
 
 export type HeroContent = {
@@ -148,9 +148,10 @@ export default function Hero({ content }: HeroProps) {
       aria-labelledby="hero-heading"
       className="relative isolate overflow-hidden bg-brand"
     >
-      <Image
+      <SafeImage
         src={content.image}
         alt={content.imageAlt}
+        fallbackTitle={content.title}
         fill
         priority
         sizes="100vw"

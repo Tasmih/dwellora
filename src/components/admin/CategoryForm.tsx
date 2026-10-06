@@ -35,14 +35,7 @@ function createSlug(value: string) {
     .replace(/^-+|-+$/g, "");
 }
 
-function isHttpUrl(value: string) {
-  try {
-    const url = new URL(value);
-    return url.protocol === "http:" || url.protocol === "https:";
-  } catch {
-    return false;
-  }
-}
+import { sanitizeHttpsUrl } from "@/lib/url";
 
 export default function CategoryForm({
   initialValues,
@@ -96,7 +89,6 @@ export default function CategoryForm({
     const name = values.name.trim();
     const slug = values.slug.trim();
     const description = values.description.trim();
-    const image = values.image?.trim() || "";
 
     if (!name || !slug || !description) {
       setError("Please complete all required category fields.");
@@ -110,9 +102,17 @@ export default function CategoryForm({
       return;
     }
 
-    if (image && !isHttpUrl(image)) {
-      setError("Please enter a valid HTTP or HTTPS image URL, or leave it blank.");
-      return;
+    let image = "";
+    if (values.image && values.image.trim()) {
+      const sanitized = sanitizeHttpsUrl(values.image);
+      if (sanitized.error || !sanitized.url) {
+        setError(
+          sanitized.error ||
+            "Please enter a valid HTTPS category image URL, or leave it blank."
+        );
+        return;
+      }
+      image = sanitized.url;
     }
 
     let displayOrder: number | null = null;

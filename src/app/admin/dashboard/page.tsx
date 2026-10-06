@@ -1,14 +1,14 @@
 export default function AdminDashboardPage() {
   const dashboardCards = [
     {
-      title: "Services",
-      description: "Create and manage services",
-      href: "/admin/services",
-    },
-    {
       title: "Service Categories",
       description: "Organize services into categories",
       href: "/admin/categories",
+    },
+    {
+      title: "Services",
+      description: "Create and manage services",
+      href: "/admin/services",
     },
     {
       title: "Projects",
