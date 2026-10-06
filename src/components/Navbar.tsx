@@ -117,7 +117,7 @@ export default function Navbar() {
 
         {/* Desktop button */}
         <Link
-          href="/contact"
+          href="/contact?type=quote"
           className="btn btn-primary hidden lg:inline-flex"
         >
           Get a Quote
@@ -204,7 +204,7 @@ export default function Navbar() {
           })}
 
           <Link
-            href="/contact"
+            href="/contact?type=quote"
             onClick={closeMenu}
             className="btn btn-primary mt-4 w-full sm:w-auto sm:self-start"
           >

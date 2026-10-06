@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   FiPhone,
   FiMail,
@@ -45,6 +46,7 @@ function WaveWords({ text, className = "" }: WaveWordsProps) {
 
 export default function ContactClient() {
   const heroRef = useRef<HTMLDivElement>(null);
+  const searchParams = useSearchParams();
 
   const eyebrow = "INQUIRIES & CONSULTATIONS";
   const title = "Transform Your Vision";
@@ -344,7 +346,7 @@ export default function ContactClient() {
 
           {/* Right Column: Contact Form */}
           <div className="lg:col-span-7 animate-fade-up delay-200">
-            <ContactForm />
+            <ContactForm key={searchParams.toString()} />
           </div>
         </div>
       </section>

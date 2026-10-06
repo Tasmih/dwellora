@@ -20,13 +20,15 @@ const defaultServices = [
 export default function ContactForm() {
   const searchParams = useSearchParams();
   const initialService = searchParams.get("service") || "";
+  const isQuote = searchParams.get("type") === "quote";
+  const quoteMessage = "I would like to get a quote for my home renovation project.";
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     service: initialService,
-    message: "",
+    message: isQuote ? quoteMessage : "",
   });
 
   const [serviceOptions, setServiceOptions] = useState<string[]>(defaultServices);
