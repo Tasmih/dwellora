@@ -173,7 +173,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
     <>
       <Navbar />
 
-      <main className="site-container py-10 sm:py-14 lg:py-16">
+      <main className="site-container page-spacing">
         {/* Breadcrumb Navigation */}
         <nav aria-label="Breadcrumb" className="mb-6 sm:mb-8">
           <ol className="flex flex-wrap items-center gap-2 text-sm text-muted">

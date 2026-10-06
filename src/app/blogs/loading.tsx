@@ -5,7 +5,7 @@ export default function BlogsLoading() {
   return (
     <>
       <Navbar />
-      <main className="site-container py-12 sm:py-16 lg:py-20">
+      <main className="site-container page-spacing">
         <div className="max-w-3xl">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
             Journal &amp; Editorial

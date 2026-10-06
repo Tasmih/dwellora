@@ -5,7 +5,7 @@ export default function CategoryDetailLoading() {
   return (
     <>
       <Navbar />
-      <main className="site-container py-12 sm:py-16 lg:py-20">
+      <main className="site-container page-spacing">
         <Loading text="Loading service category..." size="lg" />
       </main>
     </>

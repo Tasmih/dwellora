@@ -24,6 +24,10 @@ const menuItems = [
     name: "Blogs",
     href: "/admin/blogs",
   },
+  {
+    name: "Contact Messages",
+    href: "/admin/contact",
+  },
 ];
 
 export default function AdminSidebar() {

@@ -81,29 +81,34 @@
 
   /* Shared section spacing */
   .section-spacing {
-    @apply py-14 lg:py-22;
+    @apply py-10 sm:py-12 lg:py-16;
+  }
+
+  /* Page top spacing after sticky navbar */
+  .page-spacing {
+    @apply pt-6 pb-12 sm:pt-8 sm:pb-16 lg:pt-10 lg:pb-20;
   }
 
   /* Use together with btn-primary or btn-secondary */
   .btn {
     @apply inline-flex min-h-11 shrink-0 items-center justify-center
       gap-2 rounded-full px-6 py-3 text-sm font-semibold leading-5
-      transition-colors duration-200;
+      transition-all duration-300 ease-out;
   }
 
   .btn-primary {
-    @apply bg-accent text-brand hover:bg-accent-hover;
+    @apply bg-accent text-brand shadow-xs hover:bg-brand hover:text-white hover:shadow-md;
   }
 
   .btn-secondary {
     @apply border border-brand bg-transparent text-brand
-      hover:bg-brand hover:text-white;
+      hover:bg-brand hover:text-white hover:shadow-sm;
   }
 
   /* Outline button for dark sections */
   .btn-outline-light {
     @apply border border-white/40 bg-transparent text-white
-      hover:border-white hover:bg-white/10;
+      hover:border-white hover:bg-white/10 hover:shadow-sm;
   }
 
   .btn:disabled,
@@ -127,14 +132,14 @@
 
   .form-input {
     @apply min-h-11 w-full rounded-xl border border-border
-      bg-surface px-4 py-3 text-base text-foreground
-      placeholder:text-muted/70;
+      bg-surface px-4 py-3 text-base text-foreground transition-all duration-300
+      placeholder:text-muted/70 focus:border-accent focus:ring-2 focus:ring-accent/20 focus:outline-none;
   }
 
   .form-input:focus-visible {
-    border-color: var(--brand);
-    outline: 2px solid var(--brand);
-    outline-offset: 2px;
+    border-color: var(--accent);
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
   }
 }
 
@@ -142,7 +147,7 @@
   @keyframes fadeUp {
     from {
       opacity: 0;
-      transform: translateY(18px);
+      transform: translateY(20px);
     }
     to {
       opacity: 1;
@@ -151,7 +156,36 @@
   }
 
   .animate-fade-up {
-    animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .delay-400 {
+    animation-delay: 400ms;
+  }
+
+  @keyframes slowZoom {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.06);
+    }
+  }
+
+  .animate-slow-zoom {
+    animation: slowZoom 20s cubic-bezier(0.25, 1, 0.5, 1) forwards;
   }
 
   @keyframes continuousScroll {

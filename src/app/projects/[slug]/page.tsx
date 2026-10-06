@@ -186,7 +186,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
     <>
       <Navbar />
 
-      <main className="site-container py-10 sm:py-14 lg:py-18">
+      <main className="site-container page-spacing">
         {/* Back Link & Breadcrumbs */}
         <div className="flex flex-wrap items-center justify-between gap-4 text-xs font-medium text-muted">
           <Link

@@ -85,7 +85,7 @@ export default async function ProjectsPage({ searchParams }: PageProps) {
     <>
       <Navbar />
 
-      <main className="site-container py-12 sm:py-16 lg:py-20">
+      <main className="site-container page-spacing">
         {/* Page Introduction */}
         <div className="max-w-3xl">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
