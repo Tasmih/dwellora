@@ -280,14 +280,12 @@ export default async function CategoryPage({ params }: PageProps) {
             </p>
 
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <a
-                href={`mailto:info@dwellora.com?subject=Consultation%20Inquiry%20-%20${encodeURIComponent(
-                  category.name
-                )}`}
+              <Link
+                href="/contact?type=quote"
                 className="btn btn-primary w-full sm:w-auto"
               >
                 Request a Consultation
-              </a>
+              </Link>
 
               <Link
                 href="/services"

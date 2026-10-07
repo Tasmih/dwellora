@@ -404,33 +404,31 @@ export default async function ServiceDetailsPage({ params }: PageProps) {
 
               <div className="mt-6 space-y-3 border-t border-border pt-6">
                 <a
-                  href={`mailto:info@dwellora.com?subject=Consultation%20Inquiry%20-%20${encodeURIComponent(
+                  href={`mailto:contact@dwellora.com?subject=Consultation%20Inquiry%20-%20${encodeURIComponent(
                     service.title
                   )}`}
                   className="flex items-center gap-3 rounded-xl border border-border bg-background/60 p-3 text-sm font-medium text-brand transition-colors hover:border-accent hover:bg-background"
                 >
                   <FiMail className="h-4 w-4 text-accent" />
-                  <span className="truncate">info@dwellora.com</span>
+                  <span className="truncate">contact@dwellora.com</span>
                 </a>
 
                 <a
-                  href="tel:+18005553935"
+                  href="tel:+15552345678"
                   className="flex items-center gap-3 rounded-xl border border-border bg-background/60 p-3 text-sm font-medium text-brand transition-colors hover:border-accent hover:bg-background"
                 >
                   <FiPhone className="h-4 w-4 text-accent" />
-                  <span>(800) 555-3935</span>
+                  <span>+1 (555) 234-5678</span>
                 </a>
               </div>
 
               <div className="mt-6">
-                <a
-                  href={`mailto:info@dwellora.com?subject=Consultation%20Booking%20for%20${encodeURIComponent(
-                    service.title
-                  )}`}
-                  className="btn btn-primary w-full"
+                <Link
+                  href="/contact?type=quote"
+                  className="btn btn-primary w-full text-center"
                 >
                   Request Consultation
-                </a>
+                </Link>
               </div>
             </div>
           </aside>

@@ -224,12 +224,12 @@ export default function ServicesClient() {
           </p>
 
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <a
-              href="mailto:info@dwellora.com?subject=Renovation%20Consultation%20Inquiry"
+            <Link
+              href="/contact?type=quote"
               className="btn btn-primary w-full sm:w-auto"
             >
               Request a Consultation
-            </a>
+            </Link>
 
             <a
               href="tel:+18005553935"
