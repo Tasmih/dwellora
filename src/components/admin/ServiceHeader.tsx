@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FiPlus } from "react-icons/fi";
 
 export default function ServiceHeader() {
   return (
@@ -19,9 +20,10 @@ export default function ServiceHeader() {
 
       <Link
         href="/admin/services/create"
-        className="btn btn-primary w-full sm:w-auto"
+        className="group btn-admin-primary"
       >
-        Add Service
+        <FiPlus className="h-4 w-4 text-accent transition-transform duration-300 group-hover:rotate-90 group-hover:scale-110" />
+        <span>Add Service</span>
       </Link>
     </div>
   );

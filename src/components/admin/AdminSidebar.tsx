@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { FiLogOut } from "react-icons/fi";
 import { apiFetch, setStoredToken } from "@/lib/api";
 import { showSuccess, showError } from "@/lib/alert";
 
@@ -103,9 +104,10 @@ export default function AdminSidebar() {
         type="button"
         onClick={handleLogout}
         disabled={loggingOut}
-        className="btn btn-primary mt-10 w-full"
+        className="mt-10 flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-background/60 px-4 py-2.5 text-sm font-medium text-muted transition-all duration-200 hover:border-rose-200 hover:bg-rose-50/80 hover:text-rose-700 disabled:cursor-not-allowed disabled:opacity-50"
       >
-        {loggingOut ? "Logging out..." : "Logout"}
+        <FiLogOut className="h-4 w-4" />
+        <span>{loggingOut ? "Logging out..." : "Logout"}</span>
       </button>
     </aside>
   );

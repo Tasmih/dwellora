@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FiPlus } from "react-icons/fi";
 
 export default function BlogHeader() {
   return (
@@ -19,9 +20,10 @@ export default function BlogHeader() {
 
       <Link
         href="/admin/blogs/create"
-        className="btn btn-primary w-full sm:w-auto"
+        className="group btn-admin-primary"
       >
-        Add Blog / Vlog
+        <FiPlus className="h-4 w-4 text-accent transition-transform duration-300 group-hover:rotate-90 group-hover:scale-110" />
+        <span>Add Blog</span>
       </Link>
     </div>
   );
