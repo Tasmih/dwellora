@@ -5,6 +5,7 @@ import { cache } from "react";
 import { FiCheck, FiMail, FiPhone } from "react-icons/fi";
 
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import PublicServiceCard, {
   type PublicService,
 } from "@/components/PublicServiceCard";
@@ -513,6 +514,8 @@ export default async function ServiceDetailsPage({ params }: PageProps) {
           </div>
         </section>
       </main>
+
+      <Footer />
     </>
   );
 }

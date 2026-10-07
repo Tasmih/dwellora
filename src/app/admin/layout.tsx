@@ -20,10 +20,10 @@ export default function AdminLayout({
     <div className="min-h-screen bg-background lg:flex">
       <AdminSidebar />
 
-      <div className="flex-1">
+      <div className="flex-1 min-w-0 overflow-x-hidden">
         <AdminHeader />
 
-        <main className="p-6">
+        <main className="p-4 sm:p-6 lg:p-8 min-w-0">
           {children}
         </main>
       </div>

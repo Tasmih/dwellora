@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import PublicServiceCard, {
   type PublicService,
 } from "@/components/PublicServiceCard";
@@ -297,6 +298,8 @@ export default async function CategoryPage({ params }: PageProps) {
           </div>
         </section>
       </main>
+
+      <Footer />
     </>
   );
 }

@@ -14,6 +14,7 @@ import {
 } from "react-icons/fi";
 
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import PublicProjectCard, {
   type PublicProject,
 } from "@/components/PublicProjectCard";
@@ -445,7 +446,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-accent">•</span>
-                  <span>Transparent itemized scopes and guaranteed warranties</span>
+                  <span>Transparent itemized scopes &amp; 10-Year Craft Warranty</span>
                 </li>
               </ul>
             </div>
@@ -481,6 +482,8 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           </section>
         )}
       </main>
+
+      <Footer />
     </>
   );
 }

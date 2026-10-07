@@ -79,7 +79,7 @@ export default function PublicProjectCard({ project }: PublicProjectCardProps) {
           )}
         </div>
 
-        <h3 className="mt-2 text-xl font-semibold tracking-tight text-brand">
+        <h3 className="mt-2 text-lg sm:text-xl font-bold tracking-tight text-brand">
           <Link href={href} className="transition-colors hover:text-brand-hover">
             {project.title}
           </Link>
@@ -92,7 +92,7 @@ export default function PublicProjectCard({ project }: PublicProjectCardProps) {
         <div className="mt-auto pt-6">
           <Link
             href={href}
-            className="btn btn-secondary inline-flex w-full items-center justify-between group/btn hover:border-brand"
+            className="inline-flex min-h-11 w-full items-center justify-between rounded-full border border-brand bg-transparent px-6 py-3 text-sm font-semibold text-brand transition-all duration-300 hover:bg-brand hover:text-white hover:shadow-sm group/btn"
           >
             <span>View Project</span>
             <FiArrowRight

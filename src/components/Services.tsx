@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FiArrowRight } from "react-icons/fi";
 import PublicServiceCard, {
   type PublicService,
 } from "@/components/PublicServiceCard";
@@ -17,39 +18,40 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
       aria-labelledby="services-section-heading"
       className="site-container section-spacing"
     >
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div className="max-w-xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
-            What We Do
-          </p>
+      <div className="mx-auto max-w-3xl text-center">
+        <p className="section-eyebrow">
+          What We Do
+        </p>
 
-          <h2
-            id="services-section-heading"
-            className="mt-2 text-3xl font-semibold tracking-tight text-brand sm:text-4xl"
-          >
-            Crafted Renovation Services
-          </h2>
-
-          <p className="mt-3 text-base leading-7 text-muted">
-            Specialized solutions designed to bring enduring warmth, function, and refined carpentry to every space.
-          </p>
-        </div>
-
-        <Link
-          href="/services"
-          className="btn btn-secondary inline-flex self-start text-xs sm:self-auto"
+        <h2
+          id="services-section-heading"
+          className="section-title text-balance"
         >
-          View All Services &rarr;
-        </Link>
+          Crafted Renovation Services
+        </h2>
+
+        <p className="section-description text-balance">
+          Specialized solutions designed to bring enduring warmth, function, and refined carpentry to every space.
+        </p>
       </div>
 
-      <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-6 sm:mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {services.slice(0, 3).map((service) => (
           <PublicServiceCard
             key={service._id || service.slug}
             service={service}
           />
         ))}
+      </div>
+
+      <div className="mt-6 text-center">
+        <Link
+          href="/services"
+          className="btn btn-secondary inline-flex items-center gap-2"
+        >
+          <span>View All Services</span>
+          <FiArrowRight className="h-4 w-4" />
+        </Link>
       </div>
     </section>
   );

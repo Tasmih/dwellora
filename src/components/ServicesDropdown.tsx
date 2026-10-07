@@ -221,8 +221,10 @@ export default function ServicesDropdown({
         aria-expanded={open}
         aria-controls="desktop-services-dropdown"
         onClick={() => setOpen((prev) => !prev)}
-        className={`group relative inline-flex items-center gap-1.5 rounded-sm py-2 text-sm font-medium transition-colors duration-200 motion-reduce:transition-none ${
-          active || open ? "text-brand" : "text-muted hover:text-brand"
+        className={`group relative inline-flex items-center gap-1.5 rounded-sm py-2 text-[14.5px] font-medium tracking-wide transition-colors duration-200 motion-reduce:transition-none ${
+          active || open
+            ? "text-brand font-semibold"
+            : "text-muted hover:text-brand"
         }`}
       >
         <span>Services</span>
@@ -235,7 +237,7 @@ export default function ServicesDropdown({
 
         <span
           aria-hidden="true"
-          className={`absolute bottom-0 left-0 h-px w-full origin-left bg-accent transition-transform duration-200 motion-reduce:transition-none ${
+          className={`absolute bottom-0 left-0 h-[2px] w-full origin-left bg-gradient-to-r from-accent to-[#C89545] transition-transform duration-200 motion-reduce:transition-none ${
             active || open ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
           }`}
         />

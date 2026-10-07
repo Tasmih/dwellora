@@ -1,10 +1,28 @@
+import type { Metadata } from "next";
 import Hero, { type HeroContent } from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import ServicesSection from "@/components/Services";
+import TrustStats from "@/components/TrustStats";
+import WhyChooseDwellora from "@/components/WhyChooseDwellora";
+import FeaturedProjects from "@/components/FeaturedProjects";
+import ProjectVideoShowcase from "@/components/ProjectVideoShowcase";
+import RenovationProcess from "@/components/RenovationProcess";
+import LatestBlogsSection from "@/components/LatestBlogsSection";
+import FAQSection from "@/components/FAQSection";
+import CinematicCta from "@/components/CinematicCta";
+import Footer from "@/components/Footer";
 import type { PublicService } from "@/components/PublicServiceCard";
+import type { PublicProject } from "@/components/PublicProjectCard";
+import type { PublicBlog } from "@/components/PublicBlogCard";
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
+export const metadata: Metadata = {
+  title: "Dwellora | Bespoke Home Renovation & Custom Carpentry",
+  description:
+    "Transforming residential living spaces with architectural space planning, custom cabinetry, and master interior craftsmanship.",
+};
 
 const heroContent: HeroContent = {
   eyebrow: "Home renovation & custom carpentry",
@@ -16,30 +34,68 @@ const heroContent: HeroContent = {
   imageAlt:
     "Modern kitchen with wooden cabinetry, a spacious island and warm pendant lighting",
   primaryLabel: "Get a Quote",
-  primaryHref: "/contact",
+  primaryHref: "/contact?type=quote",
   secondaryLabel: "Explore Projects",
   secondaryHref: "/projects",
 };
 
-async function getFeaturedServices(): Promise<PublicService[]> {
+async function getHomeData(): Promise<{
+  services: PublicService[];
+  projects: PublicProject[];
+  blogs: PublicBlog[];
+}> {
   try {
-    const response = await fetch(`${API_URL}/api/services`, {
-      next: { revalidate: 60 },
-    });
+    const [servicesRes, projectsRes, blogsRes] = await Promise.all([
+      fetch(`${API_URL}/api/services`, { next: { revalidate: 60 } }).catch(
+        () => null
+      ),
+      fetch(`${API_URL}/api/projects`, { next: { revalidate: 60 } }).catch(
+        () => null
+      ),
+      fetch(`${API_URL}/api/blogs`, { next: { revalidate: 60 } }).catch(
+        () => null
+      ),
+    ]);
 
-    if (!response.ok) return [];
+    let services: PublicService[] = [];
+    let projects: PublicProject[] = [];
+    let blogs: PublicBlog[] = [];
 
-    const data = await response.json();
-    return (data.services || []).filter(
-      (s: { status: string }) => s.status === "published"
-    );
+    if (servicesRes && servicesRes.ok) {
+      const data = await servicesRes.json();
+      services = (data.services || []).filter(
+        (s: { status?: string }) => !s.status || s.status === "published"
+      );
+    }
+
+    if (projectsRes && projectsRes.ok) {
+      const data = await projectsRes.json();
+      projects = (data.projects || []).filter(
+        (p: { status?: string }) => !p.status || p.status === "published"
+      );
+    }
+
+    if (blogsRes && blogsRes.ok) {
+      const data = await blogsRes.json();
+      blogs = data.blogs || [];
+    }
+
+    return { services, projects, blogs };
   } catch {
-    return [];
+    return { services: [], projects: [], blogs: [] };
   }
 }
 
 export default async function Home() {
-  const services = await getFeaturedServices();
+  const { services, projects, blogs } = await getHomeData();
+
+  const featuredHomeVlog =
+    blogs.find(
+      (b) =>
+        b.title.toLowerCase().includes("complete home renovation") ||
+        (b.videoUrl && b.title.toLowerCase().includes("complete"))
+    ) ||
+    blogs.find((b) => b.videoUrl && b.videoUrl.trim().length > 0);
 
   return (
     <>
@@ -47,8 +103,33 @@ export default async function Home() {
 
       <main id="main-content">
         <Hero content={heroContent} />
+
+        <TrustStats
+          servicesCount={services.length}
+          projectsCount={projects.length}
+        />
+
         <ServicesSection services={services} />
+
+        <WhyChooseDwellora />
+
+        <FeaturedProjects projects={projects} />
+
+        {/* Featured Vlog Tour: Complete Home Renovation Process */}
+        <ProjectVideoShowcase blog={featuredHomeVlog} />
+
+        <RenovationProcess />
+
+        <LatestBlogsSection blogs={blogs} />
+
+        {/* Interactive Luxury FAQ Section */}
+        <FAQSection />
+
+        {/* Cinematic Kitchen Showcase CTA Banner */}
+        <CinematicCta />
       </main>
+
+      <Footer />
     </>
   );
 }

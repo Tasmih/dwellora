@@ -12,6 +12,7 @@ import {
 } from "react-icons/fi";
 
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import type { PublicBlog } from "@/components/PublicBlogCard";
 import SafeImage from "@/components/SafeImage";
 import VideoEmbed from "@/components/VideoEmbed";
@@ -376,6 +377,8 @@ export default async function BlogDetailPage({ params }: PageProps) {
           </div>
         </section>
       </main>
+
+      <Footer />
     </>
   );
 }

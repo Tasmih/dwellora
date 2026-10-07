@@ -34,8 +34,11 @@ function getEmbedInfo(url: string): { type: "youtube" | "vimeo" | "video" | "ifr
     };
   }
 
-  // Direct video files
-  if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(trimmed)) {
+  // Direct video files & Cloudinary video assets
+  if (
+    /\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i.test(trimmed) ||
+    (trimmed.includes("cloudinary.com") && trimmed.includes("/video/upload/"))
+  ) {
     return {
       type: "video",
       embedUrl: trimmed,
@@ -92,8 +95,9 @@ export default function VideoEmbed({
         <video
           src={embedInfo.embedUrl}
           controls
+          autoPlay
           playsInline
-          preload="metadata"
+          preload="auto"
           poster={coverImage}
           className="h-full w-full object-contain bg-black"
         >

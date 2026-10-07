@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import BlogsClient from "./BlogsClient";
 import Loading from "@/components/common/Loading";
 
@@ -44,6 +45,7 @@ export default function BlogsPage() {
       <Suspense fallback={<BlogsFallback />}>
         <BlogsClient />
       </Suspense>
+      <Footer />
     </>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -17,7 +18,22 @@ const navItems = [
 export default function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    function handleScroll() {
+      if (window.scrollY > 20) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    }
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     const desktopQuery = window.matchMedia("(min-width: 1024px)");
@@ -53,23 +69,28 @@ export default function Navbar() {
           menuButtonRef.current?.focus();
         }
       }}
-      className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md"
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "border-b border-border/80 bg-gradient-to-r from-background/98 via-[#FDFBF7]/98 to-background/98 shadow-[0_4px_24px_rgba(25,53,50,0.06)] backdrop-blur-md"
+          : "border-b border-border/50 bg-gradient-to-r from-background/95 via-[#FDFBF7]/95 to-background/95 shadow-[0_2px_12px_rgba(25,53,50,0.02)] backdrop-blur-sm"
+      }`}
     >
-      <div className="site-container flex h-20 items-center justify-between gap-6">
-        {/* Logo */}
+      <div className="site-container relative flex h-[72px] sm:h-[80px] lg:h-[84px] items-center justify-between gap-6">
+        {/* Logo Image */}
         <Link
           href="/"
           aria-label="Dwellora home"
           onClick={closeMenu}
-          className="group shrink-0 rounded-sm"
+          className="group relative flex shrink-0 items-center justify-center transition-opacity duration-300 hover:opacity-90 py-1"
         >
-          <span className="block text-2xl font-semibold leading-none tracking-[0.08em] text-brand transition-colors group-hover:text-brand-hover motion-reduce:transition-none">
-            Dwellora<span className="text-accent">.</span>
-          </span>
-
-          <span className="mt-2 block text-[8px] font-medium leading-none tracking-[0.18em] text-muted sm:text-[9px]">
-            HOME RENOVATION & CARPENTRY
-          </span>
+          <Image
+            src="/images/dwellora-logo.png"
+            alt="Dwellora Home Renovation & Carpentry"
+            width={190}
+            height={50}
+            priority
+            className="h-auto w-[140px] sm:w-[165px] lg:w-[190px] object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+          />
         </Link>
 
         {/* Desktop links */}
@@ -94,9 +115,9 @@ export default function Navbar() {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`group relative rounded-sm py-2 text-sm font-medium transition-colors duration-200 motion-reduce:transition-none ${
+                className={`group relative rounded-sm py-2 text-[14.5px] font-medium tracking-wide transition-colors duration-200 motion-reduce:transition-none ${
                   active
-                    ? "text-brand"
+                    ? "text-brand font-semibold"
                     : "text-muted hover:text-brand"
                 }`}
               >
@@ -104,7 +125,7 @@ export default function Navbar() {
 
                 <span
                   aria-hidden="true"
-                  className={`absolute bottom-0 left-0 h-px w-full origin-left bg-accent transition-transform duration-200 motion-reduce:transition-none ${
+                  className={`absolute bottom-0 left-0 h-[2px] w-full origin-left bg-gradient-to-r from-accent to-[#C89545] transition-transform duration-200 motion-reduce:transition-none ${
                     active
                       ? "scale-x-100"
                       : "scale-x-0 group-hover:scale-x-100"
@@ -115,12 +136,12 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Desktop button */}
+        {/* Desktop CTA button */}
         <Link
           href="/contact?type=quote"
-          className="btn btn-primary hidden lg:inline-flex"
+          className="group hidden lg:inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#D4A95A] via-[#C9A365] to-[#B88738] px-6 py-2.5 text-sm font-semibold text-brand shadow-[0_4px_16px_rgba(201,163,101,0.28)] hover:shadow-[0_8px_24px_rgba(201,163,101,0.4)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 border border-accent/50"
         >
-          Get a Quote
+          <span>Get a Quote</span>
           <ArrowIcon />
         </Link>
 
@@ -134,11 +155,11 @@ export default function Navbar() {
           aria-expanded={menuOpen}
           aria-controls="mobile-navigation"
           onClick={() => setMenuOpen((open) => !open)}
-          className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border text-brand transition-colors hover:bg-brand/5 motion-reduce:transition-none lg:hidden"
+          className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border text-brand transition-colors hover:bg-brand/5 motion-reduce:transition-none lg:hidden"
         >
           <svg
-            width="22"
-            height="22"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -162,11 +183,17 @@ export default function Navbar() {
         </button>
       </div>
 
+      {/* Thin Elegant Gold Bottom Accent Line */}
+      <div
+        aria-hidden="true"
+        className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/35 to-transparent pointer-events-none"
+      />
+
       {/* Mobile menu */}
       <div
         id="mobile-navigation"
         hidden={!menuOpen}
-        className="border-t border-border bg-background lg:hidden"
+        className="border-t border-border bg-background lg:hidden shadow-lg"
       >
         <nav
           aria-label="Mobile navigation"
@@ -194,7 +221,7 @@ export default function Navbar() {
                 onClick={closeMenu}
                 className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors motion-reduce:transition-none ${
                   active
-                    ? "bg-brand/5 text-brand"
+                    ? "bg-brand/5 text-brand font-semibold"
                     : "text-muted hover:bg-brand/5 hover:text-brand"
                 }`}
               >
@@ -206,9 +233,9 @@ export default function Navbar() {
           <Link
             href="/contact?type=quote"
             onClick={closeMenu}
-            className="btn btn-primary mt-4 w-full sm:w-auto sm:self-start"
+            className="mt-4 flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#D4A95A] via-[#C9A365] to-[#B88738] px-6 py-3 text-sm font-semibold text-brand shadow-md w-full sm:w-auto sm:self-start border border-accent/50"
           >
-            Get a Quote
+            <span>Get a Quote</span>
             <ArrowIcon />
           </Link>
         </nav>
@@ -220,15 +247,16 @@ export default function Navbar() {
 function ArrowIcon() {
   return (
     <svg
-      width="16"
-      height="16"
+      width="15"
+      height="15"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.7"
+      strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
+      className="transition-transform duration-300 group-hover:translate-x-1"
     >
       <path d="M5 12h14" />
       <path d="m12 5 7 7-7 7" />

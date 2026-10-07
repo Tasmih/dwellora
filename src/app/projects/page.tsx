@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import PublicProjectCard, {
   type PublicProject,
 } from "@/components/PublicProjectCard";
@@ -213,6 +214,8 @@ export default async function ProjectsPage({ searchParams }: PageProps) {
           </div>
         </section>
       </main>
+
+      <Footer />
     </>
   );
 }

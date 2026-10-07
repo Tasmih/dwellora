@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import AboutClient from "./AboutClient";
 import Loading from "@/components/common/Loading";
 
@@ -46,6 +47,7 @@ export default function AboutPage() {
           <AboutClient />
         </Suspense>
       </main>
+      <Footer />
     </>
   );
 }

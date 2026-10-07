@@ -449,7 +449,7 @@ export default function ContactClient() {
                   "Dedicated Design Consultation & Guidance",
                   "Attention To Detail From Concept To Completion",
                   "Transparent Timelines & Milestone Updates",
-                  "Long-Term Structural & Craftsmanship Warranty",
+                  "10-Year Craft Warranty",
                 ].map((point) => (
                   <li
                     key={point}
