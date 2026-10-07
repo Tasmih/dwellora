@@ -5,7 +5,7 @@ import { useState } from "react";
 import { FiHome } from "react-icons/fi";
 import { getSafeImageSrc } from "@/lib/url";
 
-type SafeImageProps = Omit<ImageProps, "onError" | "src"> & {
+type SafeImageProps = Omit<ImageProps, "onError" | "src" | "onLoad"> & {
   src?: string | null;
   fallbackTitle?: string;
   thumbnailWidth?: number;
@@ -23,6 +23,7 @@ export default function SafeImage({
   ...props
 }: SafeImageProps) {
   const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Validate, sanitize, and auto-optimize Cloudinary / CDN sources
   const safeSrc = getSafeImageSrc(src, thumbnailWidth);
@@ -31,7 +32,7 @@ export default function SafeImage({
   if (error || !safeSrc) {
     return (
       <div
-        className={`flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-brand/90 to-brand p-6 text-center text-background ${className}`}
+        className={`flex h-full w-full flex-col items-center justify-center bg-[#0F2F2A] p-6 text-center text-background ${className}`}
         role="img"
         aria-label={alt || fallbackTitle || "Dwellora renovation"}
       >
@@ -51,7 +52,7 @@ export default function SafeImage({
   }
 
   // Determine optimal loading strategy
-  const computedLoading = priority ? "eager" : loading || "lazy";
+  const computedLoading = priority ? undefined : (loading || "lazy");
   // Responsive default sizes for fill layout if not explicitly provided
   const computedSizes =
     props.fill && !sizes
@@ -59,15 +60,31 @@ export default function SafeImage({
       : sizes;
 
   return (
-    <Image
-      src={safeSrc}
-      alt={alt || fallbackTitle || "Dwellora renovation and custom carpentry"}
-      className={className}
-      priority={priority}
-      loading={computedLoading}
-      sizes={computedSizes}
-      onError={() => setError(true)}
-      {...props}
-    />
+    <>
+      {/* Skeleton Shimmer Loading Placeholder */}
+      {isLoading && (
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 z-0 bg-neutral-200/80 dark:bg-neutral-800/60 animate-pulse pointer-events-none"
+        />
+      )}
+
+      <Image
+        src={safeSrc}
+        alt={alt || fallbackTitle || "Dwellora renovation and custom carpentry"}
+        className={`${className} transition-opacity duration-300 ${
+          isLoading ? "opacity-0" : "opacity-100"
+        }`}
+        priority={priority}
+        loading={computedLoading}
+        sizes={computedSizes}
+        onLoad={() => setIsLoading(false)}
+        onError={() => {
+          setIsLoading(false);
+          setError(true);
+        }}
+        {...props}
+      />
+    </>
   );
 }

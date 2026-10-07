@@ -64,20 +64,23 @@ export function getSafeImageSrc(
       url.hostname.includes("cloudinary.com") &&
       url.pathname.includes("/image/upload/")
     ) {
-      // If not already transformed with f_auto or q_auto
-      if (
-        !url.pathname.includes("/f_auto") &&
-        !url.pathname.includes("q_auto") &&
-        !url.pathname.includes("/c_") &&
-        !url.pathname.includes("/w_")
-      ) {
-        const transform = width
-          ? `f_auto,q_auto,w_${width},c_limit`
-          : "f_auto,q_auto";
-        url.pathname = url.pathname.replace(
-          "/image/upload/",
-          `/image/upload/${transform}/`
-        );
+      if (!url.pathname.includes("f_auto") || !url.pathname.includes("q_auto")) {
+        const parts = url.pathname.split("/image/upload/");
+        const existingParams = parts[1] ? parts[1].split("/")[0] : "";
+        const isParamFolder = existingParams.includes(",") || existingParams.includes("_");
+        
+        if (isParamFolder) {
+          const newParams = `${existingParams}${!existingParams.includes("f_auto") ? ",f_auto" : ""}${!existingParams.includes("q_auto") ? ",q_auto" : ""}${width && !existingParams.includes("w_") ? `,w_${width}` : ""}`;
+          url.pathname = url.pathname.replace(`/image/upload/${existingParams}/`, `/image/upload/${newParams}/`);
+        } else {
+          const transform = width
+            ? `f_auto,q_auto,w_${width},c_limit`
+            : "f_auto,q_auto";
+          url.pathname = url.pathname.replace(
+            "/image/upload/",
+            `/image/upload/${transform}/`
+          );
+        }
       }
     }
 
@@ -100,5 +103,47 @@ export function getSafeImageSrc(
     return url.toString();
   } catch {
     return null;
+  }
+}
+
+/**
+ * Safe video URL helper. Ensures HTTPS and injects Cloudinary auto-codec
+ * and compression transformations (f_auto,q_auto,vc_auto) where applicable.
+ */
+export function getSafeVideoSrc(src?: string | null): string {
+  if (!src || typeof src !== "string") return "";
+  const trimmed = src.trim();
+  if (!trimmed) return "";
+
+  if (trimmed.startsWith("/")) return trimmed;
+
+  try {
+    const url = new URL(trimmed);
+    if (url.protocol !== "http:" && url.protocol !== "https:") return trimmed;
+
+    if (
+      url.hostname.includes("cloudinary.com") &&
+      url.pathname.includes("/video/upload/")
+    ) {
+      if (!url.pathname.includes("q_auto") && !url.pathname.includes("f_auto")) {
+        const parts = url.pathname.split("/video/upload/");
+        const existingParams = parts[1] ? parts[1].split("/")[0] : "";
+        const isParamFolder = existingParams.includes(",") || existingParams.includes("_");
+
+        if (isParamFolder) {
+          const newParams = `${existingParams}${!existingParams.includes("q_auto") ? ",q_auto" : ""}${!existingParams.includes("f_auto") ? ",f_auto" : ""}`;
+          url.pathname = url.pathname.replace(`/video/upload/${existingParams}/`, `/video/upload/${newParams}/`);
+        } else {
+          url.pathname = url.pathname.replace(
+            "/video/upload/",
+            "/video/upload/q_auto,f_auto/"
+          );
+        }
+      }
+    }
+
+    return url.toString();
+  } catch {
+    return trimmed;
   }
 }

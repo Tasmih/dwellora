@@ -201,7 +201,7 @@ export default async function CategoryPage({ params }: PageProps) {
           {/* Right Image */}
           {category.image && (
             <div className="min-w-0 w-full">
-              <div className="relative h-[300px] sm:h-[360px] lg:h-[420px] w-full overflow-hidden bg-surface">
+              <div className="relative h-[300px] sm:h-[360px] lg:h-[420px] w-full overflow-hidden rounded-2xl border border-border/80 bg-neutral-100 dark:bg-neutral-900/40 shadow-md">
                 <SafeImage
                   src={category.image}
                   alt={category.name}

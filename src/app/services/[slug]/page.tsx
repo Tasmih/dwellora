@@ -324,14 +324,14 @@ export default async function ServiceDetailsPage({ params }: PageProps) {
 
             {/* Right: Service Image */}
             <div className="w-full lg:col-span-5">
-              <div className="relative h-[320px] sm:h-[380px] lg:h-[440px] w-full overflow-hidden bg-surface">
+              <div className="relative h-[320px] sm:h-[380px] lg:h-[440px] w-full overflow-hidden rounded-2xl border border-border/80 bg-neutral-100 dark:bg-neutral-900/40 shadow-md">
                 <SafeImage
                   src={service.image}
                   alt={service.title}
                   fallbackTitle={service.title}
                   fill
                   priority
-                  sizes="(min-width: 1024px) 42vw, 100vw"
+                  sizes="(min-width: 1024px) 45vw, 100vw"
                   className="object-cover object-center"
                 />
               </div>

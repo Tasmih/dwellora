@@ -7,6 +7,7 @@ import SafeImage from "@/components/SafeImage";
 import PublicProjectCard, {
   type PublicProject,
 } from "@/components/PublicProjectCard";
+import { getSafeVideoSrc } from "@/lib/url";
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
@@ -113,7 +114,7 @@ export default async function ProjectsPage({ searchParams }: PageProps) {
               preload="metadata"
               className="h-full w-full object-cover object-center scale-105"
             >
-              <source src={HERO_VIDEO} type="video/mp4" />
+              <source src={getSafeVideoSrc(HERO_VIDEO)} type="video/mp4" />
             </video>
 
             {/* Directional gradient overlay: soft readability gradient on left, clear on right */}

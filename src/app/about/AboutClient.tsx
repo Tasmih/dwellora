@@ -16,6 +16,7 @@ import {
   FiArrowRight,
 } from "react-icons/fi";
 import SafeImage from "@/components/SafeImage";
+import { getSafeVideoSrc } from "@/lib/url";
 
 const HERO_IMAGE =
   "https://res.cloudinary.com/rh4jhmw7/image/upload/v1791325031/premiun-interior.jpg";
@@ -808,19 +809,21 @@ export default function AboutClient() {
           aria-hidden="true"
           className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
         >
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            className="h-full w-full object-cover object-center scale-105"
-          >
-            <source
-              src="https://res.cloudinary.com/rh4jhmw7/video/upload/v1791376864/Hero.mp4"
-              type="video/mp4"
-            />
-          </video>
+          {ctaVisible && (
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="h-full w-full object-cover object-center scale-105"
+            >
+              <source
+                src={getSafeVideoSrc("https://res.cloudinary.com/rh4jhmw7/video/upload/v1791376864/Hero.mp4")}
+                type="video/mp4"
+              />
+            </video>
+          )}
 
           {/* Lighter, balanced cinematic overlay (~30-35% opacity) keeping video clearly visible */}
           <div className="absolute inset-0 bg-black/30" />

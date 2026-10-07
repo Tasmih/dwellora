@@ -1,6 +1,10 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { FiArrowRight, FiCheck } from "react-icons/fi";
 import SafeImage from "@/components/SafeImage";
+import { getSafeVideoSrc } from "@/lib/url";
 
 type CinematicCtaProps = {
   videoUrl?: string;
@@ -56,27 +60,63 @@ export default function CinematicCta({
   secondaryHref = "/projects",
   highlights = DEFAULT_HIGHLIGHTS,
 }: CinematicCtaProps) {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+
   const isVideo = isDirectVideoUrl(videoUrl);
-  const activeVideoUrl = isVideo ? videoUrl : DEFAULT_VIDEO;
+  const activeVideoUrl = isVideo ? getSafeVideoSrc(videoUrl) : getSafeVideoSrc(DEFAULT_VIDEO);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "350px" }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section
+      ref={sectionRef}
       aria-labelledby="cinematic-cta-heading"
       className="relative w-full overflow-hidden bg-neutral-950 mt-0 mb-0 min-h-[480px] sm:min-h-[520px] lg:min-h-[560px] flex flex-col justify-between"
     >
       {/* Background Media Layer (~85% visibility, natural renovation video clarity) */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {isVideo ? (
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            poster={fallbackImage}
-            src={activeVideoUrl}
-            className="h-full w-full object-cover object-center animate-slow-zoom-loop"
-          />
+          inView ? (
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="metadata"
+              poster={fallbackImage}
+              src={activeVideoUrl}
+              className="h-full w-full object-cover object-center animate-slow-zoom-loop"
+            />
+          ) : (
+            <div className="relative h-full w-full">
+              <SafeImage
+                src={fallbackImage}
+                alt="Dwellora bespoke architectural kitchen interior"
+                fallbackTitle="Bespoke Kitchen"
+                fill
+                priority={false}
+                sizes="100vw"
+                className="object-cover object-center"
+              />
+            </div>
+          )
         ) : (
           <div className="relative h-full w-full animate-slow-zoom-loop">
             <SafeImage

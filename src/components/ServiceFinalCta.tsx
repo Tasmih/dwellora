@@ -1,15 +1,39 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { FiArrowRight, FiPhone } from "react-icons/fi";
+import { getSafeVideoSrc } from "@/lib/url";
 
 const TEAM_WORKING_VIDEO =
   "https://res.cloudinary.com/rh4jhmw7/video/upload/v1791382624/teamworking.mp4";
 
 export default function ServiceFinalCta() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "350px" }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       aria-labelledby="service-final-cta-heading"
       className="relative w-full overflow-hidden bg-neutral-950 section-gap-top min-h-[460px] sm:min-h-[500px] lg:min-h-[540px] flex items-center justify-center"
     >
@@ -18,16 +42,18 @@ export default function ServiceFinalCta() {
         aria-hidden="true"
         className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
       >
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          className="h-full w-full object-cover object-center scale-105"
-        >
-          <source src={TEAM_WORKING_VIDEO} type="video/mp4" />
-        </video>
+        {inView && (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="h-full w-full object-cover object-center scale-105"
+          >
+            <source src={getSafeVideoSrc(TEAM_WORKING_VIDEO)} type="video/mp4" />
+          </video>
+        )}
 
         {/* Subtle, light overlay (rgba 0.25 - 0.35) to keep the video bright and crystal clear */}
         <div className="absolute inset-0 bg-black/30" />

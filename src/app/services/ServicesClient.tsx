@@ -10,6 +10,7 @@ import PublicServiceCard, {
 import Loading from "@/components/common/Loading";
 import SafeImage from "@/components/SafeImage";
 import { apiFetch } from "@/lib/api";
+import { getSafeVideoSrc } from "@/lib/url";
 
 const MEET_IMAGE =
   "https://res.cloudinary.com/rh4jhmw7/image/upload/v1791379836/meet.jpg";
@@ -100,7 +101,7 @@ export default function ServicesClient() {
             preload="metadata"
             className="h-full w-full object-cover object-center scale-105"
           >
-            <source src={HERO_VIDEO} type="video/mp4" />
+            <source src={getSafeVideoSrc(HERO_VIDEO)} type="video/mp4" />
           </video>
 
           {/* Directional gradient overlay: darker on left for text legibility, clear on right */}

@@ -1,14 +1,38 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { FiShield, FiFeather, FiCheck } from "react-icons/fi";
+import { getSafeVideoSrc } from "@/lib/url";
 
 const MATERIAL_VIDEO =
   "https://res.cloudinary.com/rh4jhmw7/video/upload/v1791381697/bestmaterial.mp4";
 
 export default function ServiceMaterialShowcase() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "350px" }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       aria-labelledby="material-showcase-heading"
       className="relative section-gap-top overflow-hidden rounded-3xl bg-[#081916] py-12 sm:py-14 lg:py-16 border border-border/30 shadow-[0_20px_50px_rgba(8,25,22,0.25)]"
     >
@@ -17,16 +41,18 @@ export default function ServiceMaterialShowcase() {
         aria-hidden="true"
         className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
       >
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          className="h-full w-full object-cover object-center scale-105"
-        >
-          <source src={MATERIAL_VIDEO} type="video/mp4" />
-        </video>
+        {inView && (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="h-full w-full object-cover object-center scale-105"
+          >
+            <source src={getSafeVideoSrc(MATERIAL_VIDEO)} type="video/mp4" />
+          </video>
+        )}
 
         {/* Lighter, balanced cinematic gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/30 to-black/45" />

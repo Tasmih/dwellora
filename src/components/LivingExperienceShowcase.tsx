@@ -1,15 +1,39 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { FiArrowRight, FiCompass } from "react-icons/fi";
+import { getSafeVideoSrc } from "@/lib/url";
 
 const VIDEO_URL =
   "https://res.cloudinary.com/rh4jhmw7/video/upload/v1791377565/LivingHeroRoom.mp4";
 
 export default function LivingExperienceShowcase() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "350px" }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       aria-labelledby="living-experience-heading"
       className="relative isolate overflow-hidden bg-[#081916] mt-4 sm:mt-6 lg:mt-8 py-12 sm:py-14 lg:py-16 border-y border-border/30"
     >
@@ -18,16 +42,18 @@ export default function LivingExperienceShowcase() {
         aria-hidden="true"
         className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
       >
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          className="h-full w-full object-cover object-center scale-105"
-        >
-          <source src={VIDEO_URL} type="video/mp4" />
-        </video>
+        {inView && (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="h-full w-full object-cover object-center scale-105"
+          >
+            <source src={getSafeVideoSrc(VIDEO_URL)} type="video/mp4" />
+          </video>
+        )}
 
         {/* Lighter, balanced cinematic gradient overlay (~30-35% opacity) */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/30 to-black/45" />

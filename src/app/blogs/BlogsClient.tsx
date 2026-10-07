@@ -11,6 +11,7 @@ import PublicBlogCard, {
 import Loading from "@/components/common/Loading";
 import SafeImage from "@/components/SafeImage";
 import { apiFetch } from "@/lib/api";
+import { getSafeVideoSrc } from "@/lib/url";
 
 const HERO_VIDEO =
   "https://res.cloudinary.com/rh4jhmw7/video/upload/v1791386167/home3.mp4";
@@ -108,7 +109,7 @@ export default function BlogsClient() {
             preload="metadata"
             className="h-full w-full object-cover object-center scale-105"
           >
-            <source src={HERO_VIDEO} type="video/mp4" />
+            <source src={getSafeVideoSrc(HERO_VIDEO)} type="video/mp4" />
           </video>
 
           {/* Directional gradient overlay: soft readability gradient on left, clear on right */}
