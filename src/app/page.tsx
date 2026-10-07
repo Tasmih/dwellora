@@ -3,6 +3,7 @@ import Hero, { type HeroContent } from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import ServicesSection from "@/components/Services";
 import TrustStats from "@/components/TrustStats";
+import LivingExperienceShowcase from "@/components/LivingExperienceShowcase";
 import WhyChooseDwellora from "@/components/WhyChooseDwellora";
 import FeaturedProjects from "@/components/FeaturedProjects";
 import ProjectVideoShowcase from "@/components/ProjectVideoShowcase";
@@ -108,6 +109,9 @@ export default async function Home() {
           servicesCount={services.length}
           projectsCount={projects.length}
         />
+
+        {/* Cinematic Living Room Craftsmanship Experience */}
+        <LivingExperienceShowcase />
 
         <ServicesSection services={services} />
 
