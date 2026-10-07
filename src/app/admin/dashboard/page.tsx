@@ -14,6 +14,7 @@ import {
   FiAlertCircle,
 } from "react-icons/fi";
 import { apiFetch } from "@/lib/api";
+import AnalyticsChart from "@/components/admin/AnalyticsChart";
 
 type StatsData = {
   services: number;
@@ -231,6 +232,9 @@ export default function AdminDashboardPage() {
           );
         })}
       </div>
+
+      {/* Recharts Analytics Visualization Section */}
+      <AnalyticsChart stats={stats} loading={loading} />
 
       {/* Quick Actions & Taxonomy */}
       <div className="rounded-3xl border border-border bg-surface p-6 sm:p-8 shadow-[0_4px_24px_rgba(25,53,50,0.03)]">
