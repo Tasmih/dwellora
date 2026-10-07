@@ -101,7 +101,7 @@ export async function generateMetadata({
   }
 
   const seo = blog.seo;
-  const title = seo?.metaTitle?.trim() || `${blog.title} | Dwellora Journal`;
+  const title = seo?.metaTitle?.trim() || `${blog.title} | Dwellora`;
   const description =
     seo?.metaDescription?.trim() ||
     blog.shortDescription?.trim() ||

@@ -141,7 +141,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const pageUrl = `${siteUrl}/projects/${encodeURIComponent(project.slug)}`;
 
   const pageTitle =
-    project.seo?.metaTitle?.trim() || `${project.title} | Portfolio | Dwellora`;
+    project.seo?.metaTitle?.trim() || `${project.title} | Dwellora`;
   const pageDescription =
     project.seo?.metaDescription?.trim() ||
     project.shortDescription?.trim() ||
@@ -152,7 +152,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const ogImage = project.seo?.ogImage?.trim() || project.coverImage;
 
   return {
-    title: pageTitle,
+    title: { absolute: pageTitle },
     description: pageDescription,
     keywords: project.seo?.keywords
       ? project.seo.keywords.split(",").map((k) => k.trim())
@@ -166,6 +166,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       url: pageUrl,
       type: "article",
       images: ogImage ? [{ url: ogImage, alt: project.title }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: ogTitle,
+      description: ogDescription,
+      images: ogImage ? [ogImage] : undefined,
     },
   };
 }
