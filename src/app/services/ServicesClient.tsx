@@ -21,6 +21,9 @@ type Category = {
   description?: string;
 };
 
+const HERO_VIDEO =
+  "https://res.cloudinary.com/rh4jhmw7/video/upload/v1791386224/home1.mp4";
+
 export default function ServicesClient() {
   const searchParams = useSearchParams();
   const selectedCategory = searchParams.get("category") || "";
@@ -79,72 +82,141 @@ export default function ServicesClient() {
 
   return (
     <main id="main-content">
-      <div className="site-container pt-4 pb-4 sm:pt-6 sm:pb-6 lg:pt-8">
-        {/* 1. Services Header Section */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-8 border-b border-border/80">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-accent">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
-              <span>BESPOKE DISCIPLINES</span>
-            </div>
+      {/* 1. Full-Width Cinematic Video Hero Section */}
+      <section
+        aria-labelledby="services-hero-heading"
+        className="relative w-full overflow-hidden bg-neutral-950 min-h-[480px] sm:min-h-[520px] lg:min-h-[560px] flex items-center justify-center border-b border-border/30"
+      >
+        {/* Background Autoplay Video */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
+        >
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="h-full w-full object-cover object-center scale-105"
+          >
+            <source src={HERO_VIDEO} type="video/mp4" />
+          </video>
 
-            <h1 className="mt-3 text-3xl font-bold tracking-tight text-brand sm:text-4xl lg:text-5xl leading-tight">
-              Our Renovation Services
-            </h1>
-
-            <p className="mt-3 text-sm sm:text-base leading-relaxed text-muted font-normal">
-              From bespoke cabinetry to architectural living transformations, explore how our master craft and space planning elevate every room in your home.
-            </p>
-          </div>
-
-          {/* Quick stats highlight pill */}
-          <div className="flex items-center gap-4 text-xs font-semibold text-brand self-start lg:self-auto bg-surface border border-border/90 px-4 py-2.5 rounded-2xl shadow-xs">
-            <div className="flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-accent" />
-              <span>{services.length > 0 ? `${services.length} Specialized Offerings` : "Bespoke Services"}</span>
-            </div>
-            <span className="text-border">|</span>
-            <span className="text-muted font-normal">100% Custom Joinery</span>
-          </div>
+          {/* Directional gradient overlay: darker on left for text legibility, clear on right */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/30 lg:from-black/85 lg:via-black/45 lg:to-black/20" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/35" />
         </div>
 
-        {/* 2. Compact, Elegant Category Navigation Tabs */}
-        {categories.length > 0 && (
-          <nav
-            aria-label="Filter services by category"
-            className="mt-6 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none"
-          >
-            <Link
-              href="/services"
-              className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-medium tracking-wide transition-all ${
-                !selectedCategory
-                  ? "bg-brand text-white border border-brand shadow-xs font-semibold"
-                  : "border border-border/80 bg-surface/90 text-muted hover:border-brand/40 hover:text-brand"
-              }`}
-            >
-              {!selectedCategory && <span className="h-1.5 w-1.5 rounded-full bg-accent" />}
-              <span>All Disciplines</span>
-            </Link>
+        {/* Gold Rim Accents */}
+        <div
+          aria-hidden="true"
+          className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent z-10"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent z-10"
+        />
 
-            {categories.map((cat) => {
-              const active = selectedCategory === cat.slug;
-              return (
-                <Link
-                  key={cat.slug}
-                  href={`/services?category=${encodeURIComponent(cat.slug)}`}
-                  className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-medium tracking-wide transition-all ${
-                    active
-                      ? "bg-brand text-white border border-brand shadow-xs font-semibold"
-                      : "border border-border/80 bg-surface/90 text-muted hover:border-brand/40 hover:text-brand"
-                  }`}
-                >
-                  {active && <span className="h-1.5 w-1.5 rounded-full bg-accent" />}
-                  <span>{cat.name}</span>
-                </Link>
-              );
-            })}
-          </nav>
-        )}
+        {/* Hero Content Layer */}
+        <div className="site-container relative z-10 py-16 sm:py-20 lg:py-24">
+          <div className="max-w-3xl text-center sm:text-left">
+            {/* Eyebrow Pill */}
+            <div className="inline-flex items-center gap-2 rounded-full border border-accent/60 bg-black/50 px-4 py-1.5 backdrop-blur-md shadow-md">
+              <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
+              <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-accent">
+                RENOVATION &amp; CARPENTRY
+              </span>
+            </div>
+
+            {/* Main Heading */}
+            <h1
+              id="services-hero-heading"
+              className="mt-4 sm:mt-5 text-3xl sm:text-4xl lg:text-5xl xl:text-[54px] font-bold tracking-tight text-[#F8F5EE] drop-shadow-[0_2px_14px_rgba(0,0,0,0.8)] leading-[1.15] text-balance"
+            >
+              Transform Your Home With Thoughtful Design &amp; Expert Craftsmanship
+            </h1>
+
+            {/* Description */}
+            <p className="mt-4 max-w-2xl text-sm sm:text-base lg:text-lg leading-relaxed text-[#EDE8DF] drop-shadow-[0_1px_8px_rgba(0,0,0,0.7)] font-normal">
+              From complete home renovations to custom carpentry solutions, we create refined spaces built around your lifestyle.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="mt-8 flex flex-col sm:flex-row items-center gap-4 justify-center sm:justify-start">
+              <a
+                href="#services-list"
+                className="group btn bg-accent text-brand font-semibold shadow-xl hover:bg-white hover:text-brand hover:scale-105 hover:shadow-2xl transition-all duration-300 w-full sm:w-auto px-7 py-3.5 text-sm sm:text-base border border-accent inline-flex items-center justify-center gap-2.5"
+              >
+                <span>Explore Our Services</span>
+                <FiArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5 text-brand" />
+              </a>
+
+              <Link
+                href="/contact?type=quote"
+                className="btn border border-white/60 bg-black/30 text-[#F8F5EE] backdrop-blur-sm hover:border-white hover:bg-white hover:text-brand hover:scale-105 transition-all duration-300 w-full sm:w-auto px-7 py-3.5 text-sm sm:text-base font-medium inline-flex items-center justify-center shadow-md"
+              >
+                <span>Request a Quote</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. Main Services Listing Area */}
+      <div id="services-list" className="site-container pt-10 pb-4 sm:pt-12 sm:pb-6 scroll-mt-20">
+        {/* Category Navigation Tabs & Count Header */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-border/80">
+          {/* Category Filter Tabs */}
+          {categories.length > 0 ? (
+            <nav
+              aria-label="Filter services by category"
+              className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none"
+            >
+              <Link
+                href="/services#services-list"
+                className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-medium tracking-wide transition-all ${
+                  !selectedCategory
+                    ? "bg-brand text-white border border-brand shadow-xs font-semibold"
+                    : "border border-border/80 bg-surface/90 text-muted hover:border-brand/40 hover:text-brand"
+                }`}
+              >
+                {!selectedCategory && <span className="h-1.5 w-1.5 rounded-full bg-accent" />}
+                <span>All Disciplines</span>
+              </Link>
+
+              {categories.map((cat) => {
+                const active = selectedCategory === cat.slug;
+                return (
+                  <Link
+                    key={cat.slug}
+                    href={`/services?category=${encodeURIComponent(cat.slug)}#services-list`}
+                    className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-medium tracking-wide transition-all ${
+                      active
+                        ? "bg-brand text-white border border-brand shadow-xs font-semibold"
+                        : "border border-border/80 bg-surface/90 text-muted hover:border-brand/40 hover:text-brand"
+                    }`}
+                  >
+                    {active && <span className="h-1.5 w-1.5 rounded-full bg-accent" />}
+                    <span>{cat.name}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+          ) : (
+            <div />
+          )}
+
+          {/* Discipline count badge */}
+          <div className="flex items-center gap-2 text-xs font-semibold text-brand self-start md:self-auto bg-surface border border-border/90 px-3.5 py-1.5 rounded-full shadow-xs">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+            <span>
+              {services.length > 0
+                ? `${services.length} ${currentCategoryObj ? currentCategoryObj.name : "Specialized"} Offerings`
+                : "Bespoke Services"}
+            </span>
+          </div>
+        </div>
 
         {/* 3. Content Area with Loading, Error, Empty, and Services States */}
         {loading ? (
@@ -226,10 +298,10 @@ export default function ServicesClient() {
       {/* Full-Width Luxury Consultation CTA Section with meet.jpg Background */}
       <section
         aria-labelledby="consultation-cta-heading"
-        className="relative w-full overflow-hidden bg-neutral-950 mt-20 lg:mt-28 min-h-[460px] sm:min-h-[500px] lg:min-h-[540px] flex items-center justify-center"
+        className="relative w-full overflow-hidden bg-neutral-950 mt-20 lg:mt-28 mb-10 sm:mb-14 lg:mb-16 min-h-[460px] sm:min-h-[500px] lg:min-h-[540px] flex items-center justify-center border-b border-border/30"
       >
-        {/* Background Image Layer with Next/Image and balanced overlay */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* Background Image Layer with Next/Image and balanced 35%-45% overlay */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <SafeImage
             src={MEET_IMAGE}
             alt="Dwellora bespoke renovation design and carpentry consultation"
@@ -240,18 +312,10 @@ export default function ServicesClient() {
             className="object-cover object-center scale-105"
           />
 
-          {/* Soft, balanced dark gradient overlay so the photo remains clearly visible */}
+          {/* Lighter cinematic overlay (35%-45%) so the image details are clearly visible */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-black/45"
-          />
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-black/40 pointer-events-none"
-          />
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(8,25,22,0.4)_0%,transparent_80%)] pointer-events-none"
+            className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/35 to-black/40 pointer-events-none"
           />
         </div>
 
