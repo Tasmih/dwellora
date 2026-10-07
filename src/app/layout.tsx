@@ -94,6 +94,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  verification: {
+    google: "d3Os-h8-jrTvFmW5wyy9cjtTrlpryHOWjlgCuSSztHM",
+  },
 };
 
 const structuredData = {
