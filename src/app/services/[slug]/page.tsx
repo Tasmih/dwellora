@@ -50,7 +50,7 @@ const getService = cache(async (slug: string): Promise<ServiceDetails | null> =>
   const response = await fetch(
     `${API_URL}/api/services/slug/${encodeURIComponent(slug)}`,
     {
-      cache: "no-store",
+      next: { revalidate: 60 },
     }
   );
 
@@ -78,7 +78,7 @@ async function getRelatedServices(
     if (categorySlug) {
       const res = await fetch(
         `${API_URL}/api/services?category=${encodeURIComponent(categorySlug)}`,
-        { cache: "no-store" }
+        { next: { revalidate: 60 } }
       );
       if (res.ok) {
         const data = await res.json();
@@ -97,7 +97,7 @@ async function getRelatedServices(
 
     // Fill remaining slots from all published services
     const allRes = await fetch(`${API_URL}/api/services`, {
-      cache: "no-store",
+      next: { revalidate: 60 },
     });
     if (!allRes.ok) {
       return { list: sameCategoryServices, isMixedCategories: false };

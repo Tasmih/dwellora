@@ -61,7 +61,7 @@ const getProject = cache(async (slug: string): Promise<ProjectDetails | null> =>
     const response = await fetch(
       `${API_URL}/api/projects/slug/${encodeURIComponent(slug)}`,
       {
-        cache: "no-store",
+        next: { revalidate: 60 },
       }
     );
 
@@ -91,7 +91,7 @@ async function getRelatedProjects(
     if (categorySlug) {
       const res = await fetch(
         `${API_URL}/api/projects?category=${encodeURIComponent(categorySlug)}`,
-        { cache: "no-store" }
+        { next: { revalidate: 60 } }
       );
       if (res.ok) {
         const data = await res.json();
@@ -107,7 +107,7 @@ async function getRelatedProjects(
 
     // Fill remaining from all projects
     const allRes = await fetch(`${API_URL}/api/projects`, {
-      cache: "no-store",
+      next: { revalidate: 60 },
     });
     if (allRes.ok) {
       const allData = await allRes.json();

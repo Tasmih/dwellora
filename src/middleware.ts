@@ -2,7 +2,9 @@ import { NextResponse, type NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const token = request.cookies.get("admin_token")?.value;
+  const token =
+    request.cookies.get("admin_token")?.value ||
+    request.cookies.get("admin_session")?.value;
 
   const isLoginPage = pathname === "/admin/login";
   const isAdminRoute = pathname.startsWith("/admin");

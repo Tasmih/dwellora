@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { apiFetch } from "@/lib/api";
+import { apiFetch, setStoredToken } from "@/lib/api";
 import { showSuccess, showError } from "@/lib/alert";
 
 const menuItems = [
@@ -44,10 +44,19 @@ export default function AdminSidebar() {
       await apiFetch("/api/auth/logout", {
         method: "POST",
       });
+      setStoredToken(null);
+      const isHttps =
+        typeof window !== "undefined" && window.location.protocol === "https:";
+      document.cookie = `admin_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax${
+        isHttps ? "; Secure" : ""
+      }`;
       showSuccess("Logged out successfully");
       router.push("/admin/login");
       router.refresh();
     } catch {
+      setStoredToken(null);
+      document.cookie =
+        "admin_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
       showError("Failed to log out. Please try again.");
     } finally {
       setLoggingOut(false);

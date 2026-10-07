@@ -47,7 +47,7 @@ const getBlog = cache(async (slug: string): Promise<BlogDetails | null> => {
     const response = await fetch(
       `${API_URL}/api/blogs/slug/${encodeURIComponent(slug)}`,
       {
-        cache: "no-store",
+        next: { revalidate: 60 },
       }
     );
 
@@ -72,7 +72,7 @@ async function getRelatedBlogs(
 ): Promise<PublicBlog[]> {
   try {
     const res = await fetch(`${API_URL}/api/blogs`, {
-      cache: "no-store",
+      next: { revalidate: 60 },
     });
     if (res.ok) {
       const data = await res.json();

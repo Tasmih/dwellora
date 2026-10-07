@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 async function getCategories(): Promise<Category[]> {
   try {
     const res = await fetch(`${API_URL}/api/categories`, {
-      cache: "no-store",
+      next: { revalidate: 60 },
     });
     if (!res.ok) return [];
     const data = await res.json();
@@ -49,7 +49,7 @@ async function getProjects(categorySlug?: string): Promise<PublicProject[]> {
     : `${API_URL}/api/projects`;
 
   const response = await fetch(url, {
-    cache: "no-store",
+    next: { revalidate: 60 },
   });
 
   if (!response.ok) {

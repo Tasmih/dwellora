@@ -22,14 +22,44 @@ type ServicesDropdownProps = {
   onNavigate?: () => void;
 };
 
+let cachedNavCategories: NavCategoryItem[] | null = null;
+let categoryFetchPromise: Promise<NavCategoryItem[]> | null = null;
+
+async function fetchNavCategories(): Promise<NavCategoryItem[]> {
+  if (cachedNavCategories) {
+    return cachedNavCategories;
+  }
+  if (!categoryFetchPromise) {
+    categoryFetchPromise = fetch(`${API_URL}/api/categories`, {
+      next: { revalidate: 120 },
+    })
+      .then(async (res) => {
+        if (!res.ok) throw new Error("Failed to fetch categories");
+        const data = await res.json();
+        cachedNavCategories = data.categories || [];
+        return cachedNavCategories!;
+      })
+      .catch((err) => {
+        console.warn("Could not load published categories for navbar:", err);
+        return [];
+      })
+      .finally(() => {
+        categoryFetchPromise = null;
+      });
+  }
+  return categoryFetchPromise;
+}
+
 export default function ServicesDropdown({
   isMobile = false,
   active,
   onNavigate,
 }: ServicesDropdownProps) {
   const [open, setOpen] = useState(false);
-  const [categories, setCategories] = useState<NavCategoryItem[]>([]);
-  const [loaded, setLoaded] = useState(false);
+  const [categories, setCategories] = useState<NavCategoryItem[]>(
+    cachedNavCategories || []
+  );
+  const [loaded, setLoaded] = useState(Boolean(cachedNavCategories));
 
   const containerRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -37,24 +67,14 @@ export default function ServicesDropdown({
   useEffect(() => {
     let isMounted = true;
 
-    fetch(`${API_URL}/api/categories`, {
-      cache: "no-store",
-    })
-      .then(async (res) => {
-        if (!res.ok) throw new Error("Failed to fetch categories");
-        const data = await res.json();
+    if (!cachedNavCategories) {
+      fetchNavCategories().then((cats) => {
         if (isMounted) {
-          setCategories(data.categories || []);
-          setLoaded(true);
-        }
-      })
-      .catch((err) => {
-        console.warn("Could not load published categories for navbar:", err);
-        if (isMounted) {
-          setCategories([]);
+          setCategories(cats);
           setLoaded(true);
         }
       });
+    }
 
     return () => {
       isMounted = false;

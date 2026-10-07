@@ -24,7 +24,7 @@ const heroContent: HeroContent = {
 async function getFeaturedServices(): Promise<PublicService[]> {
   try {
     const response = await fetch(`${API_URL}/api/services`, {
-      cache: "no-store",
+      next: { revalidate: 60 },
     });
 
     if (!response.ok) return [];

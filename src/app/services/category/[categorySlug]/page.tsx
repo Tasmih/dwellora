@@ -34,7 +34,7 @@ const getCategory = cache(
     const response = await fetch(
       `${API_URL}/api/categories/slug/${encodeURIComponent(slug)}`,
       {
-        cache: "no-store",
+        next: { revalidate: 60 },
       }
     );
 
@@ -59,7 +59,7 @@ async function getCategoryServices(
   const response = await fetch(
     `${API_URL}/api/services?category=${encodeURIComponent(categorySlug)}`,
     {
-      cache: "no-store",
+      next: { revalidate: 60 },
     }
   );
 

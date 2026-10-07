@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { setStoredToken } from "@/lib/api";
+
 export default function LoginForm() {
   const router = useRouter();
 
@@ -32,21 +34,30 @@ export default function LoginForm() {
           },
           credentials: "include",
           body: JSON.stringify({
-            email,
+            email: email.trim().toLowerCase(),
             password,
           }),
         }
       );
 
       const data = await response.json();
-      console.log("Login response:", data);
 
       if (!response.ok) {
         throw new Error(data.message || "Login failed");
       }
 
-      router.push("/admin/dashboard");
+      if (data.token) {
+        setStoredToken(data.token);
+      }
 
+      const isHttps =
+        typeof window !== "undefined" && window.location.protocol === "https:";
+      document.cookie = `admin_session=true; path=/; max-age=345600; SameSite=Lax${
+        isHttps ? "; Secure" : ""
+      }`;
+
+      router.push("/admin/dashboard");
+      router.refresh();
     } catch (error) {
       setError(
         error instanceof Error
