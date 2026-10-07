@@ -21,10 +21,10 @@ const DEFAULT_VIDEO =
 const DEFAULT_IMAGE = "https://i.ibb.co/YByqgqvB/Kitchen-Hood-Renovation.jpg";
 
 const DEFAULT_HIGHLIGHTS = [
-  "Custom kitchen cabinetry",
-  "Premium materials",
-  "Precision joinery",
-  "Modern kitchen transformation",
+  "Complimentary 3D Spatial Planning",
+  "Transparent Fixed-Cost Estimates",
+  "10-Year Craftsmanship Guarantee",
+  "Dedicated Project Manager",
 ];
 
 function isDirectVideoUrl(url?: string): boolean {
@@ -47,10 +47,10 @@ function isDirectVideoUrl(url?: string): boolean {
 export default function CinematicCta({
   videoUrl = DEFAULT_VIDEO,
   fallbackImage = DEFAULT_IMAGE,
-  eyebrow = "CINEMATIC KITCHEN SHOWCASE",
-  title = "Modern Kitchen Renovation Ideas for Contemporary Homes",
-  description = "Discover bespoke cabinetry, ergonomic kitchen layouts, hand-selected timber finishes, and precision joinery crafted for contemporary living.",
-  primaryLabel = "Request a Consultation",
+  eyebrow = "START YOUR RENOVATION JOURNEY",
+  title = "Ready to Transform Your Home with Bespoke Craftsmanship?",
+  description = "Book a complimentary design consultation with our senior interior architects and master joiners. We translate your lifestyle into timeless, functional spaces.",
+  primaryLabel = "Request a Free Consultation",
   primaryHref = "/contact?type=quote",
   secondaryLabel = "Explore Portfolio",
   secondaryHref = "/projects",

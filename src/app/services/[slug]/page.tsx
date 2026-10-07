@@ -10,6 +10,12 @@ import PublicServiceCard, {
   type PublicService,
 } from "@/components/PublicServiceCard";
 import SafeImage from "@/components/SafeImage";
+import ServiceOverviewShowcase from "@/components/ServiceOverviewShowcase";
+import ServiceWhatsIncluded from "@/components/ServiceWhatsIncluded";
+import ServiceRenovationProcess from "@/components/ServiceRenovationProcess";
+import ServiceWhyChooseDwellora from "@/components/ServiceWhyChooseDwellora";
+import ServiceMaterialShowcase from "@/components/ServiceMaterialShowcase";
+import ServiceFinalCta from "@/components/ServiceFinalCta";
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
@@ -226,297 +232,202 @@ export default async function ServiceDetailsPage({ params }: PageProps) {
     <>
       <Navbar />
 
-      <main className="site-container pt-3 pb-16 sm:pt-4 sm:pb-20 lg:pt-4 lg:pb-24">
-        {/* 1. Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="mb-5 sm:mb-6 lg:mb-8">
-          <ol className="flex flex-wrap items-center gap-2 text-sm font-normal text-muted">
-            <li>
-              <Link
-                href="/"
-                className="transition-colors hover:text-brand"
-              >
-                Home
-              </Link>
-            </li>
-            <li aria-hidden="true" className="text-border">
-              /
-            </li>
-            <li>
-              <Link
-                href="/services"
-                className="transition-colors hover:text-brand"
-              >
-                Services
-              </Link>
-            </li>
-
-            {service.category && (
-              <>
-                <li aria-hidden="true" className="text-border">
-                  /
-                </li>
-                <li>
-                  <Link
-                    href={`/services/category/${encodeURIComponent(
-                      service.category.slug
-                    )}`}
-                    className="transition-colors hover:text-brand"
-                  >
-                    {service.category.name}
-                  </Link>
-                </li>
-              </>
-            )}
-
-            <li aria-hidden="true" className="text-border">
-              /
-            </li>
-            <li
-              aria-current="page"
-              className="font-medium text-brand truncate max-w-xs sm:max-w-md"
-            >
-              {service.title}
-            </li>
-          </ol>
-        </nav>
-
-        {/* 2. Split Hero */}
-        <section
-          aria-labelledby="service-title-heading"
-          className="grid gap-8 lg:grid-cols-12 lg:gap-12 items-center"
-        >
-          {/* Left: Title, Intro & CTA */}
-          <div className="lg:col-span-7">
-            {service.category && (
-              <p className="text-xs lg:text-sm font-medium uppercase tracking-[0.25em] text-accent">
-                {service.category.name}
-              </p>
-            )}
-
-            <h1
-              id="service-title-heading"
-              className="mt-3 text-3xl font-bold tracking-tight text-brand sm:text-4xl lg:text-[56px] lg:leading-[1.1] max-w-2xl"
-            >
-              {service.title}
-            </h1>
-
-            <p className="mt-4 sm:mt-5 max-w-xl text-base leading-7 text-muted sm:text-lg sm:leading-8">
-              {heroIntro}
-            </p>
-
-            <div className="mt-6 sm:mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <a href="#consultation" className="btn btn-primary">
-                Book Consultation
-              </a>
-
-              <Link href="/services" className="btn btn-secondary">
-                View All Services
-              </Link>
-            </div>
-          </div>
-
-          {/* Right: Service Image */}
-          <div className="w-full lg:col-span-5">
-            <div className="relative h-[320px] sm:h-[380px] lg:h-[440px] w-full overflow-hidden bg-surface">
-              <SafeImage
-                src={service.image}
-                alt={service.title}
-                fallbackTitle={service.title}
-                fill
-                priority
-                sizes="(min-width: 1024px) 42vw, 100vw"
-                className="object-cover object-center"
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* 3, 4, 5. Overview + What's Included + Consultation Panel */}
-        <section className="mt-16 grid gap-12 lg:mt-24 lg:grid-cols-12 lg:gap-12">
-          {/* Main Content Column (Overview & What's Included) */}
-          <div className="lg:col-span-8 space-y-12">
-            {/* 3. Overview */}
-            <div className="rounded-2xl border border-border bg-surface p-6 sm:p-10">
-              <h2 className="text-xl font-semibold tracking-tight text-brand sm:text-2xl">
-                Service Overview
-              </h2>
-
-              <div className="mt-6 whitespace-pre-line text-base leading-8 text-foreground/90">
-                {service.description}
-              </div>
-            </div>
-
-            {/* 4. What's Included (omitted when empty) */}
-            {hasIncludedItems && (
-              <div className="rounded-2xl border border-border bg-surface p-6 sm:p-10">
-                <div className="max-w-xl">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
-                    Scope of Work
-                  </p>
-                  <h2 className="mt-2 text-xl font-semibold tracking-tight text-brand sm:text-2xl">
-                    What&apos;s Included
-                  </h2>
-                  <p className="mt-2 text-sm leading-6 text-muted">
-                    We provide transparent, end-to-end craftsmanship with no hidden surprises.
-                  </p>
-                </div>
-
-                <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                  {service.includedItems!.map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="flex gap-3.5 rounded-xl border border-border bg-background/50 p-5"
-                    >
-                      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent/20 text-brand">
-                        <FiCheck className="h-4 w-4 text-accent" />
-                      </div>
-
-                      <div>
-                        <h3 className="text-sm font-semibold text-brand">
-                          {item.title}
-                        </h3>
-
-                        {item.description && (
-                          <p className="mt-1 text-xs leading-5 text-muted">
-                            {item.description}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* 5. Consultation Panel (Beside overview on desktop, below on mobile) */}
-          <aside className="lg:col-span-4">
-            <div
-              id="consultation"
-              className="sticky top-28 rounded-2xl border border-border bg-surface p-6 sm:p-8 shadow-sm"
-            >
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
-                Consultation
-              </p>
-
-              <h2 className="mt-2 text-xl font-semibold text-brand">
-                Plan Your Renovation
-              </h2>
-
-              <p className="mt-3 text-sm leading-6 text-muted">
-                Discuss space planning, finishes and materials directly with our craftsmen. We offer upfront quotes and clear project timelines.
-              </p>
-
-              <div className="mt-6 space-y-3 border-t border-border pt-6">
-                <a
-                  href={`mailto:contact@dwellora.com?subject=Consultation%20Inquiry%20-%20${encodeURIComponent(
-                    service.title
-                  )}`}
-                  className="flex items-center gap-3 rounded-xl border border-border bg-background/60 p-3 text-sm font-medium text-brand transition-colors hover:border-accent hover:bg-background"
-                >
-                  <FiMail className="h-4 w-4 text-accent" />
-                  <span className="truncate">contact@dwellora.com</span>
-                </a>
-
-                <a
-                  href="tel:+15552345678"
-                  className="flex items-center gap-3 rounded-xl border border-border bg-background/60 p-3 text-sm font-medium text-brand transition-colors hover:border-accent hover:bg-background"
-                >
-                  <FiPhone className="h-4 w-4 text-accent" />
-                  <span>+1 (555) 234-5678</span>
-                </a>
-              </div>
-
-              <div className="mt-6">
+      <main id="main-content">
+        <div className="site-container pt-3 pb-4 sm:pt-4 sm:pb-6 lg:pt-4 lg:pb-8">
+          {/* 1. Breadcrumb */}
+          <nav aria-label="Breadcrumb" className="mb-5 sm:mb-6 lg:mb-8">
+            <ol className="flex flex-wrap items-center gap-2 text-sm font-normal text-muted">
+              <li>
                 <Link
-                  href="/contact?type=quote"
-                  className="btn btn-primary w-full text-center"
+                  href="/"
+                  className="transition-colors hover:text-brand"
                 >
-                  Request Consultation
+                  Home
+                </Link>
+              </li>
+              <li aria-hidden="true" className="text-border">
+                /
+              </li>
+              <li>
+                <Link
+                  href="/services"
+                  className="transition-colors hover:text-brand"
+                >
+                  Services
+                </Link>
+              </li>
+
+              {service.category && (
+                <>
+                  <li aria-hidden="true" className="text-border">
+                    /
+                  </li>
+                  <li>
+                    <Link
+                      href={`/services/category/${encodeURIComponent(
+                        service.category.slug
+                      )}`}
+                      className="transition-colors hover:text-brand"
+                    >
+                      {service.category.name}
+                    </Link>
+                  </li>
+                </>
+              )}
+
+              <li aria-hidden="true" className="text-border">
+                /
+              </li>
+              <li
+                aria-current="page"
+                className="font-medium text-brand truncate max-w-xs sm:max-w-md"
+              >
+                {service.title}
+              </li>
+            </ol>
+          </nav>
+
+          {/* 2. Split Hero */}
+          <section
+            aria-labelledby="service-title-heading"
+            className="grid gap-8 lg:grid-cols-12 lg:gap-12 items-center"
+          >
+            {/* Left: Title, Intro & CTA */}
+            <div className="lg:col-span-7">
+              {service.category && (
+                <p className="text-xs lg:text-sm font-medium uppercase tracking-[0.25em] text-accent">
+                  {service.category.name}
+                </p>
+              )}
+
+              <h1
+                id="service-title-heading"
+                className="mt-3 text-3xl font-bold tracking-tight text-brand sm:text-4xl lg:text-[56px] lg:leading-[1.1] max-w-2xl"
+              >
+                {service.title}
+              </h1>
+
+              <p className="mt-4 sm:mt-5 max-w-xl text-base leading-7 text-muted sm:text-lg sm:leading-8">
+                {heroIntro}
+              </p>
+
+              <div className="mt-6 sm:mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <Link href="/contact?type=quote" className="btn btn-primary">
+                  Book Consultation
+                </Link>
+
+                <Link href="/services" className="btn btn-secondary">
+                  View All Services
                 </Link>
               </div>
             </div>
-          </aside>
-        </section>
 
-        {/* 6. Up to Three Other Published Services (Omitted when none exist) */}
-        {relatedServices.length > 0 && (
-          <section
-            aria-labelledby="related-services-heading"
-            className="mt-20 border-t border-border pt-16 lg:mt-28"
-          >
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
-                  Explore More
-                </p>
-                <h2
-                  id="related-services-heading"
-                  className="mt-1 text-2xl font-semibold tracking-tight text-brand sm:text-3xl"
-                >
-                  {isMixedCategories || !service.category
-                    ? "Explore More Services"
-                    : `Other ${service.category.name}`}
-                </h2>
-              </div>
-
-              <Link
-                href="/services"
-                className="btn btn-secondary inline-flex self-start text-xs sm:self-auto"
-              >
-                View All Services &rarr;
-              </Link>
-            </div>
-
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {relatedServices.map((rel) => (
-                <PublicServiceCard
-                  key={rel._id || rel.slug}
-                  service={rel}
+            {/* Right: Service Image */}
+            <div className="w-full lg:col-span-5">
+              <div className="relative h-[320px] sm:h-[380px] lg:h-[440px] w-full overflow-hidden bg-surface">
+                <SafeImage
+                  src={service.image}
+                  alt={service.title}
+                  fallbackTitle={service.title}
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 42vw, 100vw"
+                  className="object-cover object-center"
                 />
-              ))}
+              </div>
             </div>
           </section>
-        )}
 
-        {/* 7. Dark Green Closing CTA */}
-        <section
-          aria-labelledby="closing-cta-heading"
-          className="mt-20 overflow-hidden rounded-3xl bg-brand p-8 text-background sm:p-12 lg:mt-28 lg:p-16"
-        >
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
-              Dwellora Craftsmanship
-            </p>
+          {/* 3. Service Overview Two-Column Showcase (Wood Craftsmanship & Team Discussion) */}
+          <ServiceOverviewShowcase
+            serviceTitle={service.title}
+            description={service.description}
+          />
 
-            <h2
-              id="closing-cta-heading"
-              className="mt-3 text-2xl font-semibold tracking-tight text-background sm:text-3xl lg:text-4xl"
+          {/* 4. What's Included (Two-Column Balanced Scope & Service Visual Showcase) */}
+          <ServiceWhatsIncluded
+            serviceTitle={service.title}
+            serviceImage={service.image}
+            includedItems={
+              hasIncludedItems
+                ? service.includedItems!
+                : [
+                    {
+                      title: "On-Site Consultation & Spatial Layout",
+                      description:
+                        "Detailed measurement, structural assessment, and personalized architectural planning.",
+                    },
+                    {
+                      title: "Custom 3D Rendering & Material Specs",
+                      description:
+                        "Photorealistic spatial previews and curated timber/hardware finish selections.",
+                    },
+                    {
+                      title: "Precision Fabrication & Joinery",
+                      description:
+                        "In-house bespoke carpentry crafted by master joiners with premium tolerances.",
+                    },
+                    {
+                      title: "Full Installation & Final Walkthrough",
+                      description:
+                        "Dust-controlled installation, fine adjustments, and full 10-year craft warranty.",
+                    },
+                  ]
+            }
+          />
+
+          {/* 5. Static "Our Renovation Process" Timeline Section */}
+          <ServiceRenovationProcess />
+
+          {/* 6. Static "Why Choose Dwellora" Section with bestproject_1.jpg */}
+          <ServiceWhyChooseDwellora />
+
+          {/* 7. Static Material Showcase Section with Cinematic Video */}
+          <ServiceMaterialShowcase />
+
+          {/* 8. Up to Three Other Published Services (Omitted when none exist) */}
+          {relatedServices.length > 0 && (
+            <section
+              aria-labelledby="related-services-heading"
+              className="mt-20 border-t border-border pt-16 lg:mt-28"
             >
-              Ready to transform your home with {service.title}?
-            </h2>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
+                    Explore More
+                  </p>
+                  <h2
+                    id="related-services-heading"
+                    className="mt-1 text-2xl font-semibold tracking-tight text-brand sm:text-3xl"
+                  >
+                    {isMixedCategories || !service.category
+                      ? "Explore More Services"
+                      : `Other ${service.category.name}`}
+                  </h2>
+                </div>
 
-            <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-background/80">
-              From concept to finished details, we bring architectural clarity and master carpentry to every residential space.
-            </p>
+                <Link
+                  href="/services"
+                  className="btn btn-secondary inline-flex self-start text-xs sm:self-auto"
+                >
+                  View All Services &rarr;
+                </Link>
+              </div>
 
-            <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <a
-                href="#consultation"
-                className="btn btn-primary w-full sm:w-auto"
-              >
-                Start Your Project
-              </a>
+              <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {relatedServices.map((rel) => (
+                  <PublicServiceCard
+                    key={rel._id || rel.slug}
+                    service={rel}
+                  />
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
 
-              <Link
-                href="/services"
-                className="btn btn-outline-light w-full sm:w-auto"
-              >
-                Browse All Services
-              </Link>
-            </div>
-          </div>
-        </section>
+        {/* 9. Full-Width Cinematic Video Consultation CTA Section */}
+        <ServiceFinalCta />
       </main>
 
       <Footer />

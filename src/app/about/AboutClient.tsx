@@ -797,98 +797,88 @@ export default function AboutClient() {
         </div>
       </section>
 
-      {/* 7. Why Choose Dwellora (Cinematic Video CTA) */}
+      {/* 7. Why Choose Dwellora (Full-Width Cinematic Video Hero CTA) */}
       <section
         ref={ctaRef}
         aria-label="Why choose Dwellora CTA"
-        className="relative overflow-hidden section-spacing scroll-mt-20 my-4 sm:my-8"
+        className="relative w-full overflow-hidden bg-neutral-950 min-h-[550px] lg:min-h-[600px] xl:min-h-[650px] flex items-center justify-center scroll-mt-20 mt-16 sm:mt-20 lg:mt-24"
       >
-        <div className="site-container">
+        {/* Background Autoplay Video */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
+        >
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="h-full w-full object-cover object-center scale-105"
+          >
+            <source
+              src="https://res.cloudinary.com/rh4jhmw7/video/upload/v1791376864/Hero.mp4"
+              type="video/mp4"
+            />
+          </video>
+
+          {/* Lighter, balanced cinematic overlay (~30-35% opacity) keeping video clearly visible */}
+          <div className="absolute inset-0 bg-black/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/40" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(8,25,22,0.35)_0%,transparent_80%)]" />
+        </div>
+
+        {/* Gold Rim Accents */}
+        <div
+          aria-hidden="true"
+          className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent z-10"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent z-10"
+        />
+
+        {/* Centered Content */}
+        <div className="relative z-10 mx-auto max-w-4xl px-6 py-16 sm:py-20 text-center flex flex-col items-center justify-center w-full">
           <div
-            className={`relative overflow-hidden rounded-3xl sm:rounded-[32px] border border-white/15 bg-[#081916] p-8 sm:p-14 lg:p-20 shadow-[0_20px_60px_rgba(8,25,22,0.35)] text-center transition-all duration-800 ease-out ${
+            className={`flex flex-col items-center w-full max-w-3xl transition-all duration-800 ease-out ${
               ctaVisible
                 ? "opacity-100 translate-y-0 scale-100"
                 : "opacity-0 translate-y-8 scale-[0.98]"
             }`}
           >
-            {/* Background Autoplay Video */}
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
-            >
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                className="h-full w-full object-cover object-center scale-105"
+            {/* Eyebrow Badge */}
+            <p className="inline-flex items-center gap-2 rounded-full border border-accent/60 bg-black/50 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-accent backdrop-blur-md shadow-md">
+              <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
+              <span>WHY CHOOSE DWELLORA</span>
+            </p>
+
+            {/* Heading */}
+            <h2 className="mt-4 sm:mt-5 text-3xl sm:text-4xl lg:text-5xl xl:text-[52px] font-bold tracking-tight text-[#F8F5EE] drop-shadow-[0_2px_14px_rgba(0,0,0,0.8)] text-balance leading-tight sm:leading-tight">
+              Ready to Transform Your Living Space?
+            </h2>
+
+            {/* Description */}
+            <p className="mx-auto mt-4 max-w-2xl text-base sm:text-lg leading-relaxed text-[#EDE8DF] drop-shadow-[0_1px_8px_rgba(0,0,0,0.7)] text-balance font-normal">
+              Whether you are planning a whole-home renovation or custom woodwork, we invite you to experience the Dwellora difference with a free architectural consultation.
+            </p>
+
+            {/* Buttons */}
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+              <Link
+                href="/contact"
+                className="group btn bg-accent text-brand font-semibold shadow-xl hover:bg-white hover:text-brand hover:scale-105 hover:shadow-2xl transition-all duration-300 w-full sm:w-auto px-8 py-3.5 text-base border border-accent inline-flex items-center justify-center gap-2.5"
               >
-                <source
-                  src="https://res.cloudinary.com/rh4jhmw7/video/upload/v1791376864/Hero.mp4"
-                  type="video/mp4"
-                />
-              </video>
+                <span>Book a Consultation</span>
+                <FiArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5 text-brand" />
+              </Link>
 
-              {/* Lighter, balanced cinematic overlay (~35% opacity) for vibrant video visibility */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/35 to-black/45" />
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(8,25,22,0.45)_0%,transparent_75%)]" />
-            </div>
-
-            {/* Foreground Content */}
-            <div className="relative z-10 mx-auto max-w-3xl">
-              <p
-                className={`inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-accent backdrop-blur-md transition-all duration-700 ease-out ${
-                  ctaVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-4"
-                }`}
+              <Link
+                href="/projects"
+                className="btn border border-white/60 bg-black/25 text-[#F8F5EE] backdrop-blur-sm hover:border-white hover:bg-white hover:text-brand hover:scale-105 transition-all duration-300 w-full sm:w-auto px-8 py-3.5 text-base shadow-md inline-flex items-center justify-center"
               >
-                <span>WHY CHOOSE DWELLORA</span>
-              </p>
-
-              <h2
-                className={`mt-4 text-3xl font-bold tracking-tight text-[#F8F5EE] sm:text-4xl lg:text-5xl drop-shadow-md text-balance leading-tight sm:leading-tight transition-all duration-700 ease-out delay-100 ${
-                  ctaVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-5"
-                }`}
-              >
-                Ready to Transform Your Living Space?
-              </h2>
-
-              <p
-                className={`mx-auto mt-4 max-w-2xl text-base leading-relaxed text-[#EDE8DF]/85 sm:text-lg drop-shadow-sm text-balance transition-all duration-700 ease-out delay-200 ${
-                  ctaVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-5"
-                }`}
-              >
-                Whether you are planning a whole-home renovation or custom woodwork, we invite you to experience the Dwellora difference with a free architectural consultation.
-              </p>
-
-              <div
-                className={`mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 transition-all duration-700 ease-out delay-300 ${
-                  ctaVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-5"
-                }`}
-              >
-                <Link
-                  href="/contact"
-                  className="group btn bg-accent text-brand font-semibold shadow-lg hover:bg-white hover:text-brand hover:scale-105 hover:shadow-2xl transition-all duration-300 w-full sm:w-auto px-8 py-3.5 text-sm sm:text-base border border-accent"
-                >
-                  <span>Book a Consultation</span>
-                  <FiArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
-                </Link>
-
-                <Link
-                  href="/projects"
-                  className="btn border border-white/50 bg-white/10 text-[#F8F5EE] backdrop-blur-md hover:border-white hover:bg-white hover:text-brand hover:scale-105 transition-all duration-300 w-full sm:w-auto px-8 py-3.5 text-sm sm:text-base shadow-md"
-                >
-                  <span>View Our Portfolio</span>
-                </Link>
-              </div>
+                <span>View Our Portfolio</span>
+              </Link>
             </div>
           </div>
         </div>

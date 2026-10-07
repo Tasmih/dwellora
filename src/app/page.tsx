@@ -6,8 +6,6 @@ import TrustStats from "@/components/TrustStats";
 import LivingExperienceShowcase from "@/components/LivingExperienceShowcase";
 import WhyChooseDwellora from "@/components/WhyChooseDwellora";
 import FeaturedProjects from "@/components/FeaturedProjects";
-import ProjectVideoShowcase from "@/components/ProjectVideoShowcase";
-import RenovationProcess from "@/components/RenovationProcess";
 import LatestBlogsSection from "@/components/LatestBlogsSection";
 import FAQSection from "@/components/FAQSection";
 import CinematicCta from "@/components/CinematicCta";
@@ -90,46 +88,39 @@ async function getHomeData(): Promise<{
 export default async function Home() {
   const { services, projects, blogs } = await getHomeData();
 
-  const featuredHomeVlog =
-    blogs.find(
-      (b) =>
-        b.title.toLowerCase().includes("complete home renovation") ||
-        (b.videoUrl && b.title.toLowerCase().includes("complete"))
-    ) ||
-    blogs.find((b) => b.videoUrl && b.videoUrl.trim().length > 0);
-
   return (
     <>
       <Navbar />
 
       <main id="main-content">
+        {/* 1. Hero */}
         <Hero content={heroContent} />
 
+        {/* 2. Trust Stats */}
         <TrustStats
           servicesCount={services.length}
           projectsCount={projects.length}
         />
 
-        {/* Cinematic Living Room Craftsmanship Experience */}
+        {/* 3. Cinematic Video Showcase */}
         <LivingExperienceShowcase />
 
+        {/* 4. Services */}
         <ServicesSection services={services} />
 
+        {/* 5. Why Choose Dwellora */}
         <WhyChooseDwellora />
 
+        {/* 6. Featured Projects */}
         <FeaturedProjects projects={projects} />
 
-        {/* Featured Vlog Tour: Complete Home Renovation Process */}
-        <ProjectVideoShowcase blog={featuredHomeVlog} />
-
-        <RenovationProcess />
-
+        {/* 7. Latest Blogs */}
         <LatestBlogsSection blogs={blogs} />
 
-        {/* Interactive Luxury FAQ Section */}
+        {/* 8. FAQ */}
         <FAQSection />
 
-        {/* Cinematic Kitchen Showcase CTA Banner */}
+        {/* 9. New Consultation CTA Section */}
         <CinematicCta />
       </main>
 
