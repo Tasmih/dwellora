@@ -13,7 +13,7 @@ import SafeImage from "@/components/SafeImage";
 import { apiFetch } from "@/lib/api";
 
 const HERO_IMAGE =
-  "https://res.cloudinary.com/rh4jhmw7/image/upload/v1791395080/home-makers-interior-oKCZ-yw2Bn0-unsplash.jpg";
+  "https://res.cloudinary.com/rh4jhmw7/image/upload/v1791395132/Premium_Wardrobe_Storage_Solution.jpg";
 
 const CTA_IMAGE =
   "https://res.cloudinary.com/rh4jhmw7/image/upload/v1791386789/home4.jpg";
