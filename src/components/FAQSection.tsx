@@ -111,19 +111,19 @@ export default function FAQSection() {
       className="site-container section-spacing"
     >
       {/* Section Header */}
-      <div className="mx-auto max-w-[680px] text-center">
+      <div className="mx-auto max-w-3xl text-center">
         <p className="section-eyebrow">
           Frequently Asked Questions
         </p>
 
         <h2
           id="faq-section-heading"
-          className="mb-2 text-2xl sm:text-3xl lg:text-[2.1rem] font-bold tracking-tight text-brand text-balance leading-snug sm:leading-tight"
+          className="section-title text-balance"
         >
           Answers to Your Renovation Inquiries
         </h2>
 
-        <p className="mx-auto max-w-[540px] text-sm leading-relaxed text-muted text-balance">
+        <p className="section-description text-balance">
           Clear answers on our architectural planning workflow, custom carpentry standards, project timelines, and warranty commitments.
         </p>
       </div>

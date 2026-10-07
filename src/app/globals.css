@@ -137,8 +137,14 @@
   }
 
   .section-title {
-    @apply mb-3 text-[32px] font-bold leading-[1.2] tracking-tight
-      text-brand sm:text-4xl sm:leading-[1.1] lg:text-[44px] xl:text-[48px];
+    font-family: var(--font-sans);
+    font-size: clamp(1.85rem, 3.2vw + 0.5rem, 2.75rem);
+    font-weight: 700;
+    line-height: 1.16;
+    letter-spacing: -0.025em;
+    color: #0F2F2A;
+    margin-bottom: 0.75rem;
+    text-wrap: balance;
   }
 
   .section-description {

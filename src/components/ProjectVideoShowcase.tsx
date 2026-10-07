@@ -46,12 +46,12 @@ export default function ProjectVideoShowcase({ blog }: ProjectVideoShowcaseProps
 
         <h2
           id="video-showcase-heading"
-          className="mx-auto max-w-[820px] mb-3 text-2xl sm:text-3xl lg:text-[34px] xl:text-[38px] font-bold tracking-tight text-brand text-balance leading-snug sm:leading-tight lg:leading-[1.18]"
+          className="section-title mx-auto max-w-[820px]"
         >
           {title}
         </h2>
 
-        <p className="mx-auto max-w-[680px] text-sm sm:text-base leading-relaxed text-muted text-balance mb-4 sm:mb-6">
+        <p className="section-description">
           {description}
         </p>
       </div>
