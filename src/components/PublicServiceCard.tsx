@@ -22,18 +22,19 @@ type PublicServiceCardProps = {
 export default function PublicServiceCard({ service }: PublicServiceCardProps) {
   const summary =
     service.shortDescription?.trim() ||
-    (service.description.length > 160
-      ? `${service.description.slice(0, 160).trim()}...`
+    (service.description.length > 150
+      ? `${service.description.slice(0, 150).trim()}...`
       : service.description);
 
   const href = `/services/${encodeURIComponent(service.slug)}`;
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 hover:shadow-lg">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border/80 bg-surface shadow-[0_4px_20px_rgba(25,53,50,0.03)] transition-all duration-500 hover:-translate-y-1.5 hover:border-accent/60 hover:shadow-[0_16px_40px_rgba(25,53,50,0.09)]">
+      {/* Image Container with category tag */}
       <Link
         href={href}
         aria-label={`Explore ${service.title}`}
-        className="relative block aspect-[16/10] overflow-hidden bg-background"
+        className="relative block aspect-[16/10] overflow-hidden bg-brand/5"
       >
         <SafeImage
           src={service.image}
@@ -41,42 +42,41 @@ export default function PublicServiceCard({ service }: PublicServiceCardProps) {
           fallbackTitle={service.title}
           fill
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
+          className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
         />
+
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none"
         />
+
+        {service.category && (
+          <span className="absolute top-3.5 left-3.5 z-10 inline-flex items-center gap-1.5 rounded-full border border-white/80 bg-white/95 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-brand shadow-sm backdrop-blur-md">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+            <span>{service.category.name}</span>
+          </span>
+        )}
       </Link>
 
-      <div className="flex flex-1 flex-col p-6">
-        {service.category && (
-          <div className="mb-2">
-            <Link
-              href={`/services/category/${encodeURIComponent(
-                service.category.slug
-              )}`}
-              className="inline-block text-[11px] font-semibold uppercase tracking-wider text-accent transition-colors hover:text-accent-hover"
-            >
-              {service.category.name}
+      {/* Content Container */}
+      <div className="flex flex-1 flex-col p-6 sm:p-7 justify-between">
+        <div>
+          <h3 className="text-lg sm:text-xl font-bold tracking-tight text-brand transition-colors group-hover:text-brand">
+            <Link href={href} className="hover:text-accent transition-colors">
+              {service.title}
             </Link>
-          </div>
-        )}
+          </h3>
 
-        <h3 className="text-lg sm:text-xl font-bold tracking-tight text-brand">
-          <Link href={href} className="transition-colors hover:text-brand-hover">
-            {service.title}
-          </Link>
-        </h3>
+          <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted font-normal">
+            {summary}
+          </p>
+        </div>
 
-        <p className="mt-3 line-clamp-3 text-sm leading-6 text-muted">
-          {summary}
-        </p>
-
-        <div className="mt-auto pt-6">
+        {/* Action button */}
+        <div className="mt-6 pt-5 border-t border-border/60">
           <Link
             href={href}
-            className="inline-flex min-h-11 w-full items-center justify-between rounded-full border border-brand bg-transparent px-6 py-3 text-sm font-semibold text-brand transition-all duration-300 hover:bg-brand hover:text-white hover:shadow-sm group/btn"
+            className="inline-flex min-h-11 w-full items-center justify-between rounded-xl border border-border bg-background/60 px-5 py-2.5 text-xs sm:text-sm font-semibold text-brand transition-all duration-300 group-hover:border-brand group-hover:bg-brand group-hover:text-white group-hover:shadow-md"
           >
             <span>Explore Service</span>
             <svg
@@ -88,7 +88,7 @@ export default function PublicServiceCard({ service }: PublicServiceCardProps) {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="transition-transform duration-200 group-hover/btn:translate-x-1"
+              className="transition-transform duration-300 group-hover:translate-x-1.5 text-accent group-hover:text-accent"
               aria-hidden="true"
             >
               <path d="M5 12h14" />
