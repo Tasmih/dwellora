@@ -1,4 +1,4 @@
-# Dwellora — Premium Home Renovation & Custom Carpentry
+# Dwellora - Premium Home Renovation Website
 
 > **Frontend Developer Task Assessment**  
 > **Company**: [Digital Resolution](https://digitalresolution.net/)  
@@ -9,109 +9,91 @@
 
 ---
 
-## 1. Project Overview
+## Project Overview
 
-**Dwellora** is a modern, responsive, and performance-oriented web platform engineered for a luxury home renovation and bespoke carpentry studio. Built with a focus on high-end architectural aesthetics, seamless user experience, and robust engineering standards, the project demonstrates an end-to-end full-stack solution featuring:
+**Dwellora** is a modern, responsive home renovation and custom carpentry business web platform designed for a high-end architectural studio. Built with a focus on luxury UI/UX aesthetics, dynamic content management, and robust engineering, the platform delivers:
 
-- A **luxury public-facing portfolio and content hub** that engages potential clients through rich visual storytelling, dynamic video showcases, interactive FAQ systems, and dynamic service directories.
-- A **full-featured administrative management portal** that enables real-time CRUD operations over services, service categories, project portfolios, and editorial blog/vlog publications.
-- **Enterprise-grade SEO & web performance** infrastructure, including dynamic Open Graph generation, JSON-LD Schema.org structured data, dynamic XML sitemaps, robots.txt directives, and Google Search Console verification.
-
----
-
-## 2. Features
-
-### 🌐 Public Experience
-- **Architectural Homepage**:
-  - **Hero & Trust Indicators**: High-contrast luxury design with key trust badges and architectural typography.
-  - **Dynamic Services Showcase**: Dynamic category taxonomy linking directly to specific service disciplines.
-  - **Why Choose Dwellora**: Core value propositions highlighting master joinery, premium materials, and transparent workflows.
-  - **Featured Projects**: Curated gallery of luxury residential and commercial transformations.
-  - **Featured Vlog Tour**: Dynamic video showcase spotlighting whole-home renovation processes from planning to final finishing.
-  - **Renovation Process**: Step-by-step workflow guide illustrating consultation, design, crafting, and installation.
-  - **Latest Blogs & Vlogs**: Dynamic multimedia publication feed supporting both written articles and embedded video walkthroughs.
-  - **Interactive Expandable FAQ**: Horizontal accordion with fluid Framer Motion expansions and responsive fallback.
-  - **Cinematic Showcase CTA**: Dedicated kitchen renovation visual tour with high-conversion consultation triggers.
-  - **Dynamic Luxury Footer**: Four-column layout dynamically mapped to live service categories from the database with animated micro-interactions.
-- **Dedicated Section Pages**:
-  - `/about`: Studio heritage, craftsmanship philosophy, and team profile.
-  - `/services`: Filterable catalog of renovation and carpentry services.
-  - `/services/[slug]`: Dynamic service detail pages with included deliverables, related offerings, and tailored metadata.
-  - `/services/category/[categorySlug]`: Dynamic category landing pages grouping related renovation services.
-  - `/projects`: Comprehensive architectural portfolio with category filters.
-  - `/projects/[slug]`: In-depth project case studies featuring high-resolution galleries, material specifications, and features.
-  - `/blogs` & `/blogs/[slug]`: Multi-category knowledge base supporting editorial articles and video vlogs.
-  - `/contact`: Interactive consultation booking form with integrated validation.
-  - `not-found.tsx`: Custom architectural blueprint-inspired 404 page with navigation fallbacks.
-
-### 🔐 Admin Dashboard
-- **Admin Authentication**: Secure JWT-based access control with session management.
-- **Service & Category Management**:
-  - Create, edit, delete, and re-order service categories.
-  - Create, update, publish/unpublish renovation services with rich descriptions, image galleries, and included item lists.
-- **Project Portfolio Management**:
-  - Create, update, and manage completed project case studies with image galleries and feature highlights.
-- **Blog & Vlog Management**:
-  - Create and curate articles and video tours with dynamic video URL embeds and rich text formatting.
-- **Real-Time Dynamic Synchronization**: All changes made in the admin portal immediately reflect across the public client and dynamic sitemap.
+- A **modern responsive frontend** that showcases architectural craftsmanship, whole-home transformation workflows, bespoke joinery services, portfolio galleries, and editorial vlogs.
+- **Dynamic content management** backed by a REST API and MongoDB database, allowing live updates to services, categories, case studies, and multimedia blogs without rebuilding the frontend.
+- An intuitive **Admin Dashboard** providing secure administrative controls over all published site content.
 
 ---
 
-## 3. Technology Stack
+## Technology Stack
 
 ### Frontend
-- **Framework**: [Next.js](https://nextjs.org/) (App Router, React 19, Turbopack)
+- **Framework**: Next.js (App Router, Turbopack, React 19)
 - **Language**: TypeScript
-- **Styling**: Tailwind CSS (Curated luxury palette: Deep Forest Green `#0F2F2A`, Warm Gold `#c9a365`, Warm Off-White `#faf6ef`)
-- **Animation**: [Framer Motion](https://www.framer.com/motion/)
-- **Icons**: [React Icons](https://react-icons.github.io/react-icons/) (Feather & FontAwesome)
-- **Images**: Next.js Image Optimization (`next/image`) with safe fallbacks
+- **Styling**: Tailwind CSS (Tailored dark forest green `#0F2F2A`, warm gold `#c9a365`, off-white `#faf6ef`)
+- **Animation**: Framer Motion
+- **Icons**: React Icons (Feather & FontAwesome)
+- **Optimization**: Next/Image & dynamic metadata
 
-### Backend & API
-- **Runtime**: [Node.js](https://nodejs.org/)
-- **Framework**: [Express.js](https://expressjs.com/)
+### Backend
+- **Runtime**: Node.js
+- **Framework**: Express.js
 - **Language**: TypeScript
-- **Database**: [MongoDB](https://www.mongodb.com/) (Native MongoDB Driver & Aggregation Pipelines)
-- **Authentication**: JSON Web Tokens (JWT) & HTTP-only cookies / Bearer headers
-
-### SEO & DevOps
-- **Deployment**: [Vercel](https://vercel.com/) (Frontend)
-- **Metadata**: Next.js Metadata API with dynamic OpenGraph & Twitter Cards
-- **Structured Data**: Schema.org `Organization` & `HomeAndConstructionBusiness` JSON-LD
-- **Indexing**: Dynamic `sitemap.xml`, `robots.txt`, and Google Search Console verification
+- **Database**: MongoDB (Native driver & aggregation pipelines)
+- **Architecture**: REST API
 
 ---
 
-## 4. Project Architecture
+## Features Implemented
+
+### Public Website
+- **Home Page**: High-contrast architectural hero, trust metrics, service categories showcase, value highlights, featured projects gallery, whole-home renovation vlog showcase, renovation process steps, blog feed, interactive expandable FAQ section, cinematic kitchen showcase CTA, and dynamic luxury footer.
+- **About Section**: Studio history, craftsmanship philosophy, and team presentation.
+- **Services Listing**: Filterable directory of renovation disciplines and carpentry specialties.
+- **Service Details**: Dynamic slug-based pages (`/services/[slug]`) with deliverables, dynamic category taxonomy (`/services/category/[categorySlug]`), and related service suggestions.
+- **Projects / Portfolio Showcase**: Dynamic project galleries (`/projects/[slug]`) with before/after case studies and material specifications.
+- **Blog / Vlog Section**: Rich multimedia article feed supporting both text-based editorials and embedded video walkthroughs.
+- **Contact Section**: Interactive consultation inquiry form with validation.
+- **Responsive Luxury UI Design**: Mobile-first architecture with smooth transitions, zero layout shift, and fluid typography across all viewports.
+- **Custom 404 Page**: Architectural blueprint error page with navigation shortcuts.
+
+### Admin Dashboard
+- **Admin Authentication**: Secure JWT-based administrative access control.
+- **Service CRUD**: Create, edit, delete, and re-order services and categories.
+- **Blog / Vlog CRUD**: Create, update, and manage editorial articles and video vlog showcases.
+- **Project CRUD**: Create and manage completed renovation portfolios and image galleries.
+- **Publish / Unpublish Management**: Real-time status toggling for live content visibility.
+- **Dynamic Data Updates**: All administrative modifications instantly reflect across public pages and sitemaps.
+
+### SEO Implementation
+- **Root Metadata**: Configured title template (`%s | Dwellora`), brand description, keywords, and author tags.
+- **Dynamic Metadata**: Automated `generateMetadata()` hooks for services, projects, and blogs/vlogs.
+- **Open Graph & Twitter Cards**: High-resolution image previews and structured metadata for social sharing.
+- **Canonical URLs & SEO Friendly Slugs**: Clean, readable, and search-optimized URL structures.
+- **Dynamic XML Sitemap (`/sitemap.xml`)**: Automated indexing of static and database-driven routes with change frequencies and priority ratings.
+- **Robots Directives (`/robots.txt`)**: Crawler rules allowing public indexing while disallowing `/admin/` and `/api/` endpoints.
+- **Google Search Console Verification**: Verification meta tag embedded in root metadata.
+- **Image Optimization**: Title-based descriptive alt tags and responsive format delivery.
+
+---
+
+## Project Structure
 
 ```text
 Dwellora/
 ├── Dwellora-client/              # Next.js App Router Frontend
-│   ├── public/                   # Static assets, branding logos, icons
-│   │   └── images/
+│   ├── public/                   # Static branding logos, icons, and media
 │   ├── src/
-│   │   ├── app/                  # App Router pages, layouts, and route handlers
-│   │   │   ├── about/            # About Studio page
-│   │   │   ├── admin/            # Admin dashboard & management modules
-│   │   │   ├── blogs/            # Blog & Vlog listing and dynamic [slug] pages
+│   │   ├── app/                  # App Router routes, layouts, and handlers
+│   │   │   ├── about/            # About page
+│   │   │   ├── admin/            # Admin dashboard and authentication
+│   │   │   ├── blogs/            # Blog/vlog directory and [slug] pages
 │   │   │   ├── contact/          # Consultation booking page
-│   │   │   ├── projects/         # Portfolio listing and dynamic [slug] pages
-│   │   │   ├── services/         # Services directory, [slug], and category pages
-│   │   │   ├── globals.css       # Global design tokens and styles
-│   │   │   ├── layout.tsx        # Root layout with metadata & JSON-LD schema
-│   │   │   ├── not-found.tsx     # Custom luxury 404 page
-│   │   │   ├── robots.ts         # Search engine crawler directives
-│   │   │   └── sitemap.ts        # Dynamic XML sitemap generator
-│   │   ├── components/           # Reusable UI components
-│   │   │   ├── admin/            # Admin cards, headers, and form controls
-│   │   │   ├── common/           # Loading indicators, modals, alerts
-│   │   │   ├── Footer.tsx        # Dynamic 4-column luxury footer
-│   │   │   ├── Navbar.tsx        # Navigation bar with desktop & mobile dropdowns
-│   │   │   ├── FAQSection.tsx    # Interactive expandable FAQ cards
-│   │   │   └── ...               # Showcase sections (Hero, Services, CTA, etc.)
-│   │   ├── lib/                  # Shared utilities and API client helpers
-│   │   └── types/                # Global TypeScript definitions
-│   └── package.json
+│   │   │   ├── projects/         # Portfolio and [slug] pages
+│   │   │   ├── services/         # Services directory, [slug], and categories
+│   │   │   ├── globals.css       # Global design system styles
+│   │   │   ├── layout.tsx        # Root layout with SEO & JSON-LD schema
+│   │   │   ├── not-found.tsx     # Custom 404 page
+│   │   │   ├── robots.ts         # Dynamic robots.txt
+│   │   │   └── sitemap.ts        # Dynamic sitemap.xml
+│   │   ├── components/           # UI components, cards, navigation, and footer
+│   │   ├── lib/                  # Shared utilities and API helper functions
+│   │   └── types/                # Global TypeScript type definitions
+│   └── docs/                     # Documentation and verification screenshots
 │
 └── dwellora-server/              # Express.js REST API Backend
     ├── src/
@@ -119,124 +101,65 @@ Dwellora/
     │   ├── controllers/          # Business logic handlers for CRUD endpoints
     │   ├── middleware/           # Auth guards, error handling, validation
     │   ├── models/               # MongoDB collections and schema definitions
-    │   ├── routes/               # API route definitions (/api/services, etc.)
-    │   ├── seed/                 # Initial database seeding datasets
-    │   └── server.ts             # Express server entry point
+    │   ├── routes/               # API routes (/api/services, /api/blogs, etc.)
+    │   ├── seed/                 # Database seed datasets
+    │   └── server.ts             # Server entry point
     └── package.json
 ```
 
 ---
 
-## 5. Dynamic Content Management
+## Local Setup Instructions
 
-Dwellora operates as a headless, database-driven platform where public pages consume live data directly from MongoDB through structured REST API endpoints:
+### Frontend Setup
 
-1. **Service Categories**: Services are classified under dynamic categories that can be ordered and managed via the admin panel.
-2. **Dynamic Slugs**: Every service, category, project, and blog post generates a semantic, URL-safe slug for clean routing (e.g., `/services/kitchen-renovation`).
-3. **Automated Taxonomies**: The public navigation bar and footer automatically fetch and display active service categories, ensuring navigation never falls out of sync with published offerings.
-4. **Resilient Data Fetching**: Client requests utilize server-side caching with revalidation, coupled with skeleton placeholders and graceful fallbacks if network connectivity varies.
+```bash
+cd Dwellora-client
+npm install
+npm run dev
+```
 
----
-
-## 6. SEO Implementation
-
-Dwellora incorporates a complete, production-ready SEO architecture adhering to Next.js App Router best practices:
-
-- **Root & Page Metadata**: Comprehensive base title (`Dwellora | Premium Home Renovation & Custom Carpentry`), templated sub-pages (`%s | Dwellora`), and targeted keyword strategies.
-- **Dynamic Metadata Generation**: Automated `generateMetadata()` hooks across all dynamic routes (`/services/[slug]`, `/projects/[slug]`, `/blogs/[slug]`, `/services/category/[categorySlug]`) pulling live titles, descriptions, and cover images.
-- **Social Sharing (Open Graph & Twitter)**: High-resolution image previews with `summary_large_image` cards for rich previews on social platforms.
-- **Structured Data (JSON-LD)**: Injected `@graph` Schema.org representations for both `Organization` and `HomeAndConstructionBusiness` (address, coordinates, opening hours, contact endpoints).
-- **Dynamic Sitemap (`/sitemap.xml`)**: Automatically aggregates all static application routes with dynamic service, project, category, and blog URLs with appropriate priority rankings and `lastModified` timestamps.
-- **Crawler Directives (`/robots.txt`)**: Allows search engine indexing across public pages while protecting `/admin/` and `/api/` endpoints.
-- **Search Engine Verification**: Integrated Google Search Console verification token directly in the root layout metadata.
+> **Environment Configuration**:  
+> Create a `.env.local` file in `Dwellora-client/` based on `.env.example`.
 
 ---
 
-## 7. Image Optimization & Performance
+### Backend Setup
 
-- **Next.js Image Pipeline**: All images leverage Next.js `next/image` with WebP/AVIF format negotiation, responsive dimension hints, and layout shift prevention.
-- **Accessible & SEO-Friendly Alt Text**: Title-derived, descriptive `alt` tags on every visual element to ensure accessibility and search discoverability.
-- **Safe Fallback Wrapper**: Custom `SafeImage` component preventing UI breakages in the event of missing or external image host anomalies.
-- **Fluid Micro-Animations**: GPU-accelerated transforms using Framer Motion configured to minimize layout recalculations and preserve $60\text{ FPS}$ performance.
+```bash
+cd dwellora-server
+npm install
+npm run dev
+```
 
----
-
-## 8. Installation & Setup
-
-### Prerequisites
-- Node.js (v18.17 or higher)
-- npm or yarn
-- MongoDB Atlas cluster or local MongoDB instance
+> **Environment Configuration**:  
+> Create a `.env` file in `dwellora-server/` based on `.env.example`.
 
 ---
 
-### Frontend Setup (`Dwellora-client`)
+## Deployment
 
-1. Navigate to the client directory:
-   ```bash
-   cd Dwellora-client
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Configure environment variables by creating `.env.local`:
-   ```env
-   NEXT_PUBLIC_API_URL=http://localhost:5000
-   NEXT_PUBLIC_SITE_URL=http://localhost:3000
-   ```
-
-4. Run the development server:
-   ```bash
-   npm run dev
-   ```
-   The client application will be available at `http://localhost:3000`.
-
-5. Build for production:
-   ```bash
-   npm run build
-   ```
+- **Frontend (Live Production)**: [https://dwellora-client.vercel.app](https://dwellora-client.vercel.app)
+- **Backend**: Hosted on cloud infrastructure (e.g. Render / Railway / Custom VPS)
 
 ---
 
-### Backend Setup (`dwellora-server`)
+## Admin Access
 
-1. Navigate to the server directory:
-   ```bash
-   cd dwellora-server
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Configure environment variables by creating `.env`:
-   ```env
-   PORT=5000
-   CLIENT_ORIGIN=http://localhost:3000
-   MONGODB_URI=your_mongodb_connection_string_placeholder
-   MONGODB_DB=dwellora
-   JWT_SECRET=your_jwt_secret_placeholder
-   NODE_ENV=development
-   ```
-
-4. Run the server in development mode:
-   ```bash
-   npm run dev
-   ```
-   The API server will listen at `http://localhost:5000`.
+- **Admin Login Portal**: [https://dwellora-client.vercel.app/admin/login](https://dwellora-client.vercel.app/admin/login)
+- **Email**: *(Provided separately for assessment evaluation)*
+- **Password**: *(Provided separately for assessment evaluation)*
 
 ---
 
-## 9. Submission & Contact
+## SEO Verification Proof
 
-This project was developed for the **Frontend Developer Task Assessment** for **Digital Resolution**.
+### Robots.txt
+Live URL: [https://dwellora-client.vercel.app/robots.txt](https://dwellora-client.vercel.app/robots.txt)
 
-- **Organization**: Digital Resolution
-- **Email**: contact@digitalresolution.net
-- **Website**: [https://digitalresolution.net/](https://digitalresolution.net/)
-- **Address**: Software Technology Park, 6th Floor, Singapore Bangkok Market, Agrabad, Chattogram.
-- **Live Deployment**: [https://dwellora-client.vercel.app](https://dwellora-client.vercel.app)
+![Robots](docs/screenshots/robots-txt-verification.png)
+
+### Sitemap.xml
+Live URL: [https://dwellora-client.vercel.app/sitemap.xml](https://dwellora-client.vercel.app/sitemap.xml)
+
+![Sitemap](docs/screenshots/sitemap-xml-verification.png)
