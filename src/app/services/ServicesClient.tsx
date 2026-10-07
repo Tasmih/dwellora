@@ -10,7 +10,6 @@ import PublicServiceCard, {
 import Loading from "@/components/common/Loading";
 import SafeImage from "@/components/SafeImage";
 import { apiFetch } from "@/lib/api";
-import { getSafeVideoSrc } from "@/lib/url";
 
 const MEET_IMAGE =
   "https://res.cloudinary.com/rh4jhmw7/image/upload/v1791379836/meet.jpg";
@@ -22,8 +21,8 @@ type Category = {
   description?: string;
 };
 
-const HERO_VIDEO =
-  "https://res.cloudinary.com/rh4jhmw7/video/upload/v1791386224/home1.mp4";
+const HERO_IMAGE =
+  "https://res.cloudinary.com/rh4jhmw7/image/upload/v1791395101/bailey-alexander-WCBeEhZb4H0-unsplash.jpg";
 
 export default function ServicesClient() {
   const searchParams = useSearchParams();
@@ -83,26 +82,24 @@ export default function ServicesClient() {
 
   return (
     <main id="main-content">
-      {/* 1. Full-Width Cinematic Video Hero Section */}
+      {/* 1. Full-Width Cinematic Hero Section */}
       <section
         aria-labelledby="services-hero-heading"
         className="relative w-full overflow-hidden bg-neutral-950 min-h-[480px] sm:min-h-[520px] lg:min-h-[560px] flex items-center justify-center border-b border-border/30"
       >
-        {/* Background Autoplay Video */}
+        {/* Background Static Hero Image */}
         <div
           aria-hidden="true"
           className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
         >
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            className="h-full w-full object-cover object-center scale-105"
-          >
-            <source src={getSafeVideoSrc(HERO_VIDEO)} type="video/mp4" />
-          </video>
+          <SafeImage
+            src={HERO_IMAGE}
+            alt="Dwellora Architectural & Renovation Services"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center scale-105"
+          />
 
           {/* Directional gradient overlay: darker on left for text legibility, clear on right */}
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/30 lg:from-black/85 lg:via-black/45 lg:to-black/20" />

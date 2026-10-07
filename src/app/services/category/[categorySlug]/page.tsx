@@ -163,58 +163,55 @@ export default async function CategoryPage({ params }: PageProps) {
         </nav>
 
         {/* Category Hero */}
-        <div
-          className={`grid items-center gap-8 lg:gap-12 ${
-            category.image ? "lg:grid-cols-2" : "max-w-3xl"
-          }`}
-        >
-          {/* Left Content */}
-          <div
-            className={
-              category.image
-                ? "min-w-0 flex flex-col justify-center"
-                : "max-w-3xl"
-            }
-          >
-            <p className="text-xs lg:text-sm font-medium uppercase tracking-[0.25em] text-accent">
-              Service Category
-            </p>
+        {(() => {
+          const heroImage =
+            category.image ||
+            "https://res.cloudinary.com/rh4jhm7/image/upload/v1791395101/bailey-alexander-WCBeEhZb4H0-unsplash.jpg";
 
-            <h1 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.1] text-brand max-w-2xl">
-              {category.name}
-            </h1>
+          return (
+            <div className="grid items-center gap-8 lg:gap-12 lg:grid-cols-2">
+              {/* Left Content */}
+              <div className="min-w-0 flex flex-col justify-center">
+                <p className="text-xs lg:text-sm font-medium uppercase tracking-[0.25em] text-accent">
+                  Service Category
+                </p>
 
-            <p className="mt-4 text-base leading-7 text-muted sm:text-lg sm:leading-8 max-w-xl">
-              {category.description}
-            </p>
+                <h1 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.1] text-brand max-w-2xl">
+                  {category.name}
+                </h1>
 
-            <div className="mt-6">
-              <Link
-                href="/services"
-                className="btn btn-secondary text-xs sm:text-sm"
-              >
-                &larr; View All Services
-              </Link>
-            </div>
-          </div>
+                <p className="mt-4 text-base leading-7 text-muted sm:text-lg sm:leading-8 max-w-xl">
+                  {category.description}
+                </p>
 
-          {/* Right Image */}
-          {category.image && (
-            <div className="min-w-0 w-full">
-              <div className="relative h-[300px] sm:h-[360px] lg:h-[420px] w-full overflow-hidden rounded-2xl border border-border/80 bg-neutral-100 dark:bg-neutral-900/40 shadow-md">
-                <SafeImage
-                  src={category.image}
-                  alt={category.name}
-                  fallbackTitle={category.name}
-                  fill
-                  priority
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                  className="object-cover object-center"
-                />
+                <div className="mt-6">
+                  <Link
+                    href="/services"
+                    className="btn btn-secondary text-xs sm:text-sm"
+                  >
+                    &larr; View All Services
+                  </Link>
+                </div>
+              </div>
+
+              {/* Right Hero Image */}
+              <div className="min-w-0 w-full">
+                <div className="relative h-[300px] sm:h-[360px] lg:h-[420px] w-full overflow-hidden rounded-2xl border border-border/80 bg-neutral-100 dark:bg-neutral-900/40 shadow-md">
+                  <SafeImage
+                    src={heroImage}
+                    alt={category.name}
+                    fallbackTitle={category.name}
+                    fill
+                    priority
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    className="object-cover object-center"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
+                </div>
               </div>
             </div>
-          )}
-        </div>
+          );
+        })()}
 
         {/* Services in this category */}
         <section

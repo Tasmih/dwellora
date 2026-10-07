@@ -11,10 +11,9 @@ import PublicBlogCard, {
 import Loading from "@/components/common/Loading";
 import SafeImage from "@/components/SafeImage";
 import { apiFetch } from "@/lib/api";
-import { getSafeVideoSrc } from "@/lib/url";
 
-const HERO_VIDEO =
-  "https://res.cloudinary.com/rh4jhmw7/video/upload/v1791386167/home3.mp4";
+const HERO_IMAGE =
+  "https://res.cloudinary.com/rh4jhmw7/image/upload/v1791395080/home-makers-interior-oKCZ-yw2Bn0-unsplash.jpg";
 
 const CTA_IMAGE =
   "https://res.cloudinary.com/rh4jhmw7/image/upload/v1791386789/home4.jpg";
@@ -91,30 +90,28 @@ export default function BlogsClient() {
 
   return (
     <main id="main-content" className="w-full">
-      {/* 1. Full-Width Cinematic Video Hero Section */}
+      {/* 1. Full-Width Cinematic Hero Section */}
       <section
         aria-labelledby="blogs-hero-heading"
         className="relative w-full overflow-hidden bg-neutral-950 min-h-[480px] sm:min-h-[520px] lg:min-h-[580px] flex items-center justify-center border-b border-border/30"
       >
-        {/* Background Autoplay Video */}
+        {/* Background Static Hero Image */}
         <div
           aria-hidden="true"
           className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
         >
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            className="h-full w-full object-cover object-center scale-105"
-          >
-            <source src={getSafeVideoSrc(HERO_VIDEO)} type="video/mp4" />
-          </video>
+          <SafeImage
+            src={HERO_IMAGE}
+            alt="Dwellora Articles, Guides & Renovation Insights"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center scale-105"
+          />
 
-          {/* Directional gradient overlay: soft readability gradient on left, clear on right */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/30 lg:from-black/85 lg:via-black/45 lg:to-black/20" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/35" />
+          {/* Directional light gradient overlay: soft readability on left, clear on right */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/20 lg:from-black/75 lg:via-black/35 lg:to-black/15" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/25" />
         </div>
 
         {/* Gold Rim Accents */}
@@ -287,14 +284,25 @@ export default function BlogsClient() {
           </div>
         ) : (
           <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredBlogs.map((blog, idx) => (
-              <PublicBlogCard
-                key={blog._id || blog.slug}
-                blog={blog}
-                className="animate-fade-up"
-                style={{ animationDelay: `${idx * 60}ms` }}
-              />
-            ))}
+            {(() => {
+              // Strictly limit video playback to top 2 featured vlogs to maximize performance
+              const featuredVlogIds = new Set(
+                blogs
+                  .filter((b) => b.type === "vlog" && b.videoUrl?.trim())
+                  .slice(0, 2)
+                  .map((b) => b._id || b.slug)
+              );
+
+              return filteredBlogs.map((blog, idx) => (
+                <PublicBlogCard
+                  key={blog._id || blog.slug}
+                  blog={blog}
+                  enableVideo={featuredVlogIds.has(blog._id || blog.slug)}
+                  className="animate-fade-up"
+                  style={{ animationDelay: `${idx * 60}ms` }}
+                />
+              ));
+            })()}
           </div>
         )}
       </div>

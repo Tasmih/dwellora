@@ -1,4 +1,6 @@
-import type { CSSProperties } from "react";
+"use client";
+
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Link from "next/link";
 import {
   FiClock,
@@ -9,6 +11,7 @@ import {
   FiPlay,
 } from "react-icons/fi";
 import SafeImage from "@/components/SafeImage";
+import { getSafeVideoSrc } from "@/lib/url";
 
 export type PublicBlog = {
   _id?: string;
@@ -28,6 +31,7 @@ type PublicBlogCardProps = {
   blog: PublicBlog;
   className?: string;
   style?: CSSProperties;
+  enableVideo?: boolean;
 };
 
 function getVideoThumbnail(url?: string): string | null {
@@ -53,11 +57,24 @@ function getVideoThumbnail(url?: string): string | null {
   return null;
 }
 
+function isDirectVideo(url?: string): boolean {
+  if (!url) return false;
+  const trimmed = url.trim();
+  return (
+    /\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i.test(trimmed) ||
+    (trimmed.includes("cloudinary.com") && trimmed.includes("/video/upload/"))
+  );
+}
+
 export default function PublicBlogCard({
   blog,
   className = "",
   style,
+  enableVideo = false,
 }: PublicBlogCardProps) {
+  const cardRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+
   const summary =
     blog.shortDescription?.trim() ||
     (blog.content.length > 150
@@ -68,12 +85,32 @@ export default function PublicBlogCard({
   const hasCoverImage = Boolean(blog.coverImage && blog.coverImage.trim());
   const hasVideo = Boolean(blog.videoUrl && blog.videoUrl.trim());
   const isVlog = blog.type === "vlog" || hasVideo;
+  const canPlayDirectVideo = enableVideo && hasVideo && isDirectVideo(blog.videoUrl);
 
   const videoThumbnail = hasVideo ? getVideoThumbnail(blog.videoUrl) : null;
   const thumbnailSrc = hasCoverImage ? blog.coverImage : videoThumbnail;
 
+  useEffect(() => {
+    if (!canPlayDirectVideo) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+        }
+      },
+      { rootMargin: "250px" }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [canPlayDirectVideo]);
+
   return (
     <article
+      ref={cardRef}
       style={style}
       className={`group flex h-full flex-col overflow-hidden rounded-3xl border border-border/80 bg-surface shadow-sm transition-all duration-300 ease-out hover:-translate-y-2 hover:scale-[1.01] hover:border-accent/60 hover:shadow-xl ${className}`}
     >
@@ -82,7 +119,24 @@ export default function PublicBlogCard({
         aria-label={`Read ${blog.title}`}
         className="relative block aspect-[16/10] overflow-hidden bg-background"
       >
-        {thumbnailSrc ? (
+        {canPlayDirectVideo && inView ? (
+          <div className="relative h-full w-full">
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
+            >
+              <source src={getSafeVideoSrc(blog.videoUrl)} type="video/mp4" />
+            </video>
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-80"
+            />
+          </div>
+        ) : thumbnailSrc ? (
           <>
             <SafeImage
               src={thumbnailSrc}
@@ -107,7 +161,7 @@ export default function PublicBlogCard({
         )}
 
         {/* Format Badge */}
-        <div className="absolute left-4 top-4 flex items-center gap-2">
+        <div className="absolute left-4 top-4 flex items-center gap-2 z-10">
           <span
             className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider backdrop-blur-md shadow-sm ${
               isVlog
@@ -127,9 +181,9 @@ export default function PublicBlogCard({
           </span>
         </div>
 
-        {/* Play Icon for Videos */}
-        {hasVideo && (
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        {/* Play Icon for Videos (shows on cards without inline video autoplay) */}
+        {hasVideo && (!canPlayDirectVideo || !inView) && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
             <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-accent text-brand shadow-xl transition-all duration-300 group-hover:scale-110 group-hover:bg-accent-hover">
               <FiPlay className="h-5 w-5 sm:h-6 sm:w-6 fill-brand translate-x-0.5" />
             </div>
