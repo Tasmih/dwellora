@@ -72,7 +72,7 @@ export default function CinematicCta({
             loop
             muted
             playsInline
-            preload="auto"
+            preload="metadata"
             poster={fallbackImage}
             src={activeVideoUrl}
             className="h-full w-full object-cover object-center animate-slow-zoom-loop"

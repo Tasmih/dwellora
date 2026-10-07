@@ -266,6 +266,7 @@ export default function Footer() {
                 alt="Dwellora Home Renovation & Carpentry"
                 width={200}
                 height={55}
+                loading="lazy"
                 className="h-auto w-[160px] sm:w-[185px] lg:w-[200px] object-contain brightness-110 drop-shadow-md"
               />
             </Link>

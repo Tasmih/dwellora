@@ -32,10 +32,13 @@ export function sanitizeHttpsUrl(value: string): { url: string; error?: string }
 /**
  * Safe image URL helper for components rendering next/image.
  * Wraps `new URL(src)` in try/catch to ensure the URL is valid,
- * trims trailing dots in hostnames, and returns a sanitized URL string.
- * Returns null if the URL is invalid, non-http(s), or empty.
+ * trims trailing dots in hostnames, and injects Cloudinary auto-format
+ * and auto-quality transformations (f_auto,q_auto) for faster delivery.
  */
-export function getSafeImageSrc(src?: string | null): string | null {
+export function getSafeImageSrc(
+  src?: string | null,
+  width?: number
+): string | null {
   if (!src || typeof src !== "string") return null;
   const trimmed = src.trim();
   if (!trimmed) return null;
@@ -54,6 +57,44 @@ export function getSafeImageSrc(src?: string | null): string | null {
     // Strip trailing dot(s) from hostname (e.g., "i.ibb.co." -> "i.ibb.co")
     if (url.hostname.endsWith(".")) {
       url.hostname = url.hostname.replace(/\.+$/, "");
+    }
+
+    // Cloudinary auto-format & quality injection (f_auto,q_auto)
+    if (
+      url.hostname.includes("cloudinary.com") &&
+      url.pathname.includes("/image/upload/")
+    ) {
+      // If not already transformed with f_auto or q_auto
+      if (
+        !url.pathname.includes("/f_auto") &&
+        !url.pathname.includes("q_auto") &&
+        !url.pathname.includes("/c_") &&
+        !url.pathname.includes("/w_")
+      ) {
+        const transform = width
+          ? `f_auto,q_auto,w_${width},c_limit`
+          : "f_auto,q_auto";
+        url.pathname = url.pathname.replace(
+          "/image/upload/",
+          `/image/upload/${transform}/`
+        );
+      }
+    }
+
+    // Unsplash auto-format & quality parameters
+    if (url.hostname.includes("images.unsplash.com")) {
+      if (!url.searchParams.has("auto")) {
+        url.searchParams.set("auto", "format");
+      }
+      if (!url.searchParams.has("fit")) {
+        url.searchParams.set("fit", "crop");
+      }
+      if (!url.searchParams.has("q")) {
+        url.searchParams.set("q", "80");
+      }
+      if (width && !url.searchParams.has("w")) {
+        url.searchParams.set("w", String(width));
+      }
     }
 
     return url.toString();

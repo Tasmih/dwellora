@@ -187,8 +187,7 @@ export default async function ProjectsPage({ searchParams }: PageProps) {
                 className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none"
               >
                 <Link
-                  href="/projects#projects-gallery"
-                  scroll={false}
+                  href="/projects"
                   className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-medium tracking-wide transition-all ${
                     !selectedCategory
                       ? "bg-brand text-white border border-brand shadow-xs font-semibold"
@@ -204,8 +203,7 @@ export default async function ProjectsPage({ searchParams }: PageProps) {
                   return (
                     <Link
                       key={cat._id}
-                      href={`/projects?category=${encodeURIComponent(cat.slug)}#projects-gallery`}
-                      scroll={false}
+                      href={`/projects?category=${encodeURIComponent(cat.slug)}`}
                       className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-medium tracking-wide transition-all ${
                         active
                           ? "bg-brand text-white border border-brand shadow-xs font-semibold"

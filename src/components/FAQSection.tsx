@@ -129,7 +129,10 @@ export default function FAQSection() {
       </div>
 
       {/* Desktop Horizontal Expandable Cards (~25-30% more compact height: 320px/340px) */}
-      <div className="mt-7 hidden lg:flex lg:h-[320px] xl:h-[340px] gap-3 xl:gap-3.5">
+      <div
+        onMouseLeave={() => setActiveId("")}
+        className="mt-7 hidden lg:flex lg:h-[320px] xl:h-[340px] gap-3 xl:gap-3.5"
+      >
         {FAQ_ITEMS.map((item) => {
           const isActive = activeId === item.id;
 
@@ -138,8 +141,9 @@ export default function FAQSection() {
               key={item.id}
               layout
               transition={{
-                layout: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+                layout: { duration: 0.42, ease: [0.25, 1, 0.5, 1] },
               }}
+              onMouseEnter={() => setActiveId(item.id)}
               onClick={() => setActiveId(item.id)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
@@ -181,90 +185,100 @@ export default function FAQSection() {
               </div>
 
               {/* Active State Content (Compact Padding & Tight Spacing) */}
-              {isActive ? (
-                <motion.div
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.25, delay: 0.08 }}
-                  className="relative z-10 flex h-full flex-col justify-between p-5 xl:p-6 text-white"
-                >
-                  {/* Top: Badges */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent text-brand font-bold text-[11px] shadow-xs">
-                        {item.number}
+              <AnimatePresence mode="wait">
+                {isActive ? (
+                  <motion.div
+                    key={`active-${item.id}`}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.22, delay: 0.05 }}
+                    className="relative z-10 flex h-full flex-col justify-between p-5 xl:p-6 text-white"
+                  >
+                    {/* Top: Badges */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent text-brand font-bold text-[11px] shadow-xs">
+                          {item.number}
+                        </span>
+                        <span className="rounded-full border border-white/20 bg-white/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent backdrop-blur-md">
+                          {item.category}
+                        </span>
+                      </div>
+
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full border border-accent/40 bg-accent/15 text-accent">
+                        <FiHelpCircle className="h-3 w-3" />
+                      </div>
+                    </div>
+
+                    {/* Middle: Question & Preview Answer */}
+                    <div className="space-y-1.5 my-auto max-w-xl">
+                      <h3 className="text-lg xl:text-[1.35rem] font-bold tracking-tight text-[#F8F5EE] leading-snug">
+                        {item.question}
+                      </h3>
+
+                      <p className="text-xs sm:text-[13px] leading-relaxed text-[#EDE8DF]/90 font-normal line-clamp-2 sm:line-clamp-3">
+                        {item.answer}
+                      </p>
+
+                      {/* Compact Key Highlights */}
+                      <div className="pt-1 flex flex-wrap items-center gap-1.5 sm:gap-2">
+                        {item.highlights.map((highlight, index) => (
+                          <div
+                            key={index}
+                            className="flex items-center gap-1.5 rounded-md bg-black/40 px-2 py-0.5 border border-white/10 backdrop-blur-xs text-[11px] text-[#F8F5EE]/90"
+                          >
+                            <FiCheckCircle className="h-3 w-3 text-accent shrink-0" />
+                            <span>{highlight}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Bottom Action Row */}
+                    <div className="flex items-center justify-between pt-2.5 border-t border-white/15">
+                      <Link
+                        href={item.ctaHref || "/contact?type=quote"}
+                        className="inline-flex items-center gap-1.5 rounded-full bg-accent px-3.5 py-1.5 text-[11px] font-semibold text-brand shadow-xs hover:bg-white hover:text-brand transition-all duration-300"
+                      >
+                        <span>{item.ctaText || "Inquire About This"}</span>
+                        <FiArrowRight className="h-3 w-3" />
+                      </Link>
+
+                      <span className="text-[10px] font-normal text-white/60">
+                        Hover card to preview
                       </span>
-                      <span className="rounded-full border border-white/20 bg-white/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent backdrop-blur-md">
-                        {item.category}
-                      </span>
                     </div>
-
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full border border-accent/40 bg-accent/15 text-accent">
-                      <FiHelpCircle className="h-3 w-3" />
-                    </div>
-                  </div>
-
-                  {/* Middle: Question & Preview Answer */}
-                  <div className="space-y-1.5 my-auto max-w-xl">
-                    <h3 className="text-lg xl:text-[1.35rem] font-bold tracking-tight text-[#F8F5EE] leading-snug">
-                      {item.question}
-                    </h3>
-
-                    <p className="text-xs sm:text-[13px] leading-relaxed text-[#EDE8DF]/90 font-normal line-clamp-2 sm:line-clamp-3">
-                      {item.answer}
-                    </p>
-
-                    {/* Compact Key Highlights */}
-                    <div className="pt-1 flex flex-wrap items-center gap-1.5 sm:gap-2">
-                      {item.highlights.map((highlight, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center gap-1.5 rounded-md bg-black/40 px-2 py-0.5 border border-white/10 backdrop-blur-xs text-[11px] text-[#F8F5EE]/90"
-                        >
-                          <FiCheckCircle className="h-3 w-3 text-accent shrink-0" />
-                          <span>{highlight}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Bottom Action Row */}
-                  <div className="flex items-center justify-between pt-2.5 border-t border-white/15">
-                    <Link
-                      href={item.ctaHref || "/contact?type=quote"}
-                      className="inline-flex items-center gap-1.5 rounded-full bg-accent px-3.5 py-1.5 text-[11px] font-semibold text-brand shadow-xs hover:bg-white hover:text-brand transition-all duration-300"
-                    >
-                      <span>{item.ctaText || "Inquire About This"}</span>
-                      <FiArrowRight className="h-3 w-3" />
-                    </Link>
-
-                    <span className="text-[10px] font-normal text-white/50">
-                      Click any card to expand
+                  </motion.div>
+                ) : (
+                  /* Compact / Inactive State Content */
+                  <motion.div
+                    key={`inactive-${item.id}`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.18 }}
+                    className="relative z-10 flex h-full flex-col justify-between items-center py-4 px-2 text-white text-center"
+                  >
+                    {/* Top: Number Badge */}
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full border border-accent/50 bg-black/60 text-accent font-mono text-[11px] font-bold shadow-xs">
+                      {item.number}
                     </span>
-                  </div>
-                </motion.div>
-              ) : (
-                /* Compact / Inactive State Content */
-                <div className="relative z-10 flex h-full flex-col justify-between items-center py-4 px-2 text-white text-center">
-                  {/* Top: Number Badge */}
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-accent/50 bg-black/60 text-accent font-mono text-[11px] font-bold shadow-xs">
-                    {item.number}
-                  </span>
 
-                  {/* Center: Vertical Question Snippet */}
-                  <div className="my-auto py-1">
-                    <p className="text-[11px] font-semibold tracking-wide text-[#F8F5EE]/90 [writing-mode:vertical-lr] rotate-180 line-clamp-1">
-                      {item.question}
-                    </p>
-                  </div>
+                    {/* Center: Vertical Question Snippet */}
+                    <div className="my-auto py-1">
+                      <p className="text-[11px] font-semibold tracking-wide text-[#F8F5EE]/90 [writing-mode:vertical-lr] rotate-180 line-clamp-1">
+                        {item.question}
+                      </p>
+                    </div>
 
-                  {/* Bottom: Plus Indicator */}
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full border border-white/20 bg-black/40 text-accent/80 transition-transform duration-300 group-hover:scale-110 group-hover:border-accent group-hover:text-accent">
-                    <FiPlus className="h-3 w-3" />
-                  </div>
-                </div>
-              )}
+                    {/* Bottom: Plus Indicator */}
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full border border-white/20 bg-black/40 text-accent/80 transition-transform duration-300 group-hover:scale-110 group-hover:border-accent group-hover:text-accent">
+                      <FiPlus className="h-3 w-3" />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           );
         })}

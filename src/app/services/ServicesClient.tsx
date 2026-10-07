@@ -174,7 +174,7 @@ export default function ServicesClient() {
               className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none"
             >
               <Link
-                href="/services#services-list"
+                href="/services"
                 className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-medium tracking-wide transition-all ${
                   !selectedCategory
                     ? "bg-brand text-white border border-brand shadow-xs font-semibold"
@@ -190,7 +190,7 @@ export default function ServicesClient() {
                 return (
                   <Link
                     key={cat.slug}
-                    href={`/services?category=${encodeURIComponent(cat.slug)}#services-list`}
+                    href={`/services?category=${encodeURIComponent(cat.slug)}`}
                     className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-medium tracking-wide transition-all ${
                       active
                         ? "bg-brand text-white border border-brand shadow-xs font-semibold"

@@ -71,8 +71,8 @@ export default function Navbar() {
       }}
       className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-border/80 bg-gradient-to-r from-background/98 via-[#FDFBF7]/98 to-background/98 shadow-[0_4px_24px_rgba(25,53,50,0.06)] backdrop-blur-md"
-          : "border-b border-border/50 bg-gradient-to-r from-background/95 via-[#FDFBF7]/95 to-background/95 shadow-[0_2px_12px_rgba(25,53,50,0.02)] backdrop-blur-sm"
+          ? "border-b border-border/80 bg-[#FAF6EF]/95 backdrop-blur-md shadow-[0_4px_24px_rgba(15,47,42,0.07)]"
+          : "border-b border-border/50 bg-[#FAF6EF]/90 backdrop-blur-sm shadow-[0_2px_12px_rgba(15,47,42,0.02)]"
       }`}
     >
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-5 lg:px-6 relative flex h-[72px] sm:h-[80px] lg:h-[84px] items-center justify-between gap-6">
@@ -193,7 +193,7 @@ export default function Navbar() {
       <div
         id="mobile-navigation"
         hidden={!menuOpen}
-        className="border-t border-border bg-background lg:hidden shadow-lg"
+        className="border-t border-border/80 bg-[#FAF6EF]/98 backdrop-blur-xl lg:hidden shadow-2xl max-h-[calc(100vh-5rem)] overflow-y-auto"
       >
         <nav
           aria-label="Mobile navigation"

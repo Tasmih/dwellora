@@ -1,6 +1,8 @@
+import { Suspense, type ReactNode } from "react";
 import type { Metadata, Viewport } from "next";
-import type { ReactNode } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
+import ScrollToTop from "@/components/ScrollToTop";
+import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -182,6 +184,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
         />
       </head>
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
+        <Suspense fallback={null}>
+          <ScrollToTop />
+        </Suspense>
+        <Suspense fallback={null}>
+          <SmoothScroll />
+        </Suspense>
         {children}
       </body>
     </html>

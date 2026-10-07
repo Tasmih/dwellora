@@ -96,8 +96,7 @@ export default function VideoEmbed({
           src={embedInfo.embedUrl}
           controls
           autoPlay
-          playsInline
-          preload="auto"
+          preload="metadata"
           poster={coverImage}
           className="h-full w-full object-contain bg-black"
         >

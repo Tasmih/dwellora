@@ -41,6 +41,7 @@ export default function PublicServiceCard({ service }: PublicServiceCardProps) {
           alt={service.title}
           fallbackTitle={service.title}
           fill
+          thumbnailWidth={800}
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
         />
