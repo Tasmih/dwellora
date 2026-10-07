@@ -32,14 +32,14 @@ export default function SmoothScroll() {
       return;
     }
 
-    // 2. Initialize Lenis for public website pages with luxury easing
+    // 2. Initialize Lenis for public website pages with fast, snappy smooth scrolling
     const lenis = new Lenis({
-      duration: 1.15,
+      duration: 0.65,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: 1.0,
+      wheelMultiplier: 1.25,
       touchMultiplier: 1.0,
       infinite: false,
     });
@@ -79,7 +79,7 @@ export default function SmoothScroll() {
           e.preventDefault();
           lenis.scrollTo(targetElement as HTMLElement, {
             offset: -84,
-            duration: 1.15,
+            duration: 0.75,
           });
         }
       }
@@ -92,7 +92,7 @@ export default function SmoothScroll() {
         setTimeout(() => {
           lenis.scrollTo(targetEl as HTMLElement, {
             offset: -84,
-            duration: 1.15,
+            duration: 0.75,
           });
         }, 100);
       }
