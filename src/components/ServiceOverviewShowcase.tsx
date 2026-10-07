@@ -22,7 +22,7 @@ export default function ServiceOverviewShowcase({
   return (
     <section
       aria-labelledby="service-overview-heading"
-      className="mt-16 grid items-stretch gap-10 lg:mt-24 lg:grid-cols-12 lg:gap-12"
+      className="section-gap-top grid items-stretch gap-8 lg:grid-cols-12 lg:gap-12"
     >
       {/* Left Column: Service Information */}
       <motion.div

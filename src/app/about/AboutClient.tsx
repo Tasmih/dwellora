@@ -801,7 +801,7 @@ export default function AboutClient() {
       <section
         ref={ctaRef}
         aria-label="Why choose Dwellora CTA"
-        className="relative w-full overflow-hidden bg-neutral-950 min-h-[550px] lg:min-h-[600px] xl:min-h-[650px] flex items-center justify-center scroll-mt-20 mt-16 sm:mt-20 lg:mt-24"
+        className="relative w-full overflow-hidden bg-neutral-950 min-h-[500px] lg:min-h-[550px] xl:min-h-[580px] flex items-center justify-center scroll-mt-20 section-gap-top"
       >
         {/* Background Autoplay Video */}
         <div
@@ -839,7 +839,7 @@ export default function AboutClient() {
         />
 
         {/* Centered Content */}
-        <div className="relative z-10 mx-auto max-w-4xl px-6 py-16 sm:py-20 text-center flex flex-col items-center justify-center w-full">
+        <div className="relative z-10 mx-auto max-w-4xl px-6 py-12 sm:py-14 lg:py-16 text-center flex flex-col items-center justify-center w-full">
           <div
             className={`flex flex-col items-center w-full max-w-3xl transition-all duration-800 ease-out ${
               ctaVisible

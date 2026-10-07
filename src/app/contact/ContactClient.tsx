@@ -354,7 +354,7 @@ export default function ContactClient() {
       {/* 3. Balanced Showcase Section ("Why Choose Dwellora") */}
       <section
         aria-label="Why choose Dwellora"
-        className="border-t border-border/80 bg-background/50 py-16 sm:py-20 lg:py-24"
+        className="border-t border-border/80 bg-background/50 section-spacing"
       >
         <div className="site-container grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-14">
           {/* Left Column: Stacked Elegant Image Cards */}

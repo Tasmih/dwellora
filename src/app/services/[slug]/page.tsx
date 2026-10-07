@@ -389,7 +389,7 @@ export default async function ServiceDetailsPage({ params }: PageProps) {
           {relatedServices.length > 0 && (
             <section
               aria-labelledby="related-services-heading"
-              className="mt-20 border-t border-border pt-16 lg:mt-28"
+              className="section-gap-top border-t border-border pt-6 sm:pt-8"
             >
               <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                 <div>

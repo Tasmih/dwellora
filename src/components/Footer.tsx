@@ -242,7 +242,7 @@ export default function Footer() {
       />
 
       {/* Main Footer Content */}
-      <div className="site-container relative z-10 pt-16 pb-12 sm:pt-20 sm:pb-16 lg:pt-24 lg:pb-20">
+      <div className="site-container relative z-10 pt-12 pb-10 sm:pt-14 sm:pb-12 lg:pt-16 lg:pb-14">
         <motion.div
           variants={containerVariants}
           initial="hidden"

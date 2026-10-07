@@ -319,7 +319,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
           </div>
 
           {/* Article Footer & Author Box */}
-          <footer className="mt-16 rounded-3xl border border-border bg-surface p-6 sm:p-8">
+          <footer className="mt-10 sm:mt-12 rounded-3xl border border-border bg-surface p-6 sm:p-8">
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left">
               <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-brand text-white font-semibold text-xl shadow-md">
                 D
@@ -343,7 +343,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
         {relatedBlogs.length > 0 && (
           <section
             aria-label="Related Stories"
-            className="mt-20 sm:mt-24 border-t border-border pt-12 sm:pt-16"
+            className="section-gap-top border-t border-border pt-6 sm:pt-8"
           >
             <RelatedStoriesCarousel blogs={relatedBlogs} />
           </section>
@@ -352,7 +352,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
         {/* Bottom Consultation CTA */}
         <section
           aria-labelledby="consultation-cta-heading"
-          className="mt-20 overflow-hidden rounded-3xl bg-brand p-8 text-background sm:p-12 lg:mt-28 lg:p-16 text-center"
+          className="section-gap-top overflow-hidden rounded-3xl bg-brand p-6 text-background sm:p-10 lg:p-12 text-center"
         >
           <div className="mx-auto max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">

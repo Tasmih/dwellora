@@ -44,7 +44,7 @@ export default function ServiceRenovationProcess() {
   return (
     <section
       aria-labelledby="renovation-process-heading"
-      className="mt-20 lg:mt-28 overflow-hidden rounded-3xl border border-border/80 bg-surface p-8 sm:p-12 lg:p-16 shadow-[0_12px_40px_rgba(25,53,50,0.05)]"
+      className="section-gap-top overflow-hidden rounded-3xl border border-border/80 bg-surface p-6 sm:p-10 lg:p-14 shadow-[0_12px_40px_rgba(25,53,50,0.05)]"
     >
       <div className="mx-auto max-w-2xl text-center">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">

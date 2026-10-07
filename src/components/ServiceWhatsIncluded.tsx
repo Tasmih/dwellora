@@ -28,7 +28,7 @@ export default function ServiceWhatsIncluded({
   return (
     <section
       aria-labelledby="whats-included-heading"
-      className="mt-16 lg:mt-24 overflow-hidden rounded-3xl border border-border/90 bg-surface p-6 sm:p-10 lg:p-12 shadow-[0_12px_40px_rgba(25,53,50,0.05)]"
+      className="section-gap-top overflow-hidden rounded-3xl border border-border/90 bg-surface p-6 sm:p-8 lg:p-10 shadow-[0_12px_40px_rgba(25,53,50,0.05)]"
     >
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12 items-stretch">
         {/* Left Side: Scope & Feature Cards */}

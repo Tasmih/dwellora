@@ -10,7 +10,7 @@ export default function ServiceMaterialShowcase() {
   return (
     <section
       aria-labelledby="material-showcase-heading"
-      className="relative mt-20 lg:mt-28 overflow-hidden rounded-3xl bg-[#081916] py-16 sm:py-20 lg:py-24 border border-border/30 shadow-[0_20px_50px_rgba(8,25,22,0.25)]"
+      className="relative section-gap-top overflow-hidden rounded-3xl bg-[#081916] py-12 sm:py-14 lg:py-16 border border-border/30 shadow-[0_20px_50px_rgba(8,25,22,0.25)]"
     >
       {/* Background Autoplay Video Layer (~30-35% overlay, highly visible material details) */}
       <div

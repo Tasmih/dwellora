@@ -127,7 +127,7 @@ export default function BlogsClient() {
         />
 
         {/* Hero Content Layer */}
-        <div className="site-container relative z-10 py-16 sm:py-20 lg:py-24">
+        <div className="site-container relative z-10 py-12 sm:py-14 lg:py-16">
           <div className="max-w-3xl text-center sm:text-left">
             {/* Eyebrow Pill */}
             <div className="inline-flex items-center gap-2 rounded-full border border-accent/60 bg-black/50 px-4 py-1.5 backdrop-blur-md shadow-md">
@@ -175,7 +175,7 @@ export default function BlogsClient() {
       </section>
 
       {/* 2. Main Blog & Vlog Listing Area */}
-      <div id="blogs-section" className="site-container pt-10 pb-16 sm:pt-14 sm:pb-20 scroll-mt-20">
+      <div id="blogs-section" className="site-container pt-6 pb-10 sm:pt-8 sm:pb-12 scroll-mt-20">
         {/* Filter Tabs & Search Bar */}
         <div className="flex flex-col gap-4 border-b border-border/80 pb-6 sm:flex-row sm:items-center sm:justify-between">
           {/* Format Filter Tabs */}
@@ -301,7 +301,7 @@ export default function BlogsClient() {
       {/* 3. Existing Bottom CTA Section with Full-Width home4.jpg Background */}
       <section
         aria-label="Connect with our artisans"
-        className="group relative w-full overflow-hidden bg-neutral-950 py-20 sm:py-24 lg:py-28 mb-10 sm:mb-14 lg:mb-16 text-center border-t border-b border-border/30 shadow-2xl"
+        className="group relative w-full overflow-hidden bg-neutral-950 py-10 sm:py-12 lg:py-14 section-gap-top mb-6 sm:mb-8 lg:mb-10 text-center border-t border-b border-border/30 shadow-2xl"
       >
         {/* Background Image: Full Bleed from Left to Right */}
         <div

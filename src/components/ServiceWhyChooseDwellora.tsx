@@ -35,7 +35,7 @@ export default function ServiceWhyChooseDwellora() {
   return (
     <section
       aria-labelledby="why-choose-heading"
-      className="mt-20 lg:mt-28 overflow-hidden rounded-3xl border border-border/80 bg-gradient-to-br from-[#FAF6EF] via-[#F6EFE2] to-[#ECE2D0] p-8 sm:p-12 lg:p-16 shadow-[0_16px_50px_rgba(15,47,42,0.06)]"
+      className="section-gap-top overflow-hidden rounded-3xl border border-border/80 bg-gradient-to-br from-[#FAF6EF] via-[#F6EFE2] to-[#ECE2D0] p-6 sm:p-10 lg:p-14 shadow-[0_16px_50px_rgba(15,47,42,0.06)]"
     >
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-14 items-center">
         {/* Left Column: Value Pillars Content */}

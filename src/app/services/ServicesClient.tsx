@@ -119,7 +119,7 @@ export default function ServicesClient() {
         />
 
         {/* Hero Content Layer */}
-        <div className="site-container relative z-10 py-16 sm:py-20 lg:py-24">
+        <div className="site-container relative z-10 py-12 sm:py-14 lg:py-16">
           <div className="max-w-3xl text-center sm:text-left">
             {/* Eyebrow Pill */}
             <div className="inline-flex items-center gap-2 rounded-full border border-accent/60 bg-black/50 px-4 py-1.5 backdrop-blur-md shadow-md">
@@ -164,7 +164,7 @@ export default function ServicesClient() {
       </section>
 
       {/* 2. Main Services Listing Area */}
-      <div id="services-list" className="site-container pt-10 pb-4 sm:pt-12 sm:pb-6 scroll-mt-20">
+      <div id="services-list" className="site-container pt-6 pb-4 sm:pt-8 sm:pb-6 scroll-mt-20">
         {/* Category Navigation Tabs & Count Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-border/80">
           {/* Category Filter Tabs */}
@@ -298,7 +298,7 @@ export default function ServicesClient() {
       {/* Full-Width Luxury Consultation CTA Section with meet.jpg Background */}
       <section
         aria-labelledby="consultation-cta-heading"
-        className="relative w-full overflow-hidden bg-neutral-950 mt-20 lg:mt-28 mb-10 sm:mb-14 lg:mb-16 min-h-[460px] sm:min-h-[500px] lg:min-h-[540px] flex items-center justify-center border-b border-border/30"
+        className="relative w-full overflow-hidden bg-neutral-950 section-gap-top mb-8 sm:mb-12 lg:mb-14 min-h-[460px] sm:min-h-[500px] lg:min-h-[540px] flex items-center justify-center border-b border-border/30"
       >
         {/* Background Image Layer with Next/Image and balanced 35%-45% overlay */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -330,7 +330,7 @@ export default function ServicesClient() {
         />
 
         {/* Centered Content Container */}
-        <div className="relative z-10 mx-auto max-w-4xl px-6 py-16 sm:py-20 text-center flex flex-col items-center justify-center w-full">
+        <div className="relative z-10 mx-auto max-w-4xl px-6 py-12 sm:py-14 lg:py-16 text-center flex flex-col items-center justify-center w-full">
           <div className="flex flex-col items-center w-full max-w-3xl">
             {/* Eyebrow Badge */}
             <div className="inline-flex items-center gap-2 rounded-full border border-accent/60 bg-black/50 px-4 py-1.5 backdrop-blur-md shadow-md">

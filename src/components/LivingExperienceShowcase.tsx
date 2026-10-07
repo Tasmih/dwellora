@@ -11,7 +11,7 @@ export default function LivingExperienceShowcase() {
   return (
     <section
       aria-labelledby="living-experience-heading"
-      className="relative isolate overflow-hidden bg-[#081916] mt-4 sm:mt-6 lg:mt-8 py-16 sm:py-20 lg:py-24 border-y border-border/30"
+      className="relative isolate overflow-hidden bg-[#081916] mt-4 sm:mt-6 lg:mt-8 py-12 sm:py-14 lg:py-16 border-y border-border/30"
     >
       {/* Continuous Autoplay Background Video */}
       <div

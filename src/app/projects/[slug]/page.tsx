@@ -317,7 +317,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         </div>
 
         {/* Content & Sidebar Layout */}
-        <div className="mt-14 grid gap-12 lg:grid-cols-3">
+        <div className="mt-8 sm:mt-10 grid gap-8 lg:grid-cols-3 lg:gap-12">
           {/* Main Content Area */}
           <div className="space-y-12 lg:col-span-2">
             {/* Project Overview Narrative */}
@@ -465,7 +465,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
         {/* Related Projects Section */}
         {relatedProjects.length > 0 && (
-          <section className="mt-24 border-t border-border pt-16">
+          <section className="section-gap-top border-t border-border pt-6 sm:pt-8">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">

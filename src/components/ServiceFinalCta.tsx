@@ -11,7 +11,7 @@ export default function ServiceFinalCta() {
   return (
     <section
       aria-labelledby="service-final-cta-heading"
-      className="relative w-full overflow-hidden bg-neutral-950 mt-20 lg:mt-28 min-h-[500px] lg:min-h-[560px] xl:min-h-[600px] flex items-center justify-center"
+      className="relative w-full overflow-hidden bg-neutral-950 section-gap-top min-h-[460px] sm:min-h-[500px] lg:min-h-[540px] flex items-center justify-center"
     >
       {/* Background Video Layer (Autoplay, muted, loop, playsInline with subtle ~25-35% overlay) */}
       <div
@@ -46,7 +46,7 @@ export default function ServiceFinalCta() {
       />
 
       {/* Centered Content Container */}
-      <div className="relative z-10 mx-auto max-w-4xl px-6 py-16 sm:py-20 text-center flex flex-col items-center justify-center w-full">
+      <div className="relative z-10 mx-auto max-w-4xl px-6 py-12 sm:py-14 lg:py-16 text-center flex flex-col items-center justify-center w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

@@ -133,7 +133,7 @@ export default async function CategoryPage({ params }: PageProps) {
     <>
       <Navbar />
 
-      <main className="site-container pt-2 pb-12 sm:pt-3 sm:pb-16 lg:pt-3 lg:pb-20">
+      <main className="site-container page-spacing">
         {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="mb-3 sm:mb-4 lg:mb-5">
           <ol className="flex flex-wrap items-center gap-2 text-sm font-normal text-muted">
@@ -266,7 +266,7 @@ export default async function CategoryPage({ params }: PageProps) {
         {/* Consultation Section */}
         <section
           aria-labelledby="category-consultation-heading"
-          className="mt-20 rounded-3xl bg-brand p-8 text-background sm:p-12 lg:mt-28 lg:p-16"
+          className="section-gap-top rounded-3xl bg-brand p-6 text-background sm:p-10 lg:p-12"
         >
           <div className="mx-auto max-w-full text-center">
             <p className="text-sm md:text-base lg:text-lg font-semibold uppercase tracking-[0.2em] text-accent">
