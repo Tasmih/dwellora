@@ -75,13 +75,13 @@ export default function Navbar() {
           : "border-b border-border/50 bg-gradient-to-r from-background/95 via-[#FDFBF7]/95 to-background/95 shadow-[0_2px_12px_rgba(25,53,50,0.02)] backdrop-blur-sm"
       }`}
     >
-      <div className="site-container relative flex h-[72px] sm:h-[80px] lg:h-[84px] items-center justify-between gap-6">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-5 lg:px-6 relative flex h-[72px] sm:h-[80px] lg:h-[84px] items-center justify-between gap-6">
         {/* Logo Image */}
         <Link
           href="/"
           aria-label="Dwellora home"
           onClick={closeMenu}
-          className="group relative flex shrink-0 items-center justify-center transition-opacity duration-300 hover:opacity-90 py-1"
+          className="group relative flex shrink-0 items-center justify-start transition-opacity duration-300 hover:opacity-90 py-1 -ml-1 lg:-ml-2"
         >
           <Image
             src="/images/dwellora-logo.png"

@@ -148,20 +148,29 @@ export default function Hero({ content }: HeroProps) {
       aria-labelledby="hero-heading"
       className="relative isolate overflow-hidden bg-brand"
     >
-      <SafeImage
-        src={content.image}
-        alt={content.imageAlt}
-        fallbackTitle={content.title}
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-center"
-      />
-
+      {/* Background HTML5 Autoplay Video */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-black/55 lg:bg-transparent lg:bg-gradient-to-r lg:from-black/75 lg:via-black/35 lg:to-black/5"
-      />
+        className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
+      >
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          className="h-full w-full object-cover object-center scale-105"
+        >
+          <source
+            src="https://res.cloudinary.com/rh4jhmw7/video/upload/v1791377565/LivingHeroRoom.mp4"
+            type="video/mp4"
+          />
+        </video>
+
+        {/* Subtle, balanced dark gradient overlay to preserve living room clarity while keeping text legible */}
+        <div className="absolute inset-0 bg-black/40 sm:bg-transparent sm:bg-gradient-to-r sm:from-black/65 sm:via-black/35 sm:to-black/10" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(8,25,22,0.5)_0%,transparent_65%)]" />
+      </div>
 
       <div className="site-container relative flex min-h-[440px] items-center py-12 sm:min-h-[480px] lg:min-h-[500px]">
         <div ref={contentRef} className="w-full max-w-xl">
