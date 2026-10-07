@@ -39,7 +39,11 @@ type BlogDetails = PublicBlog & {
 };
 
 function getSiteUrl() {
-  return process.env.SITE_URL || "http://localhost:3000";
+  return (
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    process.env.SITE_URL ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://dwellora.vercel.app")
+  );
 }
 
 // Fetch single blog/vlog by slug (cache per request)
