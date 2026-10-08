@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState, useDeferredValue } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { FiSearch, FiVideo, FiFileText, FiArrowRight, FiPlay } from "react-icons/fi";
@@ -29,6 +29,7 @@ export default function BlogsClient() {
   const [error, setError] = useState<string | null>(null);
   const [activeType, setActiveType] = useState<"all" | "blog" | "vlog">(initialType);
   const [search, setSearch] = useState("");
+  const deferredSearch = useDeferredValue(search);
   const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
@@ -65,20 +66,31 @@ export default function BlogsClient() {
     };
   }, [retryCount]);
 
-  const filteredBlogs = blogs.filter((blog) => {
-    if (activeType !== "all" && blog.type !== activeType) {
-      return false;
-    }
-    if (search.trim()) {
-      const q = search.toLowerCase().trim();
-      const matchTitle = blog.title.toLowerCase().includes(q);
-      const matchAuthor = blog.author?.toLowerCase().includes(q);
-      const matchDesc = blog.shortDescription?.toLowerCase().includes(q);
-      const matchContent = blog.content?.toLowerCase().includes(q);
-      return matchTitle || matchAuthor || matchDesc || matchContent;
-    }
-    return true;
-  });
+  const filteredBlogs = useMemo(() => {
+    const q = deferredSearch.toLowerCase().trim();
+    return blogs.filter((blog) => {
+      if (activeType !== "all" && blog.type !== activeType) {
+        return false;
+      }
+      if (q) {
+        const matchTitle = blog.title?.toLowerCase().includes(q);
+        const matchAuthor = blog.author?.toLowerCase().includes(q);
+        const matchDesc = blog.shortDescription?.toLowerCase().includes(q);
+        const matchContent = blog.content?.toLowerCase().includes(q);
+        return matchTitle || matchAuthor || matchDesc || matchContent;
+      }
+      return true;
+    });
+  }, [blogs, activeType, deferredSearch]);
+
+  const articlesCount = useMemo(
+    () => blogs.filter((b) => b.type === "blog").length,
+    [blogs]
+  );
+  const vlogsCount = useMemo(
+    () => blogs.filter((b) => b.type === "vlog").length,
+    [blogs]
+  );
 
   const scrollToSection = (type?: "all" | "blog" | "vlog") => {
     if (type) setActiveType(type);
@@ -200,7 +212,7 @@ export default function BlogsClient() {
               }`}
             >
               <FiFileText className="h-3.5 w-3.5" />
-              Articles ({blogs.filter((b) => b.type === "blog").length})
+              Articles ({articlesCount})
             </button>
 
             <button
@@ -213,7 +225,7 @@ export default function BlogsClient() {
               }`}
             >
               <FiVideo className="h-3.5 w-3.5" />
-              Video Tours ({blogs.filter((b) => b.type === "vlog").length})
+              Video Tours ({vlogsCount})
             </button>
           </div>
 
@@ -284,25 +296,13 @@ export default function BlogsClient() {
           </div>
         ) : (
           <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {(() => {
-              // Strictly limit video playback to top 2 featured vlogs to maximize performance
-              const featuredVlogIds = new Set(
-                blogs
-                  .filter((b) => b.type === "vlog" && b.videoUrl?.trim())
-                  .slice(0, 2)
-                  .map((b) => b._id || b.slug)
-              );
-
-              return filteredBlogs.map((blog, idx) => (
-                <PublicBlogCard
-                  key={blog._id || blog.slug}
-                  blog={blog}
-                  enableVideo={featuredVlogIds.has(blog._id || blog.slug)}
-                  className="animate-fade-up"
-                  style={{ animationDelay: `${idx * 60}ms` }}
-                />
-              ));
-            })()}
+            {filteredBlogs.map((blog, idx) => (
+              <PublicBlogCard
+                key={blog._id || blog.slug}
+                blog={blog}
+                priority={idx < 3}
+              />
+            ))}
           </div>
         )}
       </div>

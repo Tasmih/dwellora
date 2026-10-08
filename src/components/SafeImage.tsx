@@ -5,7 +5,7 @@ import { useState } from "react";
 import { FiHome } from "react-icons/fi";
 import { getSafeImageSrc } from "@/lib/url";
 
-type SafeImageProps = Omit<ImageProps, "onError" | "src" | "onLoad"> & {
+type SafeImageProps = Omit<ImageProps, "onError" | "src"> & {
   src?: string | null;
   fallbackTitle?: string;
   thumbnailWidth?: number;
@@ -23,7 +23,6 @@ export default function SafeImage({
   ...props
 }: SafeImageProps) {
   const [error, setError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
   // Validate, sanitize, and auto-optimize Cloudinary / CDN sources
   const safeSrc = getSafeImageSrc(src, thumbnailWidth);
@@ -60,31 +59,15 @@ export default function SafeImage({
       : sizes;
 
   return (
-    <>
-      {/* Skeleton Shimmer Loading Placeholder */}
-      {isLoading && (
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 z-0 bg-neutral-200/80 dark:bg-neutral-800/60 animate-pulse pointer-events-none"
-        />
-      )}
-
-      <Image
-        src={safeSrc}
-        alt={alt || fallbackTitle || "Dwellora renovation and custom carpentry"}
-        className={`${className} transition-opacity duration-300 ${
-          isLoading ? "opacity-0" : "opacity-100"
-        }`}
-        priority={priority}
-        loading={computedLoading}
-        sizes={computedSizes}
-        onLoad={() => setIsLoading(false)}
-        onError={() => {
-          setIsLoading(false);
-          setError(true);
-        }}
-        {...props}
-      />
-    </>
+    <Image
+      src={safeSrc}
+      alt={alt || fallbackTitle || "Dwellora renovation and custom carpentry"}
+      className={className}
+      priority={priority}
+      loading={computedLoading}
+      sizes={computedSizes}
+      onError={() => setError(true)}
+      {...props}
+    />
   );
 }

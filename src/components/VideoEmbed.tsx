@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { FiPlay } from "react-icons/fi";
 import SafeImage from "@/components/SafeImage";
+import { getSafeVideoSrc, getVideoThumbnail } from "@/lib/url";
 
 type VideoEmbedProps = {
   videoUrl: string;
@@ -58,15 +59,17 @@ export default function VideoEmbed({
 }: VideoEmbedProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const embedInfo = getEmbedInfo(videoUrl);
+  const posterSrc = coverImage?.trim() || getVideoThumbnail(videoUrl);
 
-  if (!isPlaying && coverImage) {
+  if (!isPlaying && posterSrc) {
     return (
       <div className="group relative aspect-video w-full overflow-hidden rounded-2xl sm:rounded-3xl border border-border bg-neutral-950 shadow-xl">
         <SafeImage
-          src={coverImage}
+          src={posterSrc}
           alt={title}
           fallbackTitle={title}
           fill
+          thumbnailWidth={1200}
           sizes="(min-width: 1280px) 1152px, (min-width: 1024px) 896px, 100vw"
           className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
         />
@@ -93,11 +96,11 @@ export default function VideoEmbed({
     <div className="relative aspect-video w-full overflow-hidden rounded-2xl sm:rounded-3xl border border-border bg-neutral-950 shadow-xl">
       {embedInfo.type === "video" ? (
         <video
-          src={embedInfo.embedUrl}
+          src={getSafeVideoSrc(embedInfo.embedUrl)}
           controls
-          autoPlay
+          autoPlay={isPlaying}
           preload="metadata"
-          poster={coverImage}
+          poster={posterSrc || undefined}
           className="h-full w-full object-contain bg-black"
         >
           Your browser does not support HTML5 video.

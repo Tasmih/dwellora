@@ -30,6 +30,36 @@ export function sanitizeHttpsUrl(value: string): { url: string; error?: string }
 }
 
 /**
+ * Helper to extract or generate image thumbnail URL from video URLs
+ * (Cloudinary video assets, YouTube, direct MP4).
+ */
+export function getVideoThumbnail(url?: string | null): string | null {
+  if (!url || typeof url !== "string") return null;
+  const trimmed = url.trim();
+  if (!trimmed) return null;
+
+  // Cloudinary video URL -> Convert video extension to .jpg for instant poster/thumbnail
+  if (trimmed.includes("cloudinary.com") && trimmed.includes("/video/upload/")) {
+    return trimmed.replace(/\.(mp4|webm|ogg|mov|mkv|m4v)(\?.*)?$/i, ".jpg$2");
+  }
+
+  // YouTube thumbnail extraction
+  const ytMatch = trimmed.match(
+    /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/
+  );
+  if (ytMatch && ytMatch[1]) {
+    return `https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg`;
+  }
+
+  // Direct video file fallback
+  if (/\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i.test(trimmed)) {
+    return trimmed.replace(/\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i, ".jpg$2");
+  }
+
+  return null;
+}
+
+/**
  * Safe image URL helper for components rendering next/image.
  * Wraps `new URL(src)` in try/catch to ensure the URL is valid,
  * trims trailing dots in hostnames, and injects Cloudinary auto-format
@@ -59,7 +89,7 @@ export function getSafeImageSrc(
       url.hostname = url.hostname.replace(/\.+$/, "");
     }
 
-    // Cloudinary auto-format & quality injection (f_auto,q_auto)
+    // Cloudinary auto-format & quality injection (f_auto,q_auto) for image uploads
     if (
       url.hostname.includes("cloudinary.com") &&
       url.pathname.includes("/image/upload/")
@@ -67,8 +97,13 @@ export function getSafeImageSrc(
       if (!url.pathname.includes("f_auto") || !url.pathname.includes("q_auto")) {
         const parts = url.pathname.split("/image/upload/");
         const existingParams = parts[1] ? parts[1].split("/")[0] : "";
-        const isParamFolder = existingParams.includes(",") || existingParams.includes("_");
-        
+        const isParamFolder =
+          existingParams.includes(",") ||
+          (existingParams.includes("_") &&
+            !existingParams.startsWith("v1") &&
+            !existingParams.startsWith("v2") &&
+            !existingParams.startsWith("v3"));
+
         if (isParamFolder) {
           const newParams = `${existingParams}${!existingParams.includes("f_auto") ? ",f_auto" : ""}${!existingParams.includes("q_auto") ? ",q_auto" : ""}${width && !existingParams.includes("w_") ? `,w_${width}` : ""}`;
           url.pathname = url.pathname.replace(`/image/upload/${existingParams}/`, `/image/upload/${newParams}/`);
@@ -79,6 +114,37 @@ export function getSafeImageSrc(
           url.pathname = url.pathname.replace(
             "/image/upload/",
             `/image/upload/${transform}/`
+          );
+        }
+      }
+    }
+
+    // Cloudinary auto-format & quality injection for video thumbnail images (/video/upload/ -> .jpg/.png)
+    if (
+      url.hostname.includes("cloudinary.com") &&
+      url.pathname.includes("/video/upload/") &&
+      /\.(jpg|jpeg|png|webp|avif)(\?.*)?$/i.test(url.pathname)
+    ) {
+      if (!url.pathname.includes("f_auto") || !url.pathname.includes("q_auto")) {
+        const parts = url.pathname.split("/video/upload/");
+        const existingParams = parts[1] ? parts[1].split("/")[0] : "";
+        const isParamFolder =
+          existingParams.includes(",") ||
+          (existingParams.includes("_") &&
+            !existingParams.startsWith("v1") &&
+            !existingParams.startsWith("v2") &&
+            !existingParams.startsWith("v3"));
+
+        if (isParamFolder) {
+          const newParams = `${existingParams}${!existingParams.includes("f_auto") ? ",f_auto" : ""}${!existingParams.includes("q_auto") ? ",q_auto" : ""}${width && !existingParams.includes("w_") ? `,w_${width}` : ""}${!existingParams.includes("so_") ? ",so_0" : ""}`;
+          url.pathname = url.pathname.replace(`/video/upload/${existingParams}/`, `/video/upload/${newParams}/`);
+        } else {
+          const transform = width
+            ? `f_auto,q_auto,w_${width},c_limit,so_0`
+            : "f_auto,q_auto,so_0";
+          url.pathname = url.pathname.replace(
+            "/video/upload/",
+            `/video/upload/${transform}/`
           );
         }
       }
@@ -128,7 +194,12 @@ export function getSafeVideoSrc(src?: string | null): string {
       if (!url.pathname.includes("q_auto") && !url.pathname.includes("f_auto")) {
         const parts = url.pathname.split("/video/upload/");
         const existingParams = parts[1] ? parts[1].split("/")[0] : "";
-        const isParamFolder = existingParams.includes(",") || existingParams.includes("_");
+        const isParamFolder =
+          existingParams.includes(",") ||
+          (existingParams.includes("_") &&
+            !existingParams.startsWith("v1") &&
+            !existingParams.startsWith("v2") &&
+            !existingParams.startsWith("v3"));
 
         if (isParamFolder) {
           const newParams = `${existingParams}${!existingParams.includes("q_auto") ? ",q_auto" : ""}${!existingParams.includes("f_auto") ? ",f_auto" : ""}`;

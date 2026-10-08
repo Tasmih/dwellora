@@ -295,6 +295,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
                 <div className="w-full">
                   <VideoEmbed
                     videoUrl={blog.videoUrl!}
+                    coverImage={blog.coverImage}
                     title={blog.title}
                   />
                 </div>
